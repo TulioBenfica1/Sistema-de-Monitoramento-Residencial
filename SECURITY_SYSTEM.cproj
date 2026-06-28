@@ -48,9 +48,15 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="Codes\">
+      <Visible>false</Visible>
+    </Folder>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="main.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Codes\config.c">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
