@@ -1,0 +1,9 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#include "system_state.h"
+
+void SystemInit(void);
+void SystemUpdate(void);
+void SystemSetState(SystemState state);
+#endif
