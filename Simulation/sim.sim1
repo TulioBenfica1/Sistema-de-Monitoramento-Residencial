@@ -4,22 +4,40 @@
 
 <item itemtype="Rail" CircId="Rail-6" mainComp="false" ShowProp="Voltage" Show_id="false" Show_Val="true" Pos="-180,-120" rotation="90" hflip="1" vflip="1" label="Rail-6" idLabPos="-5,-10" labelrot="-90" valLabPos="-12,6" valLabRot="-90" Voltage="5 V" />
 
-<item itemtype="Resistor" CircId="Resistor-7" mainComp="false" ShowProp="Resistance" Show_id="false" Show_Val="true" Pos="-180,-76" rotation="90" hflip="1" vflip="1" label="Resistor-7" idLabPos="-16,-24" labelrot="0" valLabPos="-16,6" valLabRot="0" Resistance="100 Ω" />
-
-<item itemtype="MCU" CircId="mega16-2" mainComp="false" Show_id="true" Show_Val="false" Pos="-124,-120" rotation="0" hflip="1" vflip="1" label="mega16-2" idLabPos="0,-20" labelrot="0" valLabPos="-16,20" valLabRot="0" Frequency="14.7456 MHz" Auto_Load="false" saveEepr="true" Logic_Symbol="false" Wdt_enabled="false" SerialMon="-1" />
+<item itemtype="Hd44780" CircId="Hd44780-10" mainComp="false" Show_id="true" Show_Val="false" Pos="-20,-160" rotation="0" hflip="1" vflip="1" label="Hd44780-10" idLabPos="70,-82" labelrot="0" valLabPos="-16,20" valLabRot="0" Rows="2 _Rows" Cols="16 _Columns" />
 
 <item itemtype="Ground" CircId="Ground-5" mainComp="false" Show_id="false" Show_Val="false" Pos="-240,-20" rotation="0" hflip="1" vflip="1" label="Ground-5" idLabPos="-16,8" labelrot="0" valLabPos="-16,20" valLabRot="0" />
 
+<item itemtype="Resistor" CircId="Resistor-7" mainComp="false" ShowProp="Resistance" Show_id="false" Show_Val="true" Pos="-180,-76" rotation="90" hflip="1" vflip="1" label="Resistor-7" idLabPos="-16,-24" labelrot="0" valLabPos="-16,6" valLabRot="0" Resistance="100 Ω" />
+
+<item itemtype="MCU" CircId="mega16-2" mainComp="false" Show_id="true" Show_Val="false" Pos="-124,-120" rotation="0" hflip="1" vflip="1" label="mega16-2" idLabPos="0,-20" labelrot="0" valLabPos="-16,20" valLabRot="0" Frequency="14.7456 MHz" Program="../Debug/Exe/SECURITY_SYSTEM.hex" Auto_Load="false" saveEepr="true" Logic_Symbol="false" Wdt_enabled="false" SerialMon="-1" />
+
 <item itemtype="Node" CircId="Node-9" mainComp="false" Pos="-180,-48" />
 
-<item itemtype="Connector" uid="Connector-17" startpinid="Push-8-switch0pinN" endpinid="Node-9-0" pointList="-196,-48,-180,-48" />
+<item itemtype="Connector" uid="Connector-28" startpinid="mega16-2-PORTA2" endpinid="Hd44780-10-PinEn" pointList="-68,-96,12,-96,12,-152" />
 
-<item itemtype="Connector" uid="Connector-19" startpinid="Resistor-7-lPin" endpinid="Rail-6-outnod" pointList="-180,-92,-180,-104" />
+<item itemtype="Connector" uid="Connector-25" startpinid="mega16-2-PORTA6" endpinid="Hd44780-10-dataPin6" pointList="-68,-64,68,-64,68,-152" />
+
+<item itemtype="Connector" uid="Connector-21" startpinid="mega16-2-PORTA0" endpinid="Hd44780-10-PinRS" pointList="-68,-112,-4,-112,-4,-152" />
 
 <item itemtype="Connector" uid="Connector-20" startpinid="Push-8-pinP0" endpinid="Ground-5-Gnd" pointList="-228,-48,-240,-48,-240,-36" />
 
 <item itemtype="Connector" uid="Connector-18" startpinid="Node-9-2" endpinid="mega16-2-RST" pointList="-180,-48,-132,-48" />
 
+<item itemtype="Connector" uid="Connector-17" startpinid="Push-8-switch0pinN" endpinid="Node-9-0" pointList="-196,-48,-180,-48" />
+
 <item itemtype="Connector" uid="Connector-16" startpinid="Resistor-7-rPin" endpinid="Node-9-1" pointList="-180,-60,-180,-48" />
+
+<item itemtype="Connector" uid="Connector-19" startpinid="Resistor-7-lPin" endpinid="Rail-6-outnod" pointList="-180,-92,-180,-104" />
+
+<item itemtype="Connector" uid="Connector-24" startpinid="mega16-2-PORTA7" endpinid="Hd44780-10-dataPin7" pointList="-68,-56,76,-56,76,-152" />
+
+<item itemtype="Connector" uid="Connector-22" startpinid="mega16-2-PORTA1" endpinid="Hd44780-10-PinRW" pointList="-68,-104,4,-104,4,-152" />
+
+<item itemtype="Connector" uid="Connector-26" startpinid="mega16-2-PORTA5" endpinid="Hd44780-10-dataPin5" pointList="-68,-72,60,-72,60,-152" />
+
+<item itemtype="Connector" uid="Connector-29" startpinid="mega16-2-PORTA3" endpinid="Hd44780-10-dataPin0" pointList="-68,-88,20,-88,20,-152" />
+
+<item itemtype="Connector" uid="Connector-27" startpinid="mega16-2-PORTA4" endpinid="Hd44780-10-dataPin4" pointList="-68,-80,52,-80,52,-152" />
 
 </circuit>
