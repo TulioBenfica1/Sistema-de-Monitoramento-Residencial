@@ -13,13 +13,25 @@ void LCDInit(void)
     lcd_gotoxy(0, 0); // Posicão padrão do cursor no LCD
 }
 
-void updatePasswordDisplay(unsigned char input, unsigned char length)
+void UpdatePasswordDisplay(unsigned char input, unsigned char length)
 {
     lcd_gotoxy(7 + 2 * (length - 1), 1);
     lcd_putchar(input);
-    delay_ms(1000);
+    delay_ms(500);
     lcd_gotoxy(7 + 2 * (length - 1), 1);
     lcd_putchar('*');
+}
+
+void WrongPasswordDisplay(void)
+{
+    lcd_gotoxy(0, 1);
+    lcd_puts("Senha Incorreta");
+}
+
+void CorrectPasswordDisplay(void)
+{
+    lcd_clear();
+    lcd_puts("Senha Correta");
 }
 
 void LCDUpdate(SystemState state)
