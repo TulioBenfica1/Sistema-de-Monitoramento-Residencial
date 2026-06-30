@@ -5,7 +5,7 @@
 
 void LCDInit(void);
 void LCDUpdate(SystemState state);
-void updatePasswordDisplay(unsigned char input, unsigned char length);
+void updatePasswordDisplay(char input, int length);
 void wrongPasswordDisplay(void);
 void correctPasswordDisplay(void);
 
