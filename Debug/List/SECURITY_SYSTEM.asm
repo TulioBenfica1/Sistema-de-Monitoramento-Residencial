@@ -1455,16 +1455,29 @@ _tbl16_G101:
 	.DB  0x0,0x10,0x0,0x1,0x10,0x0,0x1,0x0
 
 _0x40000:
-	.DB  0x42,0x6F,0x6F,0x74,0x69,0x6E,0x67,0x2E
+	.DB  0x4C,0x69,0x67,0x61,0x6E,0x64,0x6F,0x2E
 	.DB  0x2E,0x2E,0x0,0x53,0x69,0x73,0x74,0x65
 	.DB  0x6D,0x61,0x20,0x41,0x72,0x6D,0x61,0x64
-	.DB  0x6F,0x0,0x53,0x69,0x73,0x74,0x65,0x6D
+	.DB  0x6F,0x0,0x41,0x72,0x6D,0x61,0x6E,0x64
+	.DB  0x6F,0x20,0x53,0x69,0x73,0x74,0x65,0x6D
+	.DB  0x61,0x0,0x53,0x69,0x73,0x74,0x65,0x6D
 	.DB  0x61,0x20,0x44,0x65,0x73,0x61,0x72,0x6D
-	.DB  0x61,0x64,0x6F,0x0,0x45,0x72,0x72,0x6F
-	.DB  0x20,0x6E,0x6F,0x20,0x53,0x69,0x73,0x74
-	.DB  0x65,0x6D,0x61,0x0,0x45,0x73,0x74,0x61
-	.DB  0x64,0x6F,0x20,0x44,0x65,0x73,0x63,0x6F
-	.DB  0x6E,0x68,0x65,0x63,0x69,0x64,0x6F,0x0
+	.DB  0x61,0x64,0x6F,0x0,0x41,0x6C,0x65,0x72
+	.DB  0x74,0x61,0x3A,0x20,0x49,0x6E,0x74,0x72
+	.DB  0x75,0x73,0x61,0x6F,0x0,0x53,0x65,0x6E
+	.DB  0x68,0x61,0x3A,0x20,0x5F,0x20,0x5F,0x20
+	.DB  0x5F,0x20,0x5F,0x0,0x41,0x6C,0x65,0x72
+	.DB  0x74,0x61,0x3A,0x20,0x50,0x72,0x65,0x73
+	.DB  0x65,0x6E,0x63,0x61,0x0,0x41,0x6C,0x65
+	.DB  0x72,0x74,0x61,0x3A,0x20,0x46,0x75,0x6D
+	.DB  0x61,0xC3,0xA7,0x61,0x0,0x53,0x75,0x70
+	.DB  0x65,0x72,0x61,0x71,0x75,0x65,0x63,0x69
+	.DB  0x6D,0x65,0x6E,0x74,0x6F,0x0,0x45,0x72
+	.DB  0x72,0x6F,0x20,0x6E,0x6F,0x20,0x53,0x69
+	.DB  0x73,0x74,0x65,0x6D,0x61,0x0,0x45,0x73
+	.DB  0x74,0x61,0x64,0x6F,0x20,0x44,0x65,0x73
+	.DB  0x63,0x6F,0x6E,0x68,0x65,0x63,0x69,0x64
+	.DB  0x6F,0x0
 _0x2000003:
 	.DB  0x80,0xC0
 
@@ -1477,17 +1490,57 @@ __GLOBAL_INI_TBL:
 	.DW  _0x40007+11
 	.DW  _0x40000*2+11
 
-	.DW  0x12
+	.DW  0x10
 	.DW  _0x40007+26
 	.DW  _0x40000*2+26
 
+	.DW  0x04
+	.DW  _0x40007+42
+	.DW  _0x40000*2+7
+
+	.DW  0x12
+	.DW  _0x40007+46
+	.DW  _0x40000*2+42
+
+	.DW  0x11
+	.DW  _0x40007+64
+	.DW  _0x40000*2+60
+
+	.DW  0x0F
+	.DW  _0x40007+81
+	.DW  _0x40000*2+77
+
+	.DW  0x11
+	.DW  _0x40007+96
+	.DW  _0x40000*2+92
+
+	.DW  0x0F
+	.DW  _0x40007+113
+	.DW  _0x40000*2+77
+
 	.DW  0x10
-	.DW  _0x40007+44
-	.DW  _0x40000*2+44
+	.DW  _0x40007+128
+	.DW  _0x40000*2+109
+
+	.DW  0x0F
+	.DW  _0x40007+144
+	.DW  _0x40000*2+77
+
+	.DW  0x11
+	.DW  _0x40007+159
+	.DW  _0x40000*2+125
+
+	.DW  0x0F
+	.DW  _0x40007+176
+	.DW  _0x40000*2+77
+
+	.DW  0x10
+	.DW  _0x40007+191
+	.DW  _0x40000*2+142
 
 	.DW  0x14
-	.DW  _0x40007+60
-	.DW  _0x40000*2+60
+	.DW  _0x40007+207
+	.DW  _0x40000*2+158
 
 	.DW  0x02
 	.DW  __base_y_G100
@@ -1650,87 +1703,166 @@ _SystemUpdate:
 	.SET power_ctrl_reg=mcucr
 	#endif
 ;void LCDInit(void)
-; 0002 0007 {
+; 0002 0008 {
 
 	.CSEG
 _LCDInit:
 ; .FSTART _LCDInit
-; 0002 0008 // Configura os registradores para utilizar o LCD - Barramento A
-; 0002 0009 DDRA |= 0x04;     // Configura o pino PA2 como saída para habilitar o LCD
+; 0002 0009 // Configura os registradores para utilizar o LCD - Barramento A
+; 0002 000A DDRA |= 0x04;     // Configura o pino PA2 como saída para habilitar o LCD
 	SBI  0x1A,2
-; 0002 000A lcd_init(16);     // Inicializa o LCD com 16 caracteres
+; 0002 000B lcd_init(16);     // Inicializa o LCD com 16 caracteres
 	LDI  R26,LOW(16)
 	RCALL _lcd_init
-; 0002 000B PORTA |= 0x08;    // Habilita o backlight do LCD
+; 0002 000C PORTA |= 0x08;    // Habilita o backlight do LCD
 	SBI  0x1B,3
-; 0002 000C lcd_gotoxy(0, 0); // Posicão padrão do cursor no LCD
+; 0002 000D lcd_gotoxy(0, 0); // Posicão padrão do cursor no LCD
 	LDI  R30,LOW(0)
 	ST   -Y,R30
 	LDI  R26,LOW(0)
 	RCALL _lcd_gotoxy
-; 0002 000D }
+; 0002 000E }
 	RET
 ; .FEND
+;void updatePasswordDisplay(char input, int length)
+; 0002 0011 {
+; 0002 0012 lcd_gotoxy(7 + 2 * (length - 1), 1);
+;	input -> R19
+;	length -> R16,R17
+; 0002 0013 lcd_putchar(input);
+; 0002 0014 delay_ms(1000);
+; 0002 0015 lcd_gotoxy(7 + 2 * (length - 1), 1);
+; 0002 0016 lcd_putchar('*');
+; 0002 0017 }
 ;void LCDUpdate(SystemState state)
-; 0002 0010 {
+; 0002 001A {
 _LCDUpdate:
 ; .FSTART _LCDUpdate
-; 0002 0011 // Atualiza o display do LCD com base no estado atual do sistema
-; 0002 0012 lcd_clear();
+; 0002 001B // Atualiza o display do LCD com base no estado atual do sistema
+; 0002 001C lcd_clear();
 	ST   -Y,R17
 	MOV  R17,R26
 ;	state -> R17
 	RCALL _lcd_clear
-; 0002 0013 
-; 0002 0014 switch (state)
+; 0002 001D 
+; 0002 001E switch (state)
 	MOV  R30,R17
-; 0002 0015 {
-; 0002 0016 case ST_BOOT:
+; 0002 001F {
+; 0002 0020 case ST_BOOT:
 	CPI  R30,0
 	BRNE _0x40006
-; 0002 0017 lcd_puts("Booting...");
+; 0002 0021 lcd_puts("Ligando...");
 	__POINTW2MN _0x40007,0
-	RJMP _0x4000C
-; 0002 0018 break;
-; 0002 0019 case ST_ARMED:
+	RJMP _0x40011
+; 0002 0022 break;
+; 0002 0023 
+; 0002 0024 case ST_ARMED:
 _0x40006:
 	CPI  R30,LOW(0x1)
 	BRNE _0x40008
-; 0002 001A lcd_puts("Sistema Armado");
+; 0002 0025 lcd_puts("Sistema Armado");
 	__POINTW2MN _0x40007,11
-	RJMP _0x4000C
-; 0002 001B break;
-; 0002 001C case ST_DISARMED:
+	RJMP _0x40011
+; 0002 0026 break;
+; 0002 0027 
+; 0002 0028 case ST_ARMING_DELAY:
 _0x40008:
 	CPI  R30,LOW(0x2)
 	BRNE _0x40009
-; 0002 001D lcd_puts("Sistema Desarmado");
+; 0002 0029 lcd_puts("Armando Sistema");
 	__POINTW2MN _0x40007,26
-	RJMP _0x4000C
-; 0002 001E break;
-; 0002 001F case ST_ERROR:
+	RCALL SUBOPT_0x0
+; 0002 002A lcd_gotoxy(0, 1);
+; 0002 002B lcd_puts("...");
+	__POINTW2MN _0x40007,42
+	RJMP _0x40011
+; 0002 002C break;
+; 0002 002D 
+; 0002 002E case ST_DISARMED:
 _0x40009:
 	CPI  R30,LOW(0x3)
+	BRNE _0x4000A
+; 0002 002F lcd_puts("Sistema Desarmado");
+	__POINTW2MN _0x40007,46
+	RJMP _0x40011
+; 0002 0030 break;
+; 0002 0031 
+; 0002 0032 case ST_SHOCK:
+_0x4000A:
+	CPI  R30,LOW(0x4)
 	BRNE _0x4000B
-; 0002 0020 lcd_puts("Erro no Sistema");
-	__POINTW2MN _0x40007,44
-	RJMP _0x4000C
-; 0002 0021 break;
-; 0002 0022 default:
+; 0002 0033 lcd_puts("Alerta: Intrusao");
+	__POINTW2MN _0x40007,64
+	RCALL SUBOPT_0x0
+; 0002 0034 lcd_gotoxy(0, 1);
+; 0002 0035 lcd_puts("Senha: _ _ _ _");
+	__POINTW2MN _0x40007,81
+	RJMP _0x40011
+; 0002 0036 break;
+; 0002 0037 
+; 0002 0038 case ST_MOTION:
 _0x4000B:
-; 0002 0023 lcd_puts("Estado Desconhecido");
-	__POINTW2MN _0x40007,60
+	CPI  R30,LOW(0x5)
+	BRNE _0x4000C
+; 0002 0039 lcd_puts("Alerta: Presenca");
+	__POINTW2MN _0x40007,96
+	RCALL SUBOPT_0x0
+; 0002 003A lcd_gotoxy(0, 1);
+; 0002 003B lcd_puts("Senha: _ _ _ _");
+	__POINTW2MN _0x40007,113
+	RJMP _0x40011
+; 0002 003C break;
+; 0002 003D 
+; 0002 003E case ST_SMOKE:
 _0x4000C:
+	CPI  R30,LOW(0x6)
+	BRNE _0x4000D
+; 0002 003F lcd_puts("Alerta: Fumaça");
+	__POINTW2MN _0x40007,128
+	RCALL SUBOPT_0x0
+; 0002 0040 lcd_gotoxy(0, 1);
+; 0002 0041 lcd_puts("Senha: _ _ _ _");
+	__POINTW2MN _0x40007,144
+	RJMP _0x40011
+; 0002 0042 break;
+; 0002 0043 
+; 0002 0044 case ST_OVERHEAT:
+_0x4000D:
+	CPI  R30,LOW(0x7)
+	BRNE _0x4000E
+; 0002 0045 lcd_puts("Superaquecimento");
+	__POINTW2MN _0x40007,159
+	RCALL SUBOPT_0x0
+; 0002 0046 lcd_gotoxy(0, 1);
+; 0002 0047 lcd_puts("Senha: _ _ _ _");
+	__POINTW2MN _0x40007,176
+	RJMP _0x40011
+; 0002 0048 break;
+; 0002 0049 
+; 0002 004A case ST_ERROR:
+_0x4000E:
+	CPI  R30,LOW(0x8)
+	BRNE _0x40010
+; 0002 004B lcd_puts("Erro no Sistema");
+	__POINTW2MN _0x40007,191
+	RJMP _0x40011
+; 0002 004C break;
+; 0002 004D 
+; 0002 004E default:
+_0x40010:
+; 0002 004F lcd_puts("Estado Desconhecido");
+	__POINTW2MN _0x40007,207
+_0x40011:
 	RCALL _lcd_puts
-; 0002 0024 break;
-; 0002 0025 }
-; 0002 0026 }
+; 0002 0050 break;
+; 0002 0051 }
+; 0002 0052 }
 	RJMP _0x2080001
 ; .FEND
 
 	.DSEG
 _0x40007:
-	.BYTE 0x50
+	.BYTE 0xE3
 	#ifndef __SLEEP_DEFINED__
 	#define __SLEEP_DEFINED__
 	.EQU __se_bit=0x40
@@ -1802,11 +1934,11 @@ _lcd_gotoxy:
 _lcd_clear:
 ; .FSTART _lcd_clear
 	LDI  R26,LOW(2)
-	RCALL SUBOPT_0x0
+	RCALL SUBOPT_0x1
 	LDI  R26,LOW(12)
 	RCALL __lcd_write_data
 	LDI  R26,LOW(1)
-	RCALL SUBOPT_0x0
+	RCALL SUBOPT_0x1
 	LDI  R30,LOW(0)
 	MOV  R4,R30
 	MOV  R5,R30
@@ -1878,9 +2010,9 @@ _lcd_init:
 	LDI  R26,LOW(20)
 	LDI  R27,0
 	RCALL _delay_ms
-	RCALL SUBOPT_0x1
-	RCALL SUBOPT_0x1
-	RCALL SUBOPT_0x1
+	RCALL SUBOPT_0x2
+	RCALL SUBOPT_0x2
+	RCALL SUBOPT_0x2
 	LDI  R26,LOW(32)
 	RCALL __lcd_write_nibble_G100
 	__DELAY_USW 369
@@ -1922,15 +2054,23 @@ __base_y_G100:
 	.BYTE 0x4
 
 	.CSEG
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
+;OPTIMIZER ADDED SUBROUTINE, CALLED 5 TIMES, CODE SIZE REDUCTION:14 WORDS
 SUBOPT_0x0:
+	RCALL _lcd_puts
+	LDI  R30,LOW(0)
+	ST   -Y,R30
+	LDI  R26,LOW(1)
+	RJMP _lcd_gotoxy
+
+;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
+SUBOPT_0x1:
 	RCALL __lcd_write_data
 	LDI  R26,LOW(3)
 	LDI  R27,0
 	RJMP _delay_ms
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:8 WORDS
-SUBOPT_0x1:
+SUBOPT_0x2:
 	LDI  R26,LOW(48)
 	RCALL __lcd_write_nibble_G100
 	__DELAY_USW 369

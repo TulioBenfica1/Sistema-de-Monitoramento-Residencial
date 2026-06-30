@@ -1,8 +1,8 @@
 RAM Allocation [bytes]
 Variable                                                                          Address   Size
 ------------------------------------------------------------------------------------------------
-current_state (config.c)                                                          0x01B0       1
-_base_y (alcd.lib)                                                                0x01B1       4
+current_state (config.c)                                                          0x0243       1
+_base_y (alcd.lib)                                                                0x0244       4
 
 EEPROM Allocation [bytes]
 Variable                                                                          Address   Size
@@ -18,15 +18,15 @@ _lcd_maxx                                                                       
 FLASH Allocation [words]
 Function                                                                          Address   Size
 ------------------------------------------------------------------------------------------------
-main                                                                              0x0009C      7
-SystemInit                                                                        0x000A3      2
-SystemUpdate                                                                      0x000A5      4
-LCDInit                                                                           0x000A9      9
-LCDUpdate                                                                         0x000B2     28
-_lcd_write_nibble_G100                                                            0x000CE     21
-_lcd_write_data                                                                   0x000E3     13
-lcd_gotoxy                                                                        0x000F0     18
-lcd_clear                                                                         0x00102     10
-lcd_putchar                                                                       0x0010C     19
-lcd_puts                                                                          0x0011F     15
-lcd_init                                                                          0x0012E     43
+main                                                                              0x000EB      7
+SystemInit                                                                        0x000F2      2
+SystemUpdate                                                                      0x000F4      4
+LCDInit                                                                           0x000F8      9
+LCDUpdate                                                                         0x00101     68
+_lcd_write_nibble_G100                                                            0x00145     21
+_lcd_write_data                                                                   0x0015A     13
+lcd_gotoxy                                                                        0x00167     18
+lcd_clear                                                                         0x00179     10
+lcd_putchar                                                                       0x00183     19
+lcd_puts                                                                          0x00196     15
+lcd_init                                                                          0x001A5     43

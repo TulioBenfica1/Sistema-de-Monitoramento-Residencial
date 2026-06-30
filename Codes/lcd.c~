@@ -13,13 +13,13 @@ void LCDInit(void)
     lcd_gotoxy(0, 0); // Posicão padrão do cursor no LCD
 }
 
-void updatePasswordDisplay(unsigned char input, unsigned char length)
+void updatePasswordDisplay(char input, int length)
 {
     lcd_gotoxy(7 + 2 * (length - 1), 1);
-    lcd_putchar(input);
+    lcd_putc(input);
     delay_ms(1000);
     lcd_gotoxy(7 + 2 * (length - 1), 1);
-    lcd_putchar('*');
+    lcd_putc('*');
 }
 
 void LCDUpdate(SystemState state)

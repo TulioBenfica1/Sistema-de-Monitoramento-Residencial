@@ -2,7 +2,12 @@
 #include "lcd.h"
 
 static SystemState current_state;
-static bit lcd_update_pending = 1;
+static unsigned char lcd_update_pending = 1;
+
+void setLCD_flag (void)
+{
+    lcd_update_pending = 0;
+}
 
 void SystemInit(void)
 {
