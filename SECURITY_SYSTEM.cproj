@@ -59,6 +59,9 @@
     <Compile Include="Codes\config.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Codes\lcd.c">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\vs\\CV.targets" />
 </Project>
