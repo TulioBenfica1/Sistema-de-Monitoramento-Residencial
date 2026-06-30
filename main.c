@@ -1,6 +1,7 @@
 #include <mega16.h>
 #include <delay.h>
 #include "config.h"
+#include "password.h"
 
 void main(void)
 {
@@ -8,7 +9,6 @@ void main(void)
 
     while (1)
     {
-        SystemUpdate();          
-        delay_ms(1000);
+        SystemUpdate();
     }
 }
