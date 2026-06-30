@@ -1879,10 +1879,10 @@ _LCDInit:
 ; 0002 000E }
 	RET
 ; .FEND
-;void updatePasswordDisplay(unsigned char input, unsigned char length)
+;void UpdatePasswordDisplay(unsigned char input, unsigned char length)
 ; 0002 0011 {
-_updatePasswordDisplay:
-; .FSTART _updatePasswordDisplay
+_UpdatePasswordDisplay:
+; .FSTART _UpdatePasswordDisplay
 ; 0002 0012 lcd_gotoxy(7 + 2 * (length - 1), 1);
 	RCALL SUBOPT_0x0
 ;	input -> R16
@@ -1904,10 +1904,10 @@ _updatePasswordDisplay:
 ; 0002 0017 }
 	RJMP _0x2080002
 ; .FEND
-;void wrongPasswordDisplay(void)
+;void WrongPasswordDisplay(void)
 ; 0002 001A {
-_wrongPasswordDisplay:
-; .FSTART _wrongPasswordDisplay
+_WrongPasswordDisplay:
+; .FSTART _WrongPasswordDisplay
 ; 0002 001B lcd_gotoxy(0, 1);
 	RCALL SUBOPT_0x2
 ; 0002 001C lcd_puts("Senha Incorreta");
@@ -1919,12 +1919,12 @@ _wrongPasswordDisplay:
 	.DSEG
 _0x40003:
 	.BYTE 0x10
-;void correctPasswordDisplay(void)
+;void CorrectPasswordDisplay(void)
 ; 0002 0020 {
 
 	.CSEG
-_correctPasswordDisplay:
-; .FSTART _correctPasswordDisplay
+_CorrectPasswordDisplay:
+; .FSTART _CorrectPasswordDisplay
 ; 0002 0021 lcd_clear();
 	RCALL _lcd_clear
 ; 0002 0022 lcd_puts("Senha Correta");
@@ -2118,10 +2118,10 @@ _0x60004:
 	LDS  R30,_password_length_G003
 	SUBI R30,-LOW(1)
 	STS  _password_length_G003,R30
-; 0003 0019 updatePasswordDisplay(input, password_length);
+; 0003 0019 UpdatePasswordDisplay(input, password_length);
 	ST   -Y,R17
 	LDS  R26,_password_length_G003
-	RCALL _updatePasswordDisplay
+	RCALL _UpdatePasswordDisplay
 ; 0003 001A }
 	RJMP _0x2080001
 ; .FEND
@@ -2147,8 +2147,8 @@ _0x60005:
 	CPI  R30,0
 	BREQ _0x60008
 ; 0003 0022 {
-; 0003 0023 wrongPasswordDisplay();
-	RCALL _wrongPasswordDisplay
+; 0003 0023 WrongPasswordDisplay();
+	RCALL _WrongPasswordDisplay
 ; 0003 0024 PasswordStart();
 	RCALL _PasswordStart
 ; 0003 0025 return PASSWORD_INCORRECT;
@@ -2156,9 +2156,9 @@ _0x60005:
 	RET
 ; 0003 0026 }
 ; 0003 0027 
-; 0003 0028 correctPasswordDisplay();
+; 0003 0028 CorrectPasswordDisplay();
 _0x60008:
-	RCALL _correctPasswordDisplay
+	RCALL _CorrectPasswordDisplay
 ; 0003 0029 password_entry_active = 0;
 	LDI  R30,LOW(0)
 	STS  _password_entry_active_G003,R30

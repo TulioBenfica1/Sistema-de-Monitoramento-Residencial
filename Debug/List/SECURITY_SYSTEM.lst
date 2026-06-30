@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.30  C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\List\SECURITY_SYSTEM.asm Tue Jun 30 02:27:24 2026
+AVRASM ver. 2.1.30  C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\List\SECURITY_SYSTEM.asm Tue Jun 30 20:32:24 2026
 
 C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\List\SECURITY_SYSTEM.asm(1418): warning: Register r5 already defined by the .DEF directive
 C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\List\SECURITY_SYSTEM.asm(1419): warning: Register r4 already defined by the .DEF directive
@@ -1962,10 +1962,10 @@ C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\Lis
                  ; 0002 000E }
 00015e 9508      	RET
                  ; .FEND
-                 ;void updatePasswordDisplay(unsigned char input, unsigned char length)
+                 ;void UpdatePasswordDisplay(unsigned char input, unsigned char length)
                  ; 0002 0011 {
-                 _updatePasswordDisplay:
-                 ; .FSTART _updatePasswordDisplay
+                 _UpdatePasswordDisplay:
+                 ; .FSTART _UpdatePasswordDisplay
                  ; 0002 0012 lcd_gotoxy(7 + 2 * (length - 1), 1);
 00015f d11e      	RCALL SUBOPT_0x0
                  ;	input -> R16
@@ -1987,10 +1987,10 @@ C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\Lis
                  ; 0002 0017 }
 00016a c0b8      	RJMP _0x2080002
                  ; .FEND
-                 ;void wrongPasswordDisplay(void)
+                 ;void WrongPasswordDisplay(void)
                  ; 0002 001A {
-                 _wrongPasswordDisplay:
-                 ; .FSTART _wrongPasswordDisplay
+                 _WrongPasswordDisplay:
+                 ; .FSTART _WrongPasswordDisplay
                  ; 0002 001B lcd_gotoxy(0, 1);
 00016b d11e      	RCALL SUBOPT_0x2
                  ; 0002 001C lcd_puts("Senha Incorreta");
@@ -2005,12 +2005,12 @@ C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\Lis
                  	.DSEG
                  _0x40003:
 000160           	.BYTE 0x10
-                 ;void correctPasswordDisplay(void)
+                 ;void CorrectPasswordDisplay(void)
                  ; 0002 0020 {
                  
                  	.CSEG
-                 _correctPasswordDisplay:
-                 ; .FSTART _correctPasswordDisplay
+                 _CorrectPasswordDisplay:
+                 ; .FSTART _CorrectPasswordDisplay
                  ; 0002 0021 lcd_clear();
 00016f d0b7      	RCALL _lcd_clear
                  ; 0002 0022 lcd_puts("Senha Correta");
@@ -2252,10 +2252,10 @@ C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\Lis
 0001d3 91e0 0266 	LDS  R30,_password_length_G003
 0001d5 5fef      	SUBI R30,-LOW(1)
 0001d6 93e0 0266 	STS  _password_length_G003,R30
-                 ; 0003 0019 updatePasswordDisplay(input, password_length);
+                 ; 0003 0019 UpdatePasswordDisplay(input, password_length);
 0001d8 931a      	ST   -Y,R17
 0001d9 91a0 0266 	LDS  R26,_password_length_G003
-0001db df83      	RCALL _updatePasswordDisplay
+0001db df83      	RCALL _UpdatePasswordDisplay
                  ; 0003 001A }
 0001dc c09f      	RJMP _0x2080001
                  ; .FEND
@@ -2281,8 +2281,8 @@ C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\Lis
 0001e9 30e0      	CPI  R30,0
 0001ea f021      	BREQ _0x60008
                  ; 0003 0022 {
-                 ; 0003 0023 wrongPasswordDisplay();
-0001eb df7f      	RCALL _wrongPasswordDisplay
+                 ; 0003 0023 WrongPasswordDisplay();
+0001eb df7f      	RCALL _WrongPasswordDisplay
                  ; 0003 0024 PasswordStart();
 0001ec dfd0      	RCALL _PasswordStart
                  ; 0003 0025 return PASSWORD_INCORRECT;
@@ -2290,9 +2290,9 @@ C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\Lis
 0001ee 9508      	RET
                  ; 0003 0026 }
                  ; 0003 0027 
-                 ; 0003 0028 correctPasswordDisplay();
+                 ; 0003 0028 CorrectPasswordDisplay();
                  _0x60008:
-0001ef df7f      	RCALL _correctPasswordDisplay
+0001ef df7f      	RCALL _CorrectPasswordDisplay
                  ; 0003 0029 password_entry_active = 0;
 0001f0 e0e0      	LDI  R30,LOW(0)
 0001f1 93e0 0268 	STS  _password_entry_active_G003,R30

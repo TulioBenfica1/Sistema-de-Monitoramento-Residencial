@@ -46,7 +46,7 @@
 ; 0002 000E }
 ;PCODE: $00000019 VOL: 0
 ;PCODE: $0000001A VOL: 0
-;void updatePasswordDisplay(unsigned char input, unsigned char length)
+;void UpdatePasswordDisplay(unsigned char input, unsigned char length)
 ; 0002 0011 {
 ;PCODE: $0000001B VOL: 0
 ;PCODE: $0000001C VOL: 0
@@ -90,7 +90,7 @@
 ;PCODE: $0000003A VOL: 0
 ;PCODE: $0000003B VOL: 0
 ;PCODE: $0000003C VOL: 0
-;void wrongPasswordDisplay(void)
+;void WrongPasswordDisplay(void)
 ; 0002 001A {
 ;PCODE: $0000003D VOL: 0
 ;PCODE: $0000003E VOL: 0
@@ -110,7 +110,7 @@
 	.DSEG
 _0x40003:
 	.BYTE 0x10
-;void correctPasswordDisplay(void)
+;void CorrectPasswordDisplay(void)
 ; 0002 0020 {
 
 	.CSEG

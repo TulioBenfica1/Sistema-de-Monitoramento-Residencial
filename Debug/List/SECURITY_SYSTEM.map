@@ -28,9 +28,9 @@ SystemInit                                                                      
 SystemUpdate                                                                      0x00146      8
 SystemSetState                                                                    0x0014E      8
 LCDInit                                                                           0x00156      9
-updatePasswordDisplay                                                             0x0015F     12
-wrongPasswordDisplay                                                              0x0016B      4
-correctPasswordDisplay                                                            0x0016F      5
+UpdatePasswordDisplay                                                             0x0015F     12
+WrongPasswordDisplay                                                              0x0016B      4
+CorrectPasswordDisplay                                                            0x0016F      5
 LCDUpdate                                                                         0x00174     73
 PasswordStart                                                                     0x001BD      9
 PasswordInput                                                                     0x001C6     23
