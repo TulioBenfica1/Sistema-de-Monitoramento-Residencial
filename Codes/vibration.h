@@ -6,6 +6,6 @@
 #include <delay.h>
 
 void VibrationSensorInit(void);
-void VibrationSensorUpdate(void);
+bool VibrationSensorUpdate(void);
 
 #endif  

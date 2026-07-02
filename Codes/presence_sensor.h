@@ -6,6 +6,6 @@
 #include <delay.h>
 
 void PresenceSensorInit(void);
-void PresenceSensorUpdate(void);
+bool PresenceSensorUpdate(void);
 
 #endif  
