@@ -4,9 +4,14 @@ Variable                                                                        
 current_state (config.c)                                                          0x0261       1
 password (password.c)                                                             0x0262       4
 password_length (password.c)                                                      0x0266       1
-password_incorrect (password.c)                                                   0x0267       1
-password_entry_active (password.c)                                                0x0268       1
-_base_y (alcd.lib)                                                                0x0269       4
+password_input (password.c)                                                       0x0267       4
+password_entry_active (password.c)                                                0x026B       1
+key_pressed_counter (keypad.c)                                                    0x026C       1
+key_released_counter (keypad.c)                                                   0x026D       1
+column (keypad.c)                                                                 0x026E       1
+row_data (keypad.c)                                                               0x026F       2
+crt_key (keypad.c)                                                                0x0271       2
+_base_y (alcd.lib)                                                                0x0273       4
 
 EEPROM Allocation [bytes]
 Variable                                                                          Address   Size
@@ -16,29 +21,43 @@ Register Allocation
 Variable                                                                          Register  Size
 ------------------------------------------------------------------------------------------------
 lcd_update_pending                                                                R2.0      1bit
-_lcd_x                                                                            R5           1
-_lcd_y                                                                            R4           1
-_lcd_maxx                                                                         R7           1
+keypad_entry                                                                      R2.1      1bit
+keys                                                                              R4,R5        2
+_lcd_x                                                                            R7           1
+_lcd_y                                                                            R6           1
+_lcd_maxx                                                                         R9           1
 
 FLASH Allocation [words]
 Function                                                                          Address   Size
 ------------------------------------------------------------------------------------------------
-main                                                                              0x00109     59
-SystemInit                                                                        0x00144      2
-SystemUpdate                                                                      0x00146      8
-SystemSetState                                                                    0x0014E      8
-LCDInit                                                                           0x00156      9
-UpdatePasswordDisplay                                                             0x0015F     12
-WrongPasswordDisplay                                                              0x0016B      4
-CorrectPasswordDisplay                                                            0x0016F      5
-LCDUpdate                                                                         0x00174     73
-PasswordStart                                                                     0x001BD      9
-PasswordInput                                                                     0x001C6     23
-PasswordConfirm                                                                   0x001DD     26
-_lcd_write_nibble_G100                                                            0x001F7     21
-_lcd_write_data                                                                   0x0020C     13
-lcd_gotoxy                                                                        0x00219     14
-lcd_clear                                                                         0x00227     10
-lcd_putchar                                                                       0x00231     19
-lcd_puts                                                                          0x00244     15
-lcd_init                                                                          0x00253     43
+main                                                                              0x00124     18
+SystemInit                                                                        0x00136      4
+SystemUpdate                                                                      0x0013A     13
+SystemSetState                                                                    0x00147     24
+LCDInit                                                                           0x0015F      9
+UpdatePasswordDisplay                                                             0x00168     13
+WrongPasswordDisplay                                                              0x00175      4
+CorrectPasswordDisplay                                                            0x00179      5
+LCDUpdate                                                                         0x0017E     74
+PasswordStart                                                                     0x001C8      4
+PasswordInput                                                                     0x001CC     25
+CleanLastDigit                                                                    0x001E5     17
+PasswordConfirm                                                                   0x001F6     41
+timer0_ovf_isr                                                                    0x0021F     92
+InKey                                                                             0x0027B     12
+KEYPAD_init                                                                       0x00287     16
+KeyToIndex                                                                        0x00297     18
+KEYPADProcess                                                                     0x002A9     52
+_lcd_write_nibble_G100                                                            0x002DD     21
+_lcd_write_data                                                                   0x002F2     12
+lcd_gotoxy                                                                        0x002FE     14
+lcd_clear                                                                         0x0030C     10
+lcd_putchar                                                                       0x00316     19
+lcd_puts                                                                          0x00329     15
+lcd_init                                                                          0x00338     43
+putchar                                                                           0x00363      7
+put_usart_G101                                                                    0x0036A     14
+_print_G101                                                                       0x00378    296
+printf                                                                            0x004A0     39
+strlen                                                                            0x004C7     12
+strlenf                                                                           0x004D3     13

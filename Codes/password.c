@@ -1,3 +1,4 @@
+#include <alcd.h>
 #include "password.h"
 #include "lcd.h"
 
@@ -5,36 +6,51 @@
 
 static unsigned char password[PASSWORD_LENGTH] = {'2', '2', '3', '4'};
 static unsigned char password_length;
-static unsigned char password_incorrect;
+static unsigned char password_input[PASSWORD_LENGTH];
 static unsigned char password_entry_active;
 
 void PasswordStart(void)
 {
     password_length = 0;
-    password_incorrect = 0;
     password_entry_active = 1;
 }
 
 void PasswordInput(unsigned char input)
 {
-    
-    if (password[password_length] != input)
-        password_incorrect = 1;
+    if (password_length >= PASSWORD_LENGTH)
+        return;
 
+    password_input[password_length] = input;
     password_length++;
+
     UpdatePasswordDisplay(input, password_length);
+}
+
+void CleanLastDigit(void)
+{
+    if (password_length > 0)
+    {
+        password_length--;
+        lcd_gotoxy(7 + 2 * password_length, 1);
+        lcd_putchar('_');
+    }
 }
 
 PasswordResult PasswordConfirm(void)
 {
+    unsigned char i;
+
     if (!password_entry_active || password_length < PASSWORD_LENGTH)
         return PASSWORD_PENDING;
 
-    if (password_incorrect)
+    for (i = 0; i < PASSWORD_LENGTH; i++)
     {
-        WrongPasswordDisplay();
-        PasswordStart();
-        return PASSWORD_INCORRECT;
+        if (password_input[i] != password[i])
+        {
+            WrongPasswordDisplay();
+            PasswordStart();
+            return PASSWORD_INCORRECT;
+        }
     }
 
     CorrectPasswordDisplay();

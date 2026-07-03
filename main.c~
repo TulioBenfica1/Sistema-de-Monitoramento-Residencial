@@ -1,7 +1,5 @@
 #include <mega16.h>
-#include <delay.h>
 #include "config.h"
-#include "password.h"
 
 void main(void)
 {
@@ -10,5 +8,6 @@ void main(void)
     while (1)
     {
         SystemUpdate();
+        if(PINC.0 == 0){SystemSetState(ST_MOTION);}
     }
 }
