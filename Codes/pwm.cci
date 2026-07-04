@@ -1,5 +1,5 @@
-VERSION:3 SOURCE_TIMESTAMP:5CE416DD
+VERSION:3 SOURCE_TIMESTAMP:5CE421E0
 NODE:I LEVEL:0 LINE:1 "D:\cvavr\inc\mega16.h"
 NODE:I LEVEL:0 LINE:2 "C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Codes\pwm.h"
 NODE:F LEVEL:0 LINE:4 "PWMInit(void)"
-NODE:F LEVEL:0 LINE:13 "SetPWMFrequency(unsigned int frequency)"
+NODE:F LEVEL:0 LINE:12 "SetPWMFrequency(unsigned int frequency)"

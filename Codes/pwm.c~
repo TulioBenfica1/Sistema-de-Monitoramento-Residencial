@@ -5,17 +5,19 @@ void PWMInit(void)
 {
     // Configuracoes do PWM no modo geracao de onda quadrada no timer 2
     // modo CTC (clear timer on compare match), prescaler = 64, pino PD7 pro PWM2
-    TCCR2 = 0b00111011;                 
-    TCNT2=0x00;
-    OCR2 = 0;
-
+    TCCR2 = 0b00011100;              
     DDRD = 0x80;
 }
 
-void SetPWMFrequency(unsigned char frequency)
+void SetPWMFrequency(unsigned int frequency)
 {
-    // Altera o registrado OCR2 para alterar a frequencia do PWM
+    // Altera o registrador OCR2 para alterar a frequencia do PWM   
     unsigned char reg;
-    reg = (int)(-1 + 14745600/(2*64*frequency));
+    if(frequency == 0) {
+        DDRD &= ~0x80; // Desliga o pino PD7 
+        return;
+    }
+    
+    reg = (unsigned char)((14745600UL / (128UL * frequency)) - 1);
     OCR2 = reg;
 }

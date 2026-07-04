@@ -1661,77 +1661,24 @@ __GLOBAL_INI_END:
 	.SET power_ctrl_reg=mcucr
 	#endif
 ;void main(void)
-; 0000 0007 {
+; 0000 0005 {
 
 	.CSEG
 _main:
 ; .FSTART _main
-; 0000 0008 unsigned int i;
-; 0000 0009 SystemInit();
-;	i -> R16,R17
+; 0000 0006 SystemInit();
 	RCALL _SystemInit
-; 0000 000A SetPWMFrequency(600);
-	LDI  R26,LOW(600)
-	LDI  R27,HIGH(600)
-	RCALL _SetPWMFrequency
-; 0000 000B 
-; 0000 000C while (1)
+; 0000 0007 
+; 0000 0008 while (1)
 _0x3:
-; 0000 000D {
-; 0000 000E if(PIND.0 == 0)
-	SBIC 0x10,0
-	RJMP _0x6
-; 0000 000F {
-; 0000 0010 for(i = 0; i < 80; i++)
-	__GETWRN 16,17,0
-_0x8:
-	__CPWRN 16,17,80
-	BRSH _0x9
-; 0000 0011 {
-; 0000 0012 SetPWMFrequency(600 + i*10);
-	RCALL SUBOPT_0x0
-	SUBI R30,LOW(-600)
-	SBCI R31,HIGH(-600)
-	MOVW R26,R30
-	RCALL SUBOPT_0x1
-; 0000 0013 delay_ms(20);
-; 0000 0014 }
-	__ADDWRN 16,17,1
-	RJMP _0x8
-_0x9:
-; 0000 0015 }
-; 0000 0016 if(PIND.1 == 0)
-_0x6:
-	SBIC 0x10,1
-	RJMP _0xA
-; 0000 0017 {
-; 0000 0018 for(i = 0; i < 80; i++)
-	__GETWRN 16,17,0
-_0xC:
-	__CPWRN 16,17,80
-	BRSH _0xD
-; 0000 0019 {
-; 0000 001A SetPWMFrequency(1400 - i*10);
-	RCALL SUBOPT_0x0
-	LDI  R26,LOW(1400)
-	LDI  R27,HIGH(1400)
-	SUB  R26,R30
-	SBC  R27,R31
-	RCALL SUBOPT_0x1
-; 0000 001B delay_ms(20);
-; 0000 001C }
-	__ADDWRN 16,17,1
-	RJMP _0xC
-_0xD:
-; 0000 001D }
-; 0000 001E 
-; 0000 001F //SystemUpdate();
-; 0000 0020 }
-_0xA:
+; 0000 0009 {
+; 0000 000A SystemUpdate();
+	RCALL _SystemUpdate
+; 0000 000B }
 	RJMP _0x3
-; 0000 0021 }
-_0xE:
-	RJMP _0xE
+; 0000 000C }
+_0x6:
+	RJMP _0x6
 ; .FEND
 ;void SystemInit(void)
 ; 0001 0009 {
@@ -1749,12 +1696,23 @@ _SystemInit:
 ; .FEND
 ;void SystemUpdate(void)
 ; 0001 0010 {
+_SystemUpdate:
+; .FSTART _SystemUpdate
 ; 0001 0011 if (lcd_update_pending)
+	SBRS R2,0
+	RJMP _0x20003
 ; 0001 0012 {
 ; 0001 0013 LCDUpdate(current_state);
+	LDS  R26,_current_state_G001
+	RCALL _LCDUpdate
 ; 0001 0014 lcd_update_pending = 0;
+	CLT
+	BLD  R2,0
 ; 0001 0015 }
 ; 0001 0016 }
+_0x20003:
+	RET
+; .FEND
 ;void SystemSetState(SystemState state)
 ; 0001 0019 {
 ; 0001 001A current_state = state;
@@ -1832,63 +1790,129 @@ _0x40004:
 ; 0002 0026 {
 
 	.CSEG
+_LCDUpdate:
+; .FSTART _LCDUpdate
 ; 0002 0027 // Atualiza o display do LCD com base no estado atual do sistema
 ; 0002 0028 lcd_clear();
+	ST   -Y,R17
+	MOV  R17,R26
 ;	state -> R17
+	RCALL _lcd_clear
 ; 0002 0029 
 ; 0002 002A switch (state)
+	MOV  R30,R17
 ; 0002 002B {
 ; 0002 002C case ST_BOOT:
+	CPI  R30,0
+	BRNE _0x40008
 ; 0002 002D lcd_puts("Ligando...");
+	__POINTW2MN _0x40009,0
+	RJMP _0x40013
 ; 0002 002E break;
 ; 0002 002F 
 ; 0002 0030 case ST_ARMED:
+_0x40008:
+	CPI  R30,LOW(0x1)
+	BRNE _0x4000A
 ; 0002 0031 lcd_puts("Sistema Armado");
+	__POINTW2MN _0x40009,11
+	RJMP _0x40013
 ; 0002 0032 break;
 ; 0002 0033 
 ; 0002 0034 case ST_ARMING_DELAY:
+_0x4000A:
+	CPI  R30,LOW(0x2)
+	BRNE _0x4000B
 ; 0002 0035 lcd_puts("Armando Sistema");
+	__POINTW2MN _0x40009,26
+	RCALL SUBOPT_0x0
 ; 0002 0036 lcd_gotoxy(0, 1);
 ; 0002 0037 lcd_puts("...");
+	__POINTW2MN _0x40009,42
+	RJMP _0x40013
 ; 0002 0038 break;
 ; 0002 0039 
 ; 0002 003A case ST_DISARMED:
+_0x4000B:
+	CPI  R30,LOW(0x3)
+	BRNE _0x4000C
 ; 0002 003B lcd_puts("Sistema Desarmado");
+	__POINTW2MN _0x40009,46
+	RJMP _0x40013
 ; 0002 003C break;
 ; 0002 003D 
 ; 0002 003E case ST_SHOCK:
+_0x4000C:
+	CPI  R30,LOW(0x4)
+	BRNE _0x4000D
 ; 0002 003F lcd_puts("Alerta: Intrusao");
+	__POINTW2MN _0x40009,64
+	RCALL SUBOPT_0x0
 ; 0002 0040 lcd_gotoxy(0, 1);
 ; 0002 0041 lcd_puts("Senha: _ _ _ _");
+	__POINTW2MN _0x40009,81
+	RJMP _0x40013
 ; 0002 0042 break;
 ; 0002 0043 
 ; 0002 0044 case ST_MOTION:
+_0x4000D:
+	CPI  R30,LOW(0x5)
+	BRNE _0x4000E
 ; 0002 0045 lcd_puts("Alerta: Presenca");
+	__POINTW2MN _0x40009,96
+	RCALL SUBOPT_0x0
 ; 0002 0046 lcd_gotoxy(0, 1);
 ; 0002 0047 lcd_puts("Senha: _ _ _ _");
+	__POINTW2MN _0x40009,113
+	RJMP _0x40013
 ; 0002 0048 break;
 ; 0002 0049 
 ; 0002 004A case ST_SMOKE:
+_0x4000E:
+	CPI  R30,LOW(0x6)
+	BRNE _0x4000F
 ; 0002 004B lcd_puts("Alerta: Fumaça");
+	__POINTW2MN _0x40009,128
+	RCALL SUBOPT_0x0
 ; 0002 004C lcd_gotoxy(0, 1);
 ; 0002 004D lcd_puts("Senha: _ _ _ _");
+	__POINTW2MN _0x40009,144
+	RJMP _0x40013
 ; 0002 004E break;
 ; 0002 004F 
 ; 0002 0050 case ST_OVERHEAT:
+_0x4000F:
+	CPI  R30,LOW(0x7)
+	BRNE _0x40010
 ; 0002 0051 lcd_puts("Superaquecimento");
+	__POINTW2MN _0x40009,159
+	RCALL SUBOPT_0x0
 ; 0002 0052 lcd_gotoxy(0, 1);
 ; 0002 0053 lcd_puts("Senha: _ _ _ _");
+	__POINTW2MN _0x40009,176
+	RJMP _0x40013
 ; 0002 0054 break;
 ; 0002 0055 
 ; 0002 0056 case ST_ERROR:
+_0x40010:
+	CPI  R30,LOW(0x8)
+	BRNE _0x40012
 ; 0002 0057 lcd_puts("Erro no Sistema");
+	__POINTW2MN _0x40009,191
+	RJMP _0x40013
 ; 0002 0058 break;
 ; 0002 0059 
 ; 0002 005A default:
+_0x40012:
 ; 0002 005B lcd_puts("Estado Desconhecido");
+	__POINTW2MN _0x40009,207
+_0x40013:
+	RCALL _lcd_puts
 ; 0002 005C break;
 ; 0002 005D }
 ; 0002 005E }
+	JMP  _0x2080001
+; .FEND
 
 	.DSEG
 _0x40009:
@@ -1952,40 +1976,29 @@ _PWMInit:
 ; 0004 0008 TCCR2 = 0b00011100;
 	LDI  R30,LOW(28)
 	OUT  0x25,R30
-; 0004 0009 
-; 0004 000A DDRD = 0x80;
+; 0004 0009 DDRD = 0x80;
 	LDI  R30,LOW(128)
 	OUT  0x11,R30
-; 0004 000B }
+; 0004 000A }
 	RET
 ; .FEND
 ;void SetPWMFrequency(unsigned int frequency)
-; 0004 000E {
-_SetPWMFrequency:
-; .FSTART _SetPWMFrequency
-; 0004 000F // Altera o registrado OCR2 para alterar a frequencia do PWM
-; 0004 0010 unsigned char reg;
-; 0004 0011 reg = (unsigned char)((14745600UL / (128UL * frequency)) - 1);
-	RCALL __SAVELOCR4
-	MOVW R18,R26
+; 0004 000D {
+; 0004 000E // Altera o registrador OCR2 para alterar a frequencia do PWM
+; 0004 000F unsigned char reg;
+; 0004 0010 
+; 0004 0011 if(frequency == 0) {
 ;	frequency -> R18,R19
 ;	reg -> R17
-	MOVW R30,R18
-	CLR  R22
-	CLR  R23
-	__GETD2N 0x80
-	RCALL __MULD12U
-	__GETD2N 0xE10000
-	RCALL __DIVD21U
-	SUBI R30,LOW(1)
-	MOV  R17,R30
-; 0004 0012 OCR2 = reg;
-	OUT  0x23,R17
-; 0004 0013 }
-	RCALL __LOADLOCR4
-	ADIW R28,4
-	RET
-; .FEND
+; 0004 0012 DDRD &= ~0x80; // Desliga o pino PD7
+; 0004 0013 return;
+; 0004 0014 }
+; 0004 0015 
+; 0004 0016 DDRD |= 0x80;
+; 0004 0017 
+; 0004 0018 reg = (unsigned char)((14745600UL / (128UL * frequency)) - 1);
+; 0004 0019 OCR2 = reg;
+; 0004 001A }
 	#ifndef __SLEEP_DEFINED__
 	#define __SLEEP_DEFINED__
 	.EQU __se_bit=0x40
@@ -2057,14 +2070,57 @@ _lcd_gotoxy:
 _lcd_clear:
 ; .FSTART _lcd_clear
 	LDI  R26,LOW(2)
-	RCALL SUBOPT_0x2
+	RCALL SUBOPT_0x1
 	LDI  R26,LOW(12)
 	RCALL __lcd_write_data
 	LDI  R26,LOW(1)
-	RCALL SUBOPT_0x2
+	RCALL SUBOPT_0x1
 	LDI  R30,LOW(0)
 	MOV  R4,R30
 	MOV  R5,R30
+	RET
+; .FEND
+_lcd_putchar:
+; .FSTART _lcd_putchar
+	ST   -Y,R17
+	MOV  R17,R26
+	CPI  R17,10
+	BREQ _0x2000005
+	CP   R5,R7
+	BRLO _0x2000004
+_0x2000005:
+	LDI  R30,LOW(0)
+	ST   -Y,R30
+	INC  R4
+	MOV  R26,R4
+	RCALL _lcd_gotoxy
+	CPI  R17,10
+	BREQ _0x2080001
+_0x2000004:
+	INC  R5
+	SBI  0x1B,0
+	MOV  R26,R17
+	RCALL __lcd_write_data
+	CBI  0x1B,0
+	RJMP _0x2080001
+; .FEND
+_lcd_puts:
+; .FSTART _lcd_puts
+	RCALL __SAVELOCR4
+	MOVW R18,R26
+_0x2000008:
+	MOVW R26,R18
+	__ADDWRN 18,19,1
+	LD   R30,X
+	MOV  R17,R30
+	CPI  R30,0
+	BREQ _0x200000A
+	MOV  R26,R17
+	RCALL _lcd_putchar
+	RJMP _0x2000008
+_0x200000A:
+	RCALL __LOADLOCR4
+	ADIW R28,4
 	RET
 ; .FEND
 _lcd_init:
@@ -2090,9 +2146,9 @@ _lcd_init:
 	LDI  R26,LOW(20)
 	LDI  R27,0
 	RCALL _delay_ms
-	RCALL SUBOPT_0x3
-	RCALL SUBOPT_0x3
-	RCALL SUBOPT_0x3
+	RCALL SUBOPT_0x2
+	RCALL SUBOPT_0x2
+	RCALL SUBOPT_0x2
 	LDI  R26,LOW(32)
 	RCALL __lcd_write_nibble_G100
 	__DELAY_USW 369
@@ -2142,27 +2198,23 @@ __base_y_G100:
 	.BYTE 0x4
 
 	.CSEG
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:2 WORDS
+;OPTIMIZER ADDED SUBROUTINE, CALLED 5 TIMES, CODE SIZE REDUCTION:14 WORDS
 SUBOPT_0x0:
-	__MULBNWRU 16,17,10
-	RET
+	RCALL _lcd_puts
+	LDI  R30,LOW(0)
+	ST   -Y,R30
+	LDI  R26,LOW(1)
+	RJMP _lcd_gotoxy
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
 SUBOPT_0x1:
-	RCALL _SetPWMFrequency
-	LDI  R26,LOW(20)
-	LDI  R27,0
-	RJMP _delay_ms
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
-SUBOPT_0x2:
 	RCALL __lcd_write_data
 	LDI  R26,LOW(3)
 	LDI  R27,0
 	RJMP _delay_ms
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:8 WORDS
-SUBOPT_0x3:
+SUBOPT_0x2:
 	LDI  R26,LOW(48)
 	RCALL __lcd_write_nibble_G100
 	__DELAY_USW 369
@@ -2187,82 +2239,6 @@ __LOADLOCR3:
 __LOADLOCR2:
 	LDD  R17,Y+1
 	LD   R16,Y
-	RET
-
-__MULD12:
-__MULD12U:
-	MUL  R23,R26
-	MOV  R23,R0
-	MUL  R22,R27
-	ADD  R23,R0
-	MUL  R31,R24
-	ADD  R23,R0
-	MUL  R30,R25
-	ADD  R23,R0
-	MUL  R22,R26
-	MOV  R22,R0
-	ADD  R23,R1
-	MUL  R31,R27
-	ADD  R22,R0
-	ADC  R23,R1
-	MUL  R30,R24
-	ADD  R22,R0
-	ADC  R23,R1
-	CLR  R24
-	MUL  R31,R26
-	MOV  R31,R0
-	ADD  R22,R1
-	ADC  R23,R24
-	MUL  R30,R27
-	ADD  R31,R0
-	ADC  R22,R1
-	ADC  R23,R24
-	MUL  R30,R26
-	MOV  R30,R0
-	ADD  R31,R1
-	ADC  R22,R24
-	ADC  R23,R24
-	RET
-
-__DIVD21U:
-	PUSH R19
-	PUSH R20
-	PUSH R21
-	CLR  R0
-	CLR  R1
-	MOVW R20,R0
-	LDI  R19,32
-__DIVD21U1:
-	LSL  R26
-	ROL  R27
-	ROL  R24
-	ROL  R25
-	ROL  R0
-	ROL  R1
-	ROL  R20
-	ROL  R21
-	SUB  R0,R30
-	SBC  R1,R31
-	SBC  R20,R22
-	SBC  R21,R23
-	BRCC __DIVD21U2
-	ADD  R0,R30
-	ADC  R1,R31
-	ADC  R20,R22
-	ADC  R21,R23
-	RJMP __DIVD21U3
-__DIVD21U2:
-	SBR  R26,1
-__DIVD21U3:
-	DEC  R19
-	BRNE __DIVD21U1
-	MOVW R30,R26
-	MOVW R22,R24
-	MOVW R26,R0
-	MOVW R24,R20
-	POP  R21
-	POP  R20
-	POP  R19
 	RET
 
 _delay_ms:
