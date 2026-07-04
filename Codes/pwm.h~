@@ -1,0 +1,7 @@
+#ifndef PWM_H
+#define PWM_H
+
+void PWMInit(void);
+void SetPWMFrequency(unsigned INT frequency);
+
+#endif 

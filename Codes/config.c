@@ -1,5 +1,6 @@
 #include "config.h"
 #include "lcd.h"
+#include "pwm.h"
 
 static SystemState current_state;
 static bit lcd_update_pending = 1;
@@ -7,8 +8,8 @@ static bit lcd_update_pending = 1;
 void SystemInit(void)
 {
     // Configuração de registradores 
-    LCDInit(); 
-
+    LCDInit();
+    PWMInit();
 }
 
 void SystemUpdate(void)

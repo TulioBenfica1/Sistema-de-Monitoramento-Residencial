@@ -65,6 +65,9 @@
     <Compile Include="Codes\password.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Codes\pwm.c">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\vs\\CV.targets" />
 </Project>

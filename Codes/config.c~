@@ -2,18 +2,13 @@
 #include "lcd.h"
 
 static SystemState current_state;
-static unsigned char lcd_update_pending = 1;
-
-void setLCD_flag (void)
-{
-    lcd_update_pending = 0;
-}
+static bit lcd_update_pending = 1;
 
 void SystemInit(void)
 {
     // Configuração de registradores 
-    LCDInit(); 
-
+    LCDInit();
+    PWMInit();
 }
 
 void SystemUpdate(void)

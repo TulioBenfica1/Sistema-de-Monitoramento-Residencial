@@ -1,0 +1,21 @@
+#include <mega16.h>
+#include "pwm.h"
+
+void PWMInit(void)
+{
+    // Configuracoes do PWM no modo geracao de onda quadrada no timer 2
+    // modo CTC (clear timer on compare match), prescaler = 64, pino PD7 pro PWM2
+    TCCR2 = 0b00111011;                 
+    TCNT2=0x00;
+    OCR2 = 0;
+
+    DDRD = 0x80;
+}
+
+void SetPWMFrequency(unsigned char frequency)
+{
+    // Altera o registrado OCR2 para alterar a frequencia do PWM
+    unsigned char reg;
+    reg = (int)(-1 + 14745600/(2*64*frequency));
+    OCR2 = reg;
+}
