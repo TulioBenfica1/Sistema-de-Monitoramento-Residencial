@@ -1,12 +1,12 @@
 
-AVRASM ver. 2.1.30  C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\List\SECURITY_SYSTEM.asm Tue Jun 30 20:32:24 2026
+AVRASM ver. 2.1.30  C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\List\SECURITY_SYSTEM.asm Sat Jul 04 21:11:25 2026
 
 C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\List\SECURITY_SYSTEM.asm(1418): warning: Register r5 already defined by the .DEF directive
 C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\List\SECURITY_SYSTEM.asm(1419): warning: Register r4 already defined by the .DEF directive
 C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\List\SECURITY_SYSTEM.asm(1420): warning: Register r7 already defined by the .DEF directive
                  
                  
-                 ;CodeVisionAVR C Compiler V4.06a 
+                 ;CodeVisionAVR C Compiler V4.06a Evaluation
                  ;(C) Copyright 1998-2025 Pavel Haiduc, HP InfoTech S.R.L.
                  ;http://www.hpinfotech.ro
                  
@@ -1439,7 +1439,7 @@ C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\Lis
 000006 940c 0000 	JMP  0x00
 000008 940c 0000 	JMP  0x00
 00000a 940c 0000 	JMP  0x00
-00000c 940c 0000 	JMP  0x00
+00000c 940c 0167 	JMP  _timer1_compa_isr
 00000e 940c 0000 	JMP  0x00
 000010 940c 0000 	JMP  0x00
 000012 940c 0000 	JMP  0x00
@@ -1660,7 +1660,7 @@ C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\Lis
 0000d7 0138      	.DW  _0x60003*2
                  
 0000d8 0002      	.DW  0x02
-0000d9 0269      	.DW  __base_y_G100
+0000d9 026a      	.DW  __base_y_G100
 0000da 013c      	.DW  _0x2000003*2
                  
                  _0xFFFFFFFF:
@@ -1753,191 +1753,73 @@ C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\Lis
                  	.SET power_ctrl_reg=mcucr
                  	#endif
                  ;void main(void)
-                 ; 0000 0007 {
+                 ; 0000 0005 {
                  
                  	.CSEG
                  _main:
                  ; .FSTART _main
-                 ; 0000 0008 unsigned char input;
-                 ; 0000 0009 PasswordResult password_result;
-                 ; 0000 000A 
-                 ; 0000 000B SystemInit();
-                 ;	input -> R17
-                 ;	password_result -> R16
-000109 d03a      	RCALL _SystemInit
-                 ; 0000 000C DDRC &= ~0x1F;
-00010a b3e4      	IN   R30,0x14
-00010b 7ee0      	ANDI R30,LOW(0xE0)
-00010c bbe4      	OUT  0x14,R30
-                 ; 0000 000D PORTC |= 0x1F;
-00010d b3e5      	IN   R30,0x15
-00010e 61ef      	ORI  R30,LOW(0x1F)
-00010f bbe5      	OUT  0x15,R30
-                 ; 0000 000E 
-                 ; 0000 000F while (1)
+                 ; 0000 0006 SystemInit();
+000109 d003      	RCALL _SystemInit
+                 ; 0000 0007 
+                 ; 0000 0008 while (1)
                  _0x3:
-                 ; 0000 0010 {
-                 ; 0000 0011 SystemUpdate();
-000110 d035      	RCALL _SystemUpdate
-                 ; 0000 0012 input = 0;
-000111 e010      	LDI  R17,LOW(0)
-                 ; 0000 0013 
-                 ; 0000 0014 if ((PINC & 0x1F) != 0x1F)
-000112 b3e3      	IN   R30,0x13
-000113 71ef      	ANDI R30,LOW(0x1F)
-000114 31ef      	CPI  R30,LOW(0x1F)
-000115 f161      	BREQ _0x6
-                 ; 0000 0015 {
-                 ; 0000 0016 delay_ms(20);
-000116 e1a4      	LDI  R26,LOW(20)
-000117 e0b0      	LDI  R27,0
-000118 d18a      	RCALL _delay_ms
-                 ; 0000 0017 
-                 ; 0000 0018 if (PINC.0 == 0)
-000119 9998      	SBIC 0x13,0
-00011a c004      	RJMP _0x7
-                 ; 0000 0019 {
-                 ; 0000 001A SystemSetState(ST_MOTION);
-00011b e0a5      	LDI  R26,LOW(5)
-00011c d031      	RCALL _SystemSetState
-                 ; 0000 001B PasswordStart();
-00011d d09f      	RCALL _PasswordStart
-                 ; 0000 001C }
-                 ; 0000 001D else if (PINC.1 == 0)
-00011e c01b      	RJMP _0x8
-                 _0x7:
-00011f 9999      	SBIC 0x13,1
-000120 c002      	RJMP _0x9
-                 ; 0000 001E {
-                 ; 0000 001F input = '2';
-000121 e312      	LDI  R17,LOW(50)
-                 ; 0000 0020 }
-                 ; 0000 0021 else if (PINC.2 == 0)
-000122 c017      	RJMP _0xA
-                 _0x9:
-000123 999a      	SBIC 0x13,2
-000124 c002      	RJMP _0xB
-                 ; 0000 0022 {
-                 ; 0000 0023 input = '3';
-000125 e313      	LDI  R17,LOW(51)
-                 ; 0000 0024 }
-                 ; 0000 0025 else if (PINC.3 == 0)
-000126 c013      	RJMP _0xC
-                 _0xB:
-000127 999b      	SBIC 0x13,3
-000128 c002      	RJMP _0xD
-                 ; 0000 0026 {
-                 ; 0000 0027 input = '4';
-000129 e314      	LDI  R17,LOW(52)
-                 ; 0000 0028 }
-                 ; 0000 0029 else if (PINC.4 == 0)
-00012a c00f      	RJMP _0xE
-                 _0xD:
-00012b 999c      	SBIC 0x13,4
-00012c c00d      	RJMP _0xF
-                 ; 0000 002A {
-                 ; 0000 002B password_result = PasswordConfirm();
-00012d d0af      	RCALL _PasswordConfirm
-00012e 2f0e      	MOV  R16,R30
-                 ; 0000 002C delay_ms(1000);
-00012f eea8      	LDI  R26,LOW(1000)
-000130 e0b3      	LDI  R27,HIGH(1000)
-000131 d171      	RCALL _delay_ms
-                 ; 0000 002D if (password_result == PASSWORD_INCORRECT)
-000132 3002      	CPI  R16,2
-000133 f411      	BRNE _0x10
-                 ; 0000 002E SystemSetState(ST_MOTION);
-000134 e0a5      	LDI  R26,LOW(5)
-000135 c003      	RJMP _0x18
-                 ; 0000 002F else if (password_result == PASSWORD_CORRECT)
-                 _0x10:
-000136 3001      	CPI  R16,1
-000137 f411      	BRNE _0x12
-                 ; 0000 0030 SystemSetState(ST_DISARMED);
-000138 e0a3      	LDI  R26,LOW(3)
-                 _0x18:
-000139 d014      	RCALL _SystemSetState
-                 ; 0000 0031 }
-                 _0x12:
-                 ; 0000 0032 
-                 ; 0000 0033 if (input != 0)
-                 _0xF:
-                 _0xE:
-                 _0xC:
-                 _0xA:
-                 _0x8:
-00013a 3010      	CPI  R17,0
-00013b f011      	BREQ _0x13
-                 ; 0000 0034 PasswordInput(input);
-00013c 2fa1      	MOV  R26,R17
-00013d d088      	RCALL _PasswordInput
-                 ; 0000 0035 
-                 ; 0000 0036 while ((PINC & 0x1F) != 0x1F) {}
-                 _0x13:
-                 _0x14:
-00013e b3e3      	IN   R30,0x13
-00013f 71ef      	ANDI R30,LOW(0x1F)
-000140 31ef      	CPI  R30,LOW(0x1F)
-000141 f7e1      	BRNE _0x14
-                 ; 0000 0037 }
-                 ; 0000 0038 }
+                 ; 0000 0009 {
+                 ; 0000 000A SystemUpdate();
+00010a d006      	RCALL _SystemUpdate
+                 ; 0000 000B }
+00010b cffe      	RJMP _0x3
+                 ; 0000 000C }
                  _0x6:
-000142 cfcd      	RJMP _0x3
-                 ; 0000 0039 }
-                 _0x17:
-000143 cfff      	RJMP _0x17
+00010c cfff      	RJMP _0x6
                  ; .FEND
+                 	#ifndef __SLEEP_DEFINED__
+                 	#endif
                  ;void SystemInit(void)
-                 ; 0001 0008 {
+                 ; 0001 000A {
                  
                  	.CSEG
                  _SystemInit:
                  ; .FSTART _SystemInit
-                 ; 0001 0009 // Configuração de registradores
-                 ; 0001 000A LCDInit();
-000144 d011      	RCALL _LCDInit
-                 ; 0001 000B 
-                 ; 0001 000C }
-000145 9508      	RET
+                 ; 0001 000B // Configuração de registradores
+                 ; 0001 000C LCDInit();
+00010d d00b      	RCALL _LCDInit
+                 ; 0001 000D TIMER1Init();
+00010e d064      	RCALL _TIMER1Init
+                 ; 0001 000E #asm("sei");
+00010f 9478      	SEI
+                 ; 0001 000F 
+                 ; 0001 0010 }
+000110 9508      	RET
                  ; .FEND
                  ;void SystemUpdate(void)
-                 ; 0001 000F {
+                 ; 0001 0013 {
                  _SystemUpdate:
                  ; .FSTART _SystemUpdate
-                 ; 0001 0010 if (lcd_update_pending)
-000146 fe20      	SBRS R2,0
-000147 c005      	RJMP _0x20003
-                 ; 0001 0011 {
-                 ; 0001 0012 LCDUpdate(current_state);
-000148 91a0 0261 	LDS  R26,_current_state_G001
-00014a d029      	RCALL _LCDUpdate
-                 ; 0001 0013 lcd_update_pending = 0;
-00014b 94e8      	CLT
-00014c f820      	BLD  R2,0
-                 ; 0001 0014 }
-                 ; 0001 0015 }
+                 ; 0001 0014 if (lcd_update_pending)
+000111 fe20      	SBRS R2,0
+000112 c005      	RJMP _0x20003
+                 ; 0001 0015 {
+                 ; 0001 0016 LCDUpdate(current_state);
+000113 91a0 0261 	LDS  R26,_current_state_G001
+000115 d00c      	RCALL _LCDUpdate
+                 ; 0001 0017 lcd_update_pending = 0;
+000116 94e8      	CLT
+000117 f820      	BLD  R2,0
+                 ; 0001 0018 }
+                 ; 0001 0019 }
                  _0x20003:
-00014d 9508      	RET
+000118 9508      	RET
                  ; .FEND
                  ;void SystemSetState(SystemState state)
-                 ; 0001 0018 {
-                 _SystemSetState:
-                 ; .FSTART _SystemSetState
-                 ; 0001 0019 current_state = state;
-00014e 931a      	ST   -Y,R17
-00014f 2f1a      	MOV  R17,R26
+                 ; 0001 001C {
+                 ; 0001 001D current_state = state;
                  ;	state -> R17
-000150 9310 0261 	STS  _current_state_G001,R17
-                 ; 0001 001A lcd_update_pending = 1;
-000152 9468      	SET
-000153 f820      	BLD  R2,0
-                 ; 0001 001B }
-000154 940c 027c 	JMP  _0x2080001
-                 ; .FEND
+                 ; 0001 001E lcd_update_pending = 1;
+                 ; 0001 001F }
                  ;SystemState SystemGetState(void)
-                 ; 0001 001E {
-                 ; 0001 001F return current_state;
-                 ; 0001 0020 }
+                 ; 0001 0022 {
+                 ; 0001 0023 return current_state;
+                 ; 0001 0024 }
                  	#ifndef __SLEEP_DEFINED__
                  	#endif
                  ;void LCDInit(void)
@@ -1948,59 +1830,35 @@ C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\Lis
                  ; .FSTART _LCDInit
                  ; 0002 0009 // Configura os registradores para utilizar o LCD - Barramento A
                  ; 0002 000A DDRA |= 0x04;     // Configura o pino PA2 como saída para habilitar o LCD
-000156 9ad2      	SBI  0x1A,2
+000119 9ad2      	SBI  0x1A,2
                  ; 0002 000B lcd_init(16);     // Inicializa o LCD com 16 caracteres
-000157 e1a0      	LDI  R26,LOW(16)
-000158 d0fa      	RCALL _lcd_init
+00011a e1a0      	LDI  R26,LOW(16)
+00011b d0c0      	RCALL _lcd_init
                  ; 0002 000C PORTA |= 0x08;    // Habilita o backlight do LCD
-000159 9adb      	SBI  0x1B,3
+00011c 9adb      	SBI  0x1B,3
                  ; 0002 000D lcd_gotoxy(0, 0); // Posicão padrão do cursor no LCD
-00015a e0e0      	LDI  R30,LOW(0)
-00015b 93ea      	ST   -Y,R30
-00015c e0a0      	LDI  R26,LOW(0)
-00015d d0bb      	RCALL _lcd_gotoxy
+00011d e0e0      	LDI  R30,LOW(0)
+00011e 93ea      	ST   -Y,R30
+00011f e0a0      	LDI  R26,LOW(0)
+000120 d07d      	RCALL _lcd_gotoxy
                  ; 0002 000E }
-00015e 9508      	RET
+000121 9508      	RET
                  ; .FEND
                  ;void UpdatePasswordDisplay(unsigned char input, unsigned char length)
                  ; 0002 0011 {
-                 _UpdatePasswordDisplay:
-                 ; .FSTART _UpdatePasswordDisplay
                  ; 0002 0012 lcd_gotoxy(7 + 2 * (length - 1), 1);
-00015f d11e      	RCALL SUBOPT_0x0
                  ;	input -> R16
                  ;	length -> R17
-000160 d123      	RCALL SUBOPT_0x1
                  ; 0002 0013 lcd_putchar(input);
-000161 2fa0      	MOV  R26,R16
-000162 d0ce      	RCALL _lcd_putchar
                  ; 0002 0014 delay_ms(500);
-000163 efa4      	LDI  R26,LOW(500)
-000164 e0b1      	LDI  R27,HIGH(500)
-000165 d13d      	RCALL _delay_ms
                  ; 0002 0015 lcd_gotoxy(7 + 2 * (length - 1), 1);
-000166 2fe1      	MOV  R30,R17
-000167 d11c      	RCALL SUBOPT_0x1
                  ; 0002 0016 lcd_putchar('*');
-000168 e2aa      	LDI  R26,LOW(42)
-000169 d0c7      	RCALL _lcd_putchar
                  ; 0002 0017 }
-00016a c0b8      	RJMP _0x2080002
-                 ; .FEND
                  ;void WrongPasswordDisplay(void)
                  ; 0002 001A {
-                 _WrongPasswordDisplay:
-                 ; .FSTART _WrongPasswordDisplay
                  ; 0002 001B lcd_gotoxy(0, 1);
-00016b d11e      	RCALL SUBOPT_0x2
                  ; 0002 001C lcd_puts("Senha Incorreta");
-                +
-00016c e6a0     +LDI R26 , LOW ( _0x40003 + ( 0 ) )
-00016d e0b1     +LDI R27 , HIGH ( _0x40003 + ( 0 ) )
-                 	__POINTW2MN _0x40003,0
-00016e c003      	RJMP _0x2080003
                  ; 0002 001D }
-                 ; .FEND
                  
                  	.DSEG
                  _0x40003:
@@ -2009,20 +1867,9 @@ C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\Lis
                  ; 0002 0020 {
                  
                  	.CSEG
-                 _CorrectPasswordDisplay:
-                 ; .FSTART _CorrectPasswordDisplay
                  ; 0002 0021 lcd_clear();
-00016f d0b7      	RCALL _lcd_clear
                  ; 0002 0022 lcd_puts("Senha Correta");
-                +
-000170 e7a0     +LDI R26 , LOW ( _0x40004 + ( 0 ) )
-000171 e0b1     +LDI R27 , HIGH ( _0x40004 + ( 0 ) )
-                 	__POINTW2MN _0x40004,0
-                 _0x2080003:
-000172 d0d1      	RCALL _lcd_puts
                  ; 0002 0023 }
-000173 9508      	RET
-                 ; .FEND
                  
                  	.DSEG
                  _0x40004:
@@ -2035,174 +1882,169 @@ C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\Lis
                  ; .FSTART _LCDUpdate
                  ; 0002 0027 // Atualiza o display do LCD com base no estado atual do sistema
                  ; 0002 0028 lcd_clear();
-000174 931a      	ST   -Y,R17
-000175 2f1a      	MOV  R17,R26
+000122 931a      	ST   -Y,R17
+000123 2f1a      	MOV  R17,R26
                  ;	state -> R17
-000176 d0b0      	RCALL _lcd_clear
+000124 d08b      	RCALL _lcd_clear
                  ; 0002 0029 
                  ; 0002 002A switch (state)
-000177 2fe1      	MOV  R30,R17
+000125 2fe1      	MOV  R30,R17
                  ; 0002 002B {
                  ; 0002 002C case ST_BOOT:
-000178 30e0      	CPI  R30,0
-000179 f419      	BRNE _0x40008
+000126 30e0      	CPI  R30,0
+000127 f419      	BRNE _0x40008
                  ; 0002 002D lcd_puts("Ligando...");
                 +
-00017a e7ae     +LDI R26 , LOW ( _0x40009 + ( 0 ) )
-00017b e0b1     +LDI R27 , HIGH ( _0x40009 + ( 0 ) )
+000128 e7ae     +LDI R26 , LOW ( _0x40009 + ( 0 ) )
+000129 e0b1     +LDI R27 , HIGH ( _0x40009 + ( 0 ) )
                  	__POINTW2MN _0x40009,0
-00017c c03e      	RJMP _0x40013
+00012a c039      	RJMP _0x40013
                  ; 0002 002E break;
                  ; 0002 002F 
                  ; 0002 0030 case ST_ARMED:
                  _0x40008:
-00017d 30e1      	CPI  R30,LOW(0x1)
-00017e f419      	BRNE _0x4000A
+00012b 30e1      	CPI  R30,LOW(0x1)
+00012c f419      	BRNE _0x4000A
                  ; 0002 0031 lcd_puts("Sistema Armado");
                 +
-00017f e8a9     +LDI R26 , LOW ( _0x40009 + ( 11 ) )
-000180 e0b1     +LDI R27 , HIGH ( _0x40009 + ( 11 ) )
+00012d e8a9     +LDI R26 , LOW ( _0x40009 + ( 11 ) )
+00012e e0b1     +LDI R27 , HIGH ( _0x40009 + ( 11 ) )
                  	__POINTW2MN _0x40009,11
-000181 c039      	RJMP _0x40013
+00012f c034      	RJMP _0x40013
                  ; 0002 0032 break;
                  ; 0002 0033 
                  ; 0002 0034 case ST_ARMING_DELAY:
                  _0x4000A:
-000182 30e2      	CPI  R30,LOW(0x2)
-000183 f439      	BRNE _0x4000B
+000130 30e2      	CPI  R30,LOW(0x2)
+000131 f431      	BRNE _0x4000B
                  ; 0002 0035 lcd_puts("Armando Sistema");
                 +
-000184 e9a8     +LDI R26 , LOW ( _0x40009 + ( 26 ) )
-000185 e0b1     +LDI R27 , HIGH ( _0x40009 + ( 26 ) )
+000132 e9a8     +LDI R26 , LOW ( _0x40009 + ( 26 ) )
+000133 e0b1     +LDI R27 , HIGH ( _0x40009 + ( 26 ) )
                  	__POINTW2MN _0x40009,26
-000186 d0bd      	RCALL _lcd_puts
+000134 d0d2      	RCALL SUBOPT_0x0
                  ; 0002 0036 lcd_gotoxy(0, 1);
-000187 d102      	RCALL SUBOPT_0x2
                  ; 0002 0037 lcd_puts("...");
                 +
-000188 eaa8     +LDI R26 , LOW ( _0x40009 + ( 42 ) )
-000189 e0b1     +LDI R27 , HIGH ( _0x40009 + ( 42 ) )
+000135 eaa8     +LDI R26 , LOW ( _0x40009 + ( 42 ) )
+000136 e0b1     +LDI R27 , HIGH ( _0x40009 + ( 42 ) )
                  	__POINTW2MN _0x40009,42
-00018a c030      	RJMP _0x40013
+000137 c02c      	RJMP _0x40013
                  ; 0002 0038 break;
                  ; 0002 0039 
                  ; 0002 003A case ST_DISARMED:
                  _0x4000B:
-00018b 30e3      	CPI  R30,LOW(0x3)
-00018c f419      	BRNE _0x4000C
+000138 30e3      	CPI  R30,LOW(0x3)
+000139 f419      	BRNE _0x4000C
                  ; 0002 003B lcd_puts("Sistema Desarmado");
                 +
-00018d eaac     +LDI R26 , LOW ( _0x40009 + ( 46 ) )
-00018e e0b1     +LDI R27 , HIGH ( _0x40009 + ( 46 ) )
+00013a eaac     +LDI R26 , LOW ( _0x40009 + ( 46 ) )
+00013b e0b1     +LDI R27 , HIGH ( _0x40009 + ( 46 ) )
                  	__POINTW2MN _0x40009,46
-00018f c02b      	RJMP _0x40013
+00013c c027      	RJMP _0x40013
                  ; 0002 003C break;
                  ; 0002 003D 
                  ; 0002 003E case ST_SHOCK:
                  _0x4000C:
-000190 30e4      	CPI  R30,LOW(0x4)
-000191 f439      	BRNE _0x4000D
+00013d 30e4      	CPI  R30,LOW(0x4)
+00013e f431      	BRNE _0x4000D
                  ; 0002 003F lcd_puts("Alerta: Intrusao");
                 +
-000192 ebae     +LDI R26 , LOW ( _0x40009 + ( 64 ) )
-000193 e0b1     +LDI R27 , HIGH ( _0x40009 + ( 64 ) )
+00013f ebae     +LDI R26 , LOW ( _0x40009 + ( 64 ) )
+000140 e0b1     +LDI R27 , HIGH ( _0x40009 + ( 64 ) )
                  	__POINTW2MN _0x40009,64
-000194 d0af      	RCALL _lcd_puts
+000141 d0c5      	RCALL SUBOPT_0x0
                  ; 0002 0040 lcd_gotoxy(0, 1);
-000195 d0f4      	RCALL SUBOPT_0x2
                  ; 0002 0041 lcd_puts("Senha: _ _ _ _");
                 +
-000196 ecaf     +LDI R26 , LOW ( _0x40009 + ( 81 ) )
-000197 e0b1     +LDI R27 , HIGH ( _0x40009 + ( 81 ) )
+000142 ecaf     +LDI R26 , LOW ( _0x40009 + ( 81 ) )
+000143 e0b1     +LDI R27 , HIGH ( _0x40009 + ( 81 ) )
                  	__POINTW2MN _0x40009,81
-000198 c022      	RJMP _0x40013
+000144 c01f      	RJMP _0x40013
                  ; 0002 0042 break;
                  ; 0002 0043 
                  ; 0002 0044 case ST_MOTION:
                  _0x4000D:
-000199 30e5      	CPI  R30,LOW(0x5)
-00019a f439      	BRNE _0x4000E
+000145 30e5      	CPI  R30,LOW(0x5)
+000146 f431      	BRNE _0x4000E
                  ; 0002 0045 lcd_puts("Alerta: Presenca");
                 +
-00019b edae     +LDI R26 , LOW ( _0x40009 + ( 96 ) )
-00019c e0b1     +LDI R27 , HIGH ( _0x40009 + ( 96 ) )
+000147 edae     +LDI R26 , LOW ( _0x40009 + ( 96 ) )
+000148 e0b1     +LDI R27 , HIGH ( _0x40009 + ( 96 ) )
                  	__POINTW2MN _0x40009,96
-00019d d0a6      	RCALL _lcd_puts
+000149 d0bd      	RCALL SUBOPT_0x0
                  ; 0002 0046 lcd_gotoxy(0, 1);
-00019e d0eb      	RCALL SUBOPT_0x2
                  ; 0002 0047 lcd_puts("Senha: _ _ _ _");
                 +
-00019f eeaf     +LDI R26 , LOW ( _0x40009 + ( 113 ) )
-0001a0 e0b1     +LDI R27 , HIGH ( _0x40009 + ( 113 ) )
+00014a eeaf     +LDI R26 , LOW ( _0x40009 + ( 113 ) )
+00014b e0b1     +LDI R27 , HIGH ( _0x40009 + ( 113 ) )
                  	__POINTW2MN _0x40009,113
-0001a1 c019      	RJMP _0x40013
+00014c c017      	RJMP _0x40013
                  ; 0002 0048 break;
                  ; 0002 0049 
                  ; 0002 004A case ST_SMOKE:
                  _0x4000E:
-0001a2 30e6      	CPI  R30,LOW(0x6)
-0001a3 f439      	BRNE _0x4000F
+00014d 30e6      	CPI  R30,LOW(0x6)
+00014e f431      	BRNE _0x4000F
                  ; 0002 004B lcd_puts("Alerta: Fumaça");
                 +
-0001a4 efae     +LDI R26 , LOW ( _0x40009 + ( 128 ) )
-0001a5 e0b1     +LDI R27 , HIGH ( _0x40009 + ( 128 ) )
+00014f efae     +LDI R26 , LOW ( _0x40009 + ( 128 ) )
+000150 e0b1     +LDI R27 , HIGH ( _0x40009 + ( 128 ) )
                  	__POINTW2MN _0x40009,128
-0001a6 d09d      	RCALL _lcd_puts
+000151 d0b5      	RCALL SUBOPT_0x0
                  ; 0002 004C lcd_gotoxy(0, 1);
-0001a7 d0e2      	RCALL SUBOPT_0x2
                  ; 0002 004D lcd_puts("Senha: _ _ _ _");
                 +
-0001a8 e0ae     +LDI R26 , LOW ( _0x40009 + ( 144 ) )
-0001a9 e0b2     +LDI R27 , HIGH ( _0x40009 + ( 144 ) )
+000152 e0ae     +LDI R26 , LOW ( _0x40009 + ( 144 ) )
+000153 e0b2     +LDI R27 , HIGH ( _0x40009 + ( 144 ) )
                  	__POINTW2MN _0x40009,144
-0001aa c010      	RJMP _0x40013
+000154 c00f      	RJMP _0x40013
                  ; 0002 004E break;
                  ; 0002 004F 
                  ; 0002 0050 case ST_OVERHEAT:
                  _0x4000F:
-0001ab 30e7      	CPI  R30,LOW(0x7)
-0001ac f439      	BRNE _0x40010
+000155 30e7      	CPI  R30,LOW(0x7)
+000156 f431      	BRNE _0x40010
                  ; 0002 0051 lcd_puts("Superaquecimento");
                 +
-0001ad e1ad     +LDI R26 , LOW ( _0x40009 + ( 159 ) )
-0001ae e0b2     +LDI R27 , HIGH ( _0x40009 + ( 159 ) )
+000157 e1ad     +LDI R26 , LOW ( _0x40009 + ( 159 ) )
+000158 e0b2     +LDI R27 , HIGH ( _0x40009 + ( 159 ) )
                  	__POINTW2MN _0x40009,159
-0001af d094      	RCALL _lcd_puts
+000159 d0ad      	RCALL SUBOPT_0x0
                  ; 0002 0052 lcd_gotoxy(0, 1);
-0001b0 d0d9      	RCALL SUBOPT_0x2
                  ; 0002 0053 lcd_puts("Senha: _ _ _ _");
                 +
-0001b1 e2ae     +LDI R26 , LOW ( _0x40009 + ( 176 ) )
-0001b2 e0b2     +LDI R27 , HIGH ( _0x40009 + ( 176 ) )
+00015a e2ae     +LDI R26 , LOW ( _0x40009 + ( 176 ) )
+00015b e0b2     +LDI R27 , HIGH ( _0x40009 + ( 176 ) )
                  	__POINTW2MN _0x40009,176
-0001b3 c007      	RJMP _0x40013
+00015c c007      	RJMP _0x40013
                  ; 0002 0054 break;
                  ; 0002 0055 
                  ; 0002 0056 case ST_ERROR:
                  _0x40010:
-0001b4 30e8      	CPI  R30,LOW(0x8)
-0001b5 f419      	BRNE _0x40012
+00015d 30e8      	CPI  R30,LOW(0x8)
+00015e f419      	BRNE _0x40012
                  ; 0002 0057 lcd_puts("Erro no Sistema");
                 +
-0001b6 e3ad     +LDI R26 , LOW ( _0x40009 + ( 191 ) )
-0001b7 e0b2     +LDI R27 , HIGH ( _0x40009 + ( 191 ) )
+00015f e3ad     +LDI R26 , LOW ( _0x40009 + ( 191 ) )
+000160 e0b2     +LDI R27 , HIGH ( _0x40009 + ( 191 ) )
                  	__POINTW2MN _0x40009,191
-0001b8 c002      	RJMP _0x40013
+000161 c002      	RJMP _0x40013
                  ; 0002 0058 break;
                  ; 0002 0059 
                  ; 0002 005A default:
                  _0x40012:
                  ; 0002 005B lcd_puts("Estado Desconhecido");
                 +
-0001b9 e4ad     +LDI R26 , LOW ( _0x40009 + ( 207 ) )
-0001ba e0b2     +LDI R27 , HIGH ( _0x40009 + ( 207 ) )
+000162 e4ad     +LDI R26 , LOW ( _0x40009 + ( 207 ) )
+000163 e0b2     +LDI R27 , HIGH ( _0x40009 + ( 207 ) )
                  	__POINTW2MN _0x40009,207
                  _0x40013:
-0001bb d088      	RCALL _lcd_puts
+000164 d068      	RCALL _lcd_puts
                  ; 0002 005C break;
                  ; 0002 005D }
                  ; 0002 005E }
-0001bc c0bf      	RJMP _0x2080001
+000165 940c 0205 	JMP  _0x2080001
                  ; .FEND
                  
                  	.DSEG
@@ -2214,95 +2056,94 @@ C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\Lis
                  ; 0003 000C {
                  
                  	.CSEG
-                 _PasswordStart:
-                 ; .FSTART _PasswordStart
                  ; 0003 000D password_length = 0;
-0001bd e0e0      	LDI  R30,LOW(0)
-0001be 93e0 0266 	STS  _password_length_G003,R30
                  ; 0003 000E password_incorrect = 0;
-0001c0 93e0 0267 	STS  _password_incorrect_G003,R30
                  ; 0003 000F password_entry_active = 1;
-0001c2 e0e1      	LDI  R30,LOW(1)
-0001c3 93e0 0268 	STS  _password_entry_active_G003,R30
                  ; 0003 0010 }
-0001c5 9508      	RET
-                 ; .FEND
                  ;void PasswordInput(unsigned char input)
                  ; 0003 0013 {
-                 _PasswordInput:
-                 ; .FSTART _PasswordInput
                  ; 0003 0014 
                  ; 0003 0015 if (password[password_length] != input)
-0001c6 931a      	ST   -Y,R17
-0001c7 2f1a      	MOV  R17,R26
                  ;	input -> R17
-0001c8 91e0 0266 	LDS  R30,_password_length_G003
-0001ca e0f0      	LDI  R31,0
-0001cb 59ee      	SUBI R30,LOW(-_password_G003)
-0001cc 4ffd      	SBCI R31,HIGH(-_password_G003)
-0001cd 81a0      	LD   R26,Z
-0001ce 171a      	CP   R17,R26
-0001cf f019      	BREQ _0x60004
                  ; 0003 0016 password_incorrect = 1;
-0001d0 e0e1      	LDI  R30,LOW(1)
-0001d1 93e0 0267 	STS  _password_incorrect_G003,R30
                  ; 0003 0017 
                  ; 0003 0018 password_length++;
-                 _0x60004:
-0001d3 91e0 0266 	LDS  R30,_password_length_G003
-0001d5 5fef      	SUBI R30,-LOW(1)
-0001d6 93e0 0266 	STS  _password_length_G003,R30
                  ; 0003 0019 UpdatePasswordDisplay(input, password_length);
-0001d8 931a      	ST   -Y,R17
-0001d9 91a0 0266 	LDS  R26,_password_length_G003
-0001db df83      	RCALL _UpdatePasswordDisplay
                  ; 0003 001A }
-0001dc c09f      	RJMP _0x2080001
-                 ; .FEND
                  ;PasswordResult PasswordConfirm(void)
                  ; 0003 001D {
-                 _PasswordConfirm:
-                 ; .FSTART _PasswordConfirm
                  ; 0003 001E if (!password_entry_active || password_length < PASSWORD_LENGTH)
-0001dd 91e0 0268 	LDS  R30,_password_entry_active_G003
-0001df 30e0      	CPI  R30,0
-0001e0 f021      	BREQ _0x60006
-0001e1 91a0 0266 	LDS  R26,_password_length_G003
-0001e3 30a4      	CPI  R26,LOW(0x4)
-0001e4 f410      	BRSH _0x60005
-                 _0x60006:
                  ; 0003 001F return PASSWORD_PENDING;
-0001e5 e0e0      	LDI  R30,LOW(0)
-0001e6 9508      	RET
                  ; 0003 0020 
                  ; 0003 0021 if (password_incorrect)
-                 _0x60005:
-0001e7 91e0 0267 	LDS  R30,_password_incorrect_G003
-0001e9 30e0      	CPI  R30,0
-0001ea f021      	BREQ _0x60008
                  ; 0003 0022 {
                  ; 0003 0023 WrongPasswordDisplay();
-0001eb df7f      	RCALL _WrongPasswordDisplay
                  ; 0003 0024 PasswordStart();
-0001ec dfd0      	RCALL _PasswordStart
                  ; 0003 0025 return PASSWORD_INCORRECT;
-0001ed e0e2      	LDI  R30,LOW(2)
-0001ee 9508      	RET
                  ; 0003 0026 }
                  ; 0003 0027 
                  ; 0003 0028 CorrectPasswordDisplay();
-                 _0x60008:
-0001ef df7f      	RCALL _CorrectPasswordDisplay
                  ; 0003 0029 password_entry_active = 0;
-0001f0 e0e0      	LDI  R30,LOW(0)
-0001f1 93e0 0268 	STS  _password_entry_active_G003,R30
                  ; 0003 002A password_length = 0;
-0001f3 93e0 0266 	STS  _password_length_G003,R30
                  ; 0003 002B return PASSWORD_CORRECT;
-0001f5 e0e1      	LDI  R30,LOW(1)
-0001f6 9508      	RET
                  ; 0003 002C }
+                 	#ifndef __SLEEP_DEFINED__
+                 	#endif
+                 ;interrupt [7] void timer1_compa_isr(void)
+                 ; 0004 0007 {
+                 
+                 	.CSEG
+                 _timer1_compa_isr:
+                 ; .FSTART _timer1_compa_isr
+000167 93ea      	ST   -Y,R30
+000168 93fa      	ST   -Y,R31
+                 ; 0004 0008 TCNT1 = 0;
+000169 e0e0      	LDI  R30,LOW(0)
+00016a e0f0      	LDI  R31,HIGH(0)
+00016b bdfd      	OUT  0x2C+1,R31
+00016c bdec      	OUT  0x2C,R30
+                 ; 0004 0009 flag_tim1 = 1;
+00016d e0e1      	LDI  R30,LOW(1)
+00016e 93e0 0269 	STS  _flag_tim1_G004,R30
+                 ; 0004 000A }
+000170 91f9      	LD   R31,Y+
+000171 91e9      	LD   R30,Y+
+000172 9518      	RETI
                  ; .FEND
+                 ;void TIMER1Init(void)
+                 ; 0004 000D {
+                 _TIMER1Init:
+                 ; .FSTART _TIMER1Init
+                 ; 0004 000E // Registradores para configurar o Timer1
+                 ; 0004 000F TCCR1B = 0x05; // Prescaler de 64
+000173 e0e5      	LDI  R30,LOW(5)
+000174 bdee      	OUT  0x2E,R30
+                 ; 0004 0010 TIMSK = 0x10; // Habilita interrupção do Timer1 via comparacao registrador A
+000175 e1e0      	LDI  R30,LOW(16)
+000176 bfe9      	OUT  0x39,R30
+                 ; 0004 0011 OCR1A = 0x00;
+000177 e0e0      	LDI  R30,LOW(0)
+000178 e0f0      	LDI  R31,HIGH(0)
+000179 bdfb      	OUT  0x2A+1,R31
+00017a bdea      	OUT  0x2A,R30
+                 ; 0004 0012 }
+00017b 9508      	RET
+                 ; .FEND
+                 ;void UpdateTIMER1CompareValue(unsigned int time)
+                 ; 0004 0015 {
+                 ; 0004 0016 // Recebe um periodo em ms e atualiza o valor do registrador de comparacao A do Timer1
+                 ; 0004 0017 OCR1A = (14400UL * time) / 1000UL - 1;
+                 ;	time -> R16,R17
+                 ; 0004 0018 }
+                 ;unsigned char GetTIMER1Flag(void)
+                 ; 0004 001B {
+                 ; 0004 001C return flag_tim1;
+                 ; 0004 001D }
+                 ;void SetTIMER1Flag(unsigned char value)
+                 ; 0004 0020 {
+                 ; 0004 0021 flag_tim1 = value;
+                 ;	value -> R17
+                 ; 0004 0022 }
                  	#ifndef __SLEEP_DEFINED__
                  	#endif
                  
@@ -2311,184 +2152,187 @@ C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\Lis
                  	.CSEG
                  __lcd_write_nibble_G100:
                  ; .FSTART __lcd_write_nibble_G100
-0001f7 931a      	ST   -Y,R17
-0001f8 2f1a      	MOV  R17,R26
-0001f9 b3eb      	IN   R30,0x1B
-0001fa 70ef      	ANDI R30,LOW(0xF)
-0001fb 2fae      	MOV  R26,R30
-0001fc 2fe1      	MOV  R30,R17
-0001fd 7fe0      	ANDI R30,LOW(0xF0)
-0001fe 2bea      	OR   R30,R26
-0001ff bbeb      	OUT  0x1B,R30
+00017c 931a      	ST   -Y,R17
+00017d 2f1a      	MOV  R17,R26
+00017e b3eb      	IN   R30,0x1B
+00017f 70ef      	ANDI R30,LOW(0xF)
+000180 2fae      	MOV  R26,R30
+000181 2fe1      	MOV  R30,R17
+000182 7fe0      	ANDI R30,LOW(0xF0)
+000183 2bea      	OR   R30,R26
+000184 bbeb      	OUT  0x1B,R30
                 +
-000200 e189     +LDI R24 , LOW ( 25 )
+000185 e189     +LDI R24 , LOW ( 25 )
                 +__DELAY_USB_LOOP :
-000201 958a     +DEC R24
-000202 f7f1     +BRNE __DELAY_USB_LOOP
+000186 958a     +DEC R24
+000187 f7f1     +BRNE __DELAY_USB_LOOP
                  	__DELAY_USB 25
-000203 9ada      	SBI  0x1B,2
+000188 9ada      	SBI  0x1B,2
                 +
-000204 e189     +LDI R24 , LOW ( 25 )
+000189 e189     +LDI R24 , LOW ( 25 )
                 +__DELAY_USB_LOOP :
-000205 958a     +DEC R24
-000206 f7f1     +BRNE __DELAY_USB_LOOP
+00018a 958a     +DEC R24
+00018b f7f1     +BRNE __DELAY_USB_LOOP
                  	__DELAY_USB 25
-000207 98da      	CBI  0x1B,2
+00018c 98da      	CBI  0x1B,2
                 +
-000208 e189     +LDI R24 , LOW ( 25 )
+00018d e189     +LDI R24 , LOW ( 25 )
                 +__DELAY_USB_LOOP :
-000209 958a     +DEC R24
-00020a f7f1     +BRNE __DELAY_USB_LOOP
+00018e 958a     +DEC R24
+00018f f7f1     +BRNE __DELAY_USB_LOOP
                  	__DELAY_USB 25
-00020b c070      	RJMP _0x2080001
+000190 c074      	RJMP _0x2080001
                  ; .FEND
                  __lcd_write_data:
                  ; .FSTART __lcd_write_data
-00020c 93aa      	ST   -Y,R26
-00020d 81a8      	LD   R26,Y
-00020e dfe8      	RCALL __lcd_write_nibble_G100
-00020f 81e8          ld    r30,y
-000210 95e2          swap  r30
-000211 83e8          st    y,r30
-000212 81a8      	LD   R26,Y
-000213 dfe3      	RCALL __lcd_write_nibble_G100
+000191 93aa      	ST   -Y,R26
+000192 81a8      	LD   R26,Y
+000193 dfe8      	RCALL __lcd_write_nibble_G100
+000194 81e8          ld    r30,y
+000195 95e2          swap  r30
+000196 83e8          st    y,r30
+000197 81a8      	LD   R26,Y
+000198 dfe3      	RCALL __lcd_write_nibble_G100
                 +
-000214 ef86     +LDI R24 , LOW ( 246 )
+000199 ef86     +LDI R24 , LOW ( 246 )
                 +__DELAY_USB_LOOP :
-000215 958a     +DEC R24
-000216 f7f1     +BRNE __DELAY_USB_LOOP
+00019a 958a     +DEC R24
+00019b f7f1     +BRNE __DELAY_USB_LOOP
                  	__DELAY_USB 246
-000217 9621      	ADIW R28,1
-000218 9508      	RET
+00019c 9621      	ADIW R28,1
+00019d 9508      	RET
                  ; .FEND
                  _lcd_gotoxy:
                  ; .FSTART _lcd_gotoxy
-000219 d064      	RCALL SUBOPT_0x0
-00021a e0f0      	LDI  R31,0
-00021b 59e7      	SUBI R30,LOW(-__base_y_G100)
-00021c 4ffd      	SBCI R31,HIGH(-__base_y_G100)
-00021d 81e0      	LD   R30,Z
-00021e 0fe0      	ADD  R30,R16
-00021f 2fae      	MOV  R26,R30
-000220 dfeb      	RCALL __lcd_write_data
-000221 2e50      	MOV  R5,R16
-000222 2e41      	MOV  R4,R17
-                 _0x2080002:
-000223 8119      	LDD  R17,Y+1
-000224 8108      	LDD  R16,Y+0
-000225 9623      	ADIW R28,3
-000226 9508      	RET
+00019e 931a      	ST   -Y,R17
+00019f 930a      	ST   -Y,R16
+0001a0 2f1a      	MOV  R17,R26
+0001a1 810a      	LDD  R16,Y+2
+0001a2 2fe1      	MOV  R30,R17
+0001a3 e0f0      	LDI  R31,0
+0001a4 59e6      	SUBI R30,LOW(-__base_y_G100)
+0001a5 4ffd      	SBCI R31,HIGH(-__base_y_G100)
+0001a6 81e0      	LD   R30,Z
+0001a7 0fe0      	ADD  R30,R16
+0001a8 2fae      	MOV  R26,R30
+0001a9 dfe7      	RCALL __lcd_write_data
+0001aa 2e50      	MOV  R5,R16
+0001ab 2e41      	MOV  R4,R17
+0001ac 8119      	LDD  R17,Y+1
+0001ad 8108      	LDD  R16,Y+0
+0001ae 9623      	ADIW R28,3
+0001af 9508      	RET
                  ; .FEND
                  _lcd_clear:
                  ; .FSTART _lcd_clear
-000227 e0a2      	LDI  R26,LOW(2)
-000228 d065      	RCALL SUBOPT_0x3
-000229 e0ac      	LDI  R26,LOW(12)
-00022a dfe1      	RCALL __lcd_write_data
-00022b e0a1      	LDI  R26,LOW(1)
-00022c d061      	RCALL SUBOPT_0x3
-00022d e0e0      	LDI  R30,LOW(0)
-00022e 2e4e      	MOV  R4,R30
-00022f 2e5e      	MOV  R5,R30
-000230 9508      	RET
+0001b0 e0a2      	LDI  R26,LOW(2)
+0001b1 d05a      	RCALL SUBOPT_0x1
+0001b2 e0ac      	LDI  R26,LOW(12)
+0001b3 dfdd      	RCALL __lcd_write_data
+0001b4 e0a1      	LDI  R26,LOW(1)
+0001b5 d056      	RCALL SUBOPT_0x1
+0001b6 e0e0      	LDI  R30,LOW(0)
+0001b7 2e4e      	MOV  R4,R30
+0001b8 2e5e      	MOV  R5,R30
+0001b9 9508      	RET
                  ; .FEND
                  _lcd_putchar:
                  ; .FSTART _lcd_putchar
-000231 931a      	ST   -Y,R17
-000232 2f1a      	MOV  R17,R26
-000233 301a      	CPI  R17,10
-000234 f011      	BREQ _0x2000005
-000235 1457      	CP   R5,R7
-000236 f038      	BRLO _0x2000004
+0001ba 931a      	ST   -Y,R17
+0001bb 2f1a      	MOV  R17,R26
+0001bc 301a      	CPI  R17,10
+0001bd f011      	BREQ _0x2000005
+0001be 1457      	CP   R5,R7
+0001bf f038      	BRLO _0x2000004
                  _0x2000005:
-000237 e0e0      	LDI  R30,LOW(0)
-000238 93ea      	ST   -Y,R30
-000239 9443      	INC  R4
-00023a 2da4      	MOV  R26,R4
-00023b dfdd      	RCALL _lcd_gotoxy
-00023c 301a      	CPI  R17,10
-00023d f1f1      	BREQ _0x2080001
+0001c0 e0e0      	LDI  R30,LOW(0)
+0001c1 93ea      	ST   -Y,R30
+0001c2 9443      	INC  R4
+0001c3 2da4      	MOV  R26,R4
+0001c4 dfd9      	RCALL _lcd_gotoxy
+0001c5 301a      	CPI  R17,10
+0001c6 f1f1      	BREQ _0x2080001
                  _0x2000004:
-00023e 9453      	INC  R5
-00023f 9ad8      	SBI  0x1B,0
-000240 2fa1      	MOV  R26,R17
-000241 dfca      	RCALL __lcd_write_data
-000242 98d8      	CBI  0x1B,0
-000243 c038      	RJMP _0x2080001
+0001c7 9453      	INC  R5
+0001c8 9ad8      	SBI  0x1B,0
+0001c9 2fa1      	MOV  R26,R17
+0001ca dfc6      	RCALL __lcd_write_data
+0001cb 98d8      	CBI  0x1B,0
+0001cc c038      	RJMP _0x2080001
                  ; .FEND
                  _lcd_puts:
                  ; .FSTART _lcd_puts
-000244 d054      	RCALL __SAVELOCR4
-000245 019d      	MOVW R18,R26
+0001cd d049      	RCALL __SAVELOCR4
+0001ce 019d      	MOVW R18,R26
                  _0x2000008:
-000246 01d9      	MOVW R26,R18
+0001cf 01d9      	MOVW R26,R18
                 +
-000247 5f2f     +SUBI R18 , LOW ( - 1 )
-000248 4f3f     +SBCI R19 , HIGH ( - 1 )
+0001d0 5f2f     +SUBI R18 , LOW ( - 1 )
+0001d1 4f3f     +SBCI R19 , HIGH ( - 1 )
                  	__ADDWRN 18,19,1
-000249 91ec      	LD   R30,X
-00024a 2f1e      	MOV  R17,R30
-00024b 30e0      	CPI  R30,0
-00024c f019      	BREQ _0x200000A
-00024d 2fa1      	MOV  R26,R17
-00024e dfe2      	RCALL _lcd_putchar
-00024f cff6      	RJMP _0x2000008
+0001d2 91ec      	LD   R30,X
+0001d3 2f1e      	MOV  R17,R30
+0001d4 30e0      	CPI  R30,0
+0001d5 f019      	BREQ _0x200000A
+0001d6 2fa1      	MOV  R26,R17
+0001d7 dfe2      	RCALL _lcd_putchar
+0001d8 cff6      	RJMP _0x2000008
                  _0x200000A:
-000250 d04d      	RCALL __LOADLOCR4
-000251 9624      	ADIW R28,4
-000252 9508      	RET
+0001d9 d042      	RCALL __LOADLOCR4
+0001da 9624      	ADIW R28,4
+0001db 9508      	RET
                  ; .FEND
                  _lcd_init:
                  ; .FSTART _lcd_init
-000253 931a      	ST   -Y,R17
-000254 2f1a      	MOV  R17,R26
-000255 b3ea      	IN   R30,0x1A
-000256 6fe0      	ORI  R30,LOW(0xF0)
-000257 bbea      	OUT  0x1A,R30
-000258 9ad2      	SBI  0x1A,2
-000259 9ad0      	SBI  0x1A,0
-00025a 9ad1      	SBI  0x1A,1
-00025b 98da      	CBI  0x1B,2
-00025c 98d8      	CBI  0x1B,0
-00025d 98d9      	CBI  0x1B,1
-00025e 2e71      	MOV  R7,R17
-00025f 2fe1      	MOV  R30,R17
-000260 58e0      	SUBI R30,-LOW(128)
+0001dc 931a      	ST   -Y,R17
+0001dd 2f1a      	MOV  R17,R26
+0001de b3ea      	IN   R30,0x1A
+0001df 6fe0      	ORI  R30,LOW(0xF0)
+0001e0 bbea      	OUT  0x1A,R30
+0001e1 9ad2      	SBI  0x1A,2
+0001e2 9ad0      	SBI  0x1A,0
+0001e3 9ad1      	SBI  0x1A,1
+0001e4 98da      	CBI  0x1B,2
+0001e5 98d8      	CBI  0x1B,0
+0001e6 98d9      	CBI  0x1B,1
+0001e7 2e71      	MOV  R7,R17
+0001e8 2fe1      	MOV  R30,R17
+0001e9 58e0      	SUBI R30,-LOW(128)
                 +
-000261 93e0 026b+STS __base_y_G100 + ( 2 ) , R30
+0001ea 93e0 026c+STS __base_y_G100 + ( 2 ) , R30
                  	__PUTB1MN __base_y_G100,2
-000263 2fe1      	MOV  R30,R17
-000264 54e0      	SUBI R30,-LOW(192)
+0001ec 2fe1      	MOV  R30,R17
+0001ed 54e0      	SUBI R30,-LOW(192)
                 +
-000265 93e0 026c+STS __base_y_G100 + ( 3 ) , R30
+0001ee 93e0 026d+STS __base_y_G100 + ( 3 ) , R30
                  	__PUTB1MN __base_y_G100,3
-000267 e1a4      	LDI  R26,LOW(20)
-000268 e0b0      	LDI  R27,0
-000269 d039      	RCALL _delay_ms
-00026a d027      	RCALL SUBOPT_0x4
-00026b d026      	RCALL SUBOPT_0x4
-00026c d025      	RCALL SUBOPT_0x4
-00026d e2a0      	LDI  R26,LOW(32)
-00026e df88      	RCALL __lcd_write_nibble_G100
+0001f0 e1a4      	LDI  R26,LOW(20)
+0001f1 e0b0      	LDI  R27,0
+0001f2 d02e      	RCALL _delay_ms
+0001f3 d01c      	RCALL SUBOPT_0x2
+0001f4 d01b      	RCALL SUBOPT_0x2
+0001f5 d01a      	RCALL SUBOPT_0x2
+0001f6 e2a0      	LDI  R26,LOW(32)
+0001f7 df84      	RCALL __lcd_write_nibble_G100
                 +
-00026f e781     +LDI R24 , LOW ( 369 )
-000270 e091     +LDI R25 , HIGH ( 369 )
+0001f8 e781     +LDI R24 , LOW ( 369 )
+0001f9 e091     +LDI R25 , HIGH ( 369 )
                 +__DELAY_USW_LOOP :
-000271 9701     +SBIW R24 , 1
-000272 f7f1     +BRNE __DELAY_USW_LOOP
+0001fa 9701     +SBIW R24 , 1
+0001fb f7f1     +BRNE __DELAY_USW_LOOP
                  	__DELAY_USW 369
-000273 e2a8      	LDI  R26,LOW(40)
-000274 df97      	RCALL __lcd_write_data
-000275 e0a4      	LDI  R26,LOW(4)
-000276 df95      	RCALL __lcd_write_data
-000277 e8a5      	LDI  R26,LOW(133)
-000278 df93      	RCALL __lcd_write_data
-000279 e0a6      	LDI  R26,LOW(6)
-00027a df91      	RCALL __lcd_write_data
-00027b dfab      	RCALL _lcd_clear
+0001fc e2a8      	LDI  R26,LOW(40)
+0001fd df93      	RCALL __lcd_write_data
+0001fe e0a4      	LDI  R26,LOW(4)
+0001ff df91      	RCALL __lcd_write_data
+000200 e8a5      	LDI  R26,LOW(133)
+000201 df8f      	RCALL __lcd_write_data
+000202 e0a6      	LDI  R26,LOW(6)
+000203 df8d      	RCALL __lcd_write_data
+000204 dfab      	RCALL _lcd_clear
                  _0x2080001:
-00027c 9119      	LD   R17,Y+
-00027d 9508      	RET
+000205 9119      	LD   R17,Y+
+000206 9508      	RET
                  ; .FEND
                  	#ifndef __SLEEP_DEFINED__
                  	#endif
@@ -2510,92 +2354,77 @@ C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\Lis
 000267           	.BYTE 0x1
                  _password_entry_active_G003:
 000268           	.BYTE 0x1
+                 _flag_tim1_G004:
+000269           	.BYTE 0x1
                  __base_y_G100:
-000269           	.BYTE 0x4
+00026a           	.BYTE 0x4
                  
                  	.CSEG
-                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:2 WORDS
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 5 TIMES, CODE SIZE REDUCTION:14 WORDS
                  SUBOPT_0x0:
-00027e 931a      	ST   -Y,R17
-00027f 930a      	ST   -Y,R16
-000280 2f1a      	MOV  R17,R26
-000281 810a      	LDD  R16,Y+2
-000282 2fe1      	MOV  R30,R17
-000283 9508      	RET
-                 
-                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:3 WORDS
-                 SUBOPT_0x1:
-000284 50e1      	SUBI R30,LOW(1)
-000285 0fee      	LSL  R30
-000286 5fe9      	SUBI R30,-LOW(7)
-000287 93ea      	ST   -Y,R30
-000288 e0a1      	LDI  R26,LOW(1)
-000289 cf8f      	RJMP _lcd_gotoxy
-                 
-                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 6 TIMES, CODE SIZE REDUCTION:13 WORDS
-                 SUBOPT_0x2:
-00028a e0e0      	LDI  R30,LOW(0)
-00028b 93ea      	ST   -Y,R30
-00028c e0a1      	LDI  R26,LOW(1)
-00028d cf8b      	RJMP _lcd_gotoxy
+000207 dfc5      	RCALL _lcd_puts
+000208 e0e0      	LDI  R30,LOW(0)
+000209 93ea      	ST   -Y,R30
+00020a e0a1      	LDI  R26,LOW(1)
+00020b cf92      	RJMP _lcd_gotoxy
                  
                  ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
-                 SUBOPT_0x3:
-00028e df7d      	RCALL __lcd_write_data
-00028f e0a3      	LDI  R26,LOW(3)
-000290 e0b0      	LDI  R27,0
-000291 c011      	RJMP _delay_ms
+                 SUBOPT_0x1:
+00020c df84      	RCALL __lcd_write_data
+00020d e0a3      	LDI  R26,LOW(3)
+00020e e0b0      	LDI  R27,0
+00020f c011      	RJMP _delay_ms
                  
                  ;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:8 WORDS
-                 SUBOPT_0x4:
-000292 e3a0      	LDI  R26,LOW(48)
-000293 df63      	RCALL __lcd_write_nibble_G100
+                 SUBOPT_0x2:
+000210 e3a0      	LDI  R26,LOW(48)
+000211 df6a      	RCALL __lcd_write_nibble_G100
                 +
-000294 e781     +LDI R24 , LOW ( 369 )
-000295 e091     +LDI R25 , HIGH ( 369 )
+000212 e781     +LDI R24 , LOW ( 369 )
+000213 e091     +LDI R25 , HIGH ( 369 )
                 +__DELAY_USW_LOOP :
-000296 9701     +SBIW R24 , 1
-000297 f7f1     +BRNE __DELAY_USW_LOOP
+000214 9701     +SBIW R24 , 1
+000215 f7f1     +BRNE __DELAY_USW_LOOP
                  	__DELAY_USW 369
-000298 9508      	RET
+000216 9508      	RET
                  
                  ;RUNTIME LIBRARY
                  
                  	.CSEG
                  __SAVELOCR4:
-000299 933a      	ST   -Y,R19
+000217 933a      	ST   -Y,R19
                  __SAVELOCR3:
-00029a 932a      	ST   -Y,R18
+000218 932a      	ST   -Y,R18
                  __SAVELOCR2:
-00029b 931a      	ST   -Y,R17
-00029c 930a      	ST   -Y,R16
-00029d 9508      	RET
+000219 931a      	ST   -Y,R17
+00021a 930a      	ST   -Y,R16
+00021b 9508      	RET
                  
                  __LOADLOCR4:
-00029e 813b      	LDD  R19,Y+3
+00021c 813b      	LDD  R19,Y+3
                  __LOADLOCR3:
-00029f 812a      	LDD  R18,Y+2
+00021d 812a      	LDD  R18,Y+2
                  __LOADLOCR2:
-0002a0 8119      	LDD  R17,Y+1
-0002a1 8108      	LD   R16,Y
-0002a2 9508      	RET
+00021e 8119      	LDD  R17,Y+1
+00021f 8108      	LD   R16,Y
+000220 9508      	RET
                  
                  _delay_ms:
-0002a3 9610      	adiw r26,0
-0002a4 f039      	breq __delay_ms1
+000221 9610      	adiw r26,0
+000222 f039      	breq __delay_ms1
                  __delay_ms0:
-0002a5 95a8      	wdr
+000223 95a8      	wdr
                 +
-0002a6 e686     +LDI R24 , LOW ( 0xE66 )
-0002a7 e09e     +LDI R25 , HIGH ( 0xE66 )
+000224 e686     +LDI R24 , LOW ( 0xE66 )
+000225 e09e     +LDI R25 , HIGH ( 0xE66 )
                 +__DELAY_USW_LOOP :
-0002a8 9701     +SBIW R24 , 1
-0002a9 f7f1     +BRNE __DELAY_USW_LOOP
+000226 9701     +SBIW R24 , 1
+000227 f7f1     +BRNE __DELAY_USW_LOOP
                  	__DELAY_USW 0xE66
-0002aa 9711      	sbiw r26,1
-0002ab f7c9      	brne __delay_ms0
+000228 9711      	sbiw r26,1
+000229 f7c9      	brne __delay_ms0
                  __delay_ms1:
-0002ac 9508      	ret
+00022a 9508      	ret
                  
                  ;END OF CODE MARKER
                  __END_OF_CODE:
@@ -2616,41 +2445,41 @@ counted separately from r26..r31 here.
 .dseg memory usage only counts static data declared with .byte
 
 ATmega16 register use summary:
-r0 :   4 r1 :   1 r2 :   3 r3 :   0 r4 :   4 r5 :   4 r6 :   0 r7 :   2 
+r0 :   4 r1 :   1 r2 :   2 r3 :   0 r4 :   4 r5 :   4 r6 :   0 r7 :   2 
 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 r13:   0 r14:   0 r15:   0 
-r16:  11 r17:  40 r18:   5 r19:   3 r20:   0 r21:   0 r22:   2 r23:   0 
-r24:  21 r25:   5 r26:  70 r27:  24 r28:   4 r29:   1 r30: 100 r31:   7 
-x  :   4 y  :  30 z  :   9 
+r16:   7 r17:  26 r18:   5 r19:   3 r20:   0 r21:   0 r22:   2 r23:   0 
+r24:  21 r25:   5 r26:  51 r27:  19 r28:   4 r29:   1 r30:  72 r31:  11 
+x  :   4 y  :  30 z  :   8 
 Registers used: 22 out of 35 (62.9%)
 
 ATmega16 instruction use summary:
 .lds  :   0 .lds.l:   0 .sts  :   0 .sts.l:   0 adc   :   0 add   :   1 
-adiw  :   4 and   :   0 andi  :   5 asr   :   0 bclr  :   0 bld   :   2 
-brbc  :   0 brbs  :   0 brcc  :   0 brcs  :   0 break :   0 breq  :  10 
+adiw  :   4 and   :   0 andi  :   2 asr   :   0 bclr  :   0 bld   :   1 
+brbc  :   0 brbs  :   0 brcc  :   0 brcs  :   0 break :   0 breq  :   5 
 brge  :   0 brhc  :   0 brhs  :   0 brid  :   0 brie  :   0 brlo  :   1 
-brlt  :   0 brmi  :   0 brne  :  23 brpl  :   0 brsh  :   1 brtc  :   0 
+brlt  :   0 brmi  :   0 brne  :  20 brpl  :   0 brsh  :   0 brtc  :   0 
 brts  :   0 brvc  :   0 brvs  :   0 bset  :   0 bst   :   0 call  :   0 
 cbi   :   5 cbr   :   0 clc   :   0 clh   :   0 cli   :   1 cln   :   0 
 clr   :   2 cls   :   0 clt   :   1 clv   :   0 clz   :   0 com   :   0 
-cp    :   2 cpc   :   0 cpi   :  20 cpse  :   0 dec   :   5 des   :   0 
+cp    :   1 cpc   :   0 cpi   :  12 cpse  :   0 dec   :   5 des   :   0 
 eor   :   0 fmul  :   0 fmuls :   0 fmulsu:   0 icall :   0 ijmp  :   0 
-in    :   6 inc   :   2 jmp   :  23 ld    :   8 ldd   :   6 ldi   : 100 
-lds   :   7 lpm   :   7 lsl   :   1 lsr   :   0 mov   :  27 movw  :   5 
+in    :   2 inc   :   2 jmp   :  23 ld    :   9 ldd   :   6 ldi   :  80 
+lds   :   1 lpm   :   7 lsl   :   0 lsr   :   0 mov   :  21 movw  :   5 
 mul   :   0 muls  :   0 mulsu :   0 neg   :   0 nop   :   0 or    :   1 
-ori   :   2 out   :  10 pop   :   0 push  :   0 rcall :  62 ret   :  18 
-reti  :   0 rjmp  :  33 rol   :   0 ror   :   0 sbc   :   0 sbci  :   3 
-sbi   :   7 sbic  :   5 sbis  :   0 sbiw  :   7 sbr   :   0 sbrc  :   0 
-sbrs  :   1 sec   :   0 seh   :   0 sei   :   0 sen   :   0 ser   :   0 
-ses   :   0 set   :   1 sev   :   0 sez   :   0 sleep :   0 spm   :   0 
-st    :  22 std   :   0 sts   :  10 sub   :   0 subi  :   8 swap  :   1 
+ori   :   1 out   :  14 pop   :   0 push  :   0 rcall :  38 ret   :  13 
+reti  :   1 rjmp  :  18 rol   :   0 ror   :   0 sbc   :   0 sbci  :   2 
+sbi   :   7 sbic  :   0 sbis  :   0 sbiw  :   7 sbr   :   0 sbrc  :   0 
+sbrs  :   1 sec   :   0 seh   :   0 sei   :   1 sen   :   0 ser   :   0 
+ses   :   0 set   :   0 sev   :   0 sez   :   0 sleep :   0 spm   :   0 
+st    :  20 std   :   0 sts   :   3 sub   :   0 subi  :   4 swap  :   1 
 tst   :   0 wdr   :   1 
-Instructions used: 43 out of 116 (37.1%)
+Instructions used: 41 out of 116 (35.3%)
 
 ATmega16 memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x00055a   1014    356   1370   16384   8.4%
-[.dseg] 0x000060 0x00026d      0    269    269    1024  26.3%
+[.cseg] 0x000000 0x000456    754    356   1110   16384   6.8%
+[.dseg] 0x000060 0x00026e      0    270    270    1024  26.4%
 [.eseg] 0x000000 0x000000      0      0      0     512   0.0%
 
 Assembly complete, 0 errors, 3 warnings

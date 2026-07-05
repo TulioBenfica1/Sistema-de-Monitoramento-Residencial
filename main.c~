@@ -1,14 +1,31 @@
 #include <mega16.h>
 #include <delay.h>
 #include "config.h"
-#include "password.h"
+#include "timer.h"
 
 void main(void)
 {
     SystemInit();
 
+    DDRC = 0x01;
+        
     while (1)
     {
         SystemUpdate();
+
+        if(PINB.0 == 0)
+        {
+            UpdateTIMER1CompareValue(14400);
+        }
+        else if(PINB.1 == 0)
+        {
+            UpdateTIMER1CompareValue(7200);
+        }
+
+        if(GetTIMER1Flag())
+        {
+            PORTC.0 = ~PORTC.0;
+            SetTIMER1Flag(0);
+        }
     }
 }
