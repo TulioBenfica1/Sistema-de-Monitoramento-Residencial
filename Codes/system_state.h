@@ -9,7 +9,8 @@ typedef enum {
     ST_DISARMED,
     ST_SHOCK,
     ST_MOTION,
-    ST_SMOKE,
+    ST_FLAME,
+    ST_INVASION,
     ST_OVERHEAT,
     ST_ERROR,
 } SystemState;

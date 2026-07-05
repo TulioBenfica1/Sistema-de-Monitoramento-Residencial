@@ -1,28 +1,25 @@
-#include "sensors.h"
+#include <sensors.h>
 
 void SensorsInit(void) {
     DDRB = 0x00; // Configura PORTB como entrada
 }
 
-SensorsState SensorsUpdate(void) {
-    unsigned char chama_ativa = ~(PINB & (1 << PB0)); 
-    unsigned char presenca_ativa = (PINB & (1 << PB1)); 
-    unsigned char choque_ativo = (PINB & (1 << PB2));
+SystemState SensorsUpdate(void) {
+    unsigned char flame = ~(PINB & (1 << PB0)); 
+    unsigned char presence = (PINB & (1 << PB1)); 
+    unsigned char vibration = (PINB & (1 << PB2));
 
-    if (chama_ativa) {
-        return SS_FLAME;
+    if (flame) {
+        return SystemSetState(ST_FLAME);
     }
-    else if (presenca_ativa && choque_ativo) {
-        return SS_INVASION; 
+    else if (presence && vibration) {
+        return SystemSetState(ST_INVASION);
     }
-    else if (presenca_ativa) {
-        return SS_MOTION;
+    else if (presence) {
+        return SystemSetState(ST_MOTION);
     }
-    else if (choque_ativo) {
-        return SS_SHOCK;
+    else if (vibration) {
+        return SystemSetState(ST_SHOCK);
     }
-    else {
-        return SS_NONE;
-    }
-    return -1; 
+    return;
 }

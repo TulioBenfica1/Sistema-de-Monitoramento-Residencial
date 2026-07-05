@@ -4,9 +4,10 @@
 #include <mega16.h>
 #include <alcd.h>
 #include <delay.h>
-#include <sensors_state.h>
+#include <system_state.h>
+#include <config.h>
 
 void SensorsInit(void);
-SensorsState SensorsUpdate(void);
+void SensorsUpdate(void);
 
 #endif  
