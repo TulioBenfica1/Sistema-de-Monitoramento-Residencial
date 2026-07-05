@@ -10,6 +10,7 @@ typedef enum
 
 void PasswordStart(void);
 void PasswordInput(unsigned char input);
+void CleanLastDigit(void);
 PasswordResult PasswordConfirm(void);
 
 #endif
