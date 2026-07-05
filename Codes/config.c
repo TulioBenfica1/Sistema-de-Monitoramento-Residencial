@@ -2,6 +2,7 @@
 #include "config.h"
 #include "lcd.h"
 #include "timer.h"
+#include "pwm.h"
 #include "keypad.h"
 #include "password.h"
 
@@ -15,6 +16,7 @@ void SystemInit(void)
     LCDInit(); 
     KEYPAD_init();
     TIMER1Init();
+    PWMInit();
     #asm("sei");
 
 }
