@@ -6,7 +6,7 @@ CV=4.06a Evaluation
 A=
 C=
 D=28/06/2026
-Files=5
+Files=6
 OpenedFiles=4
 OF1=Codes\password.c
 ActiveTab=2
@@ -18,20 +18,21 @@ OutputListFilesDirectory=Release\List
 OutputObjectFilesDirectory=Release
 OutputExecutableFilesDirectory=Release\Exe
 OutputLinkerFilesDirectory=Release\Link
-AllowDisplayFunctionCallTree=1
+AllowDisplayFunctionCallTree=0
 CleanUp=2
 TimeStamp1=1558477218
-F1=main.c
-F2=Codes\config.c
-F3=Codes\lcd.c
-F4=Codes\password.c
-F5=Codes\timer.c
 OF2=main.c
 TimeStamp2=1558489449
 OF3=Codes\timer.h
 TimeStamp3=1558487978
 OF4=Codes\timer.c
 TimeStamp4=1558489362
+F1=main.c
+F2=Codes\config.c
+F3=Codes\lcd.c
+F4=Codes\password.c
+F5=Codes\timer.c
+F6=Codes\keypad.c
 [CompilerDebug]
 Chip=ATmega16
 CPUClock=14745600
@@ -139,9 +140,9 @@ UseBootAppXmega=0
 UseUDSC_LGT8F=0
 RebuildAll=0
 LinkageInformationPresent=1
-COFFileTimeStamp=1558489453
-Build=25
-GlobalVarAddr=622
+COFFileTimeStamp=1558492273
+Build=26
+GlobalVarAddr=632
 EEPROMVarAddr=0
 [DefinedSymbolsDebug]
 Count=0
@@ -253,7 +254,7 @@ UseUDSC_LGT8F=0
 RebuildAll=1
 LinkageInformationPresent=0
 COFFileTimeStamp=-1
-Build=25
+Build=26
 IncludePath0=D:\cvavr\inc
 IncludePath1=Codes
 IncludePath2=
@@ -527,7 +528,7 @@ ScrollPosX=0
 ScrollPosY=0
 TimeStamp=1558489454
 [BookmarksFoldedCode]
-Files=9
+Files=10
 F1=C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\main.c
 F2=Codes\lcd.h
 F3=Codes\config.h
@@ -537,6 +538,7 @@ F6=main.c
 F7=Codes\password.c
 F8=Codes\timer.h
 F9=Codes\timer.c
+F10=Codes\keypad.c
 [Bookmarks1]
 TimeStamp=1557951590
 Row=6
@@ -572,41 +574,41 @@ L13=Enhanced function parameters passing: Mode 2
 L14=Automatic register allocation: Yes
 L15=Smart register allocation: Yes
 L16=
-L17=Build: 25
-L18=14638 line(s) compiled
+L17=Build: 26
+L18=15728 line(s) compiled
 L19=No errors
-L20=No warnings
+L20=2 warning(s)
 L21=
 L22=Bit variables area: 0x2 to 0x2
 L23=Bit variables size: 1 byte(s)
 L24=
 L25=Data Stack area: 0x60 to 0x15F
 L26=Data Stack size: 256 byte(s)
-L27=Estimated Data Stack usage: 19 byte(s)
+L27=Estimated Data Stack usage: 28 byte(s)
 L28=
-L29=RAM Global variables area: 0x160 to 0x26D
-L30=RAM Global variables size: 270 byte(s)
+L29=RAM Global variables area: 0x160 to 0x277
+L30=RAM Global variables size: 280 byte(s)
 L31=
-L32=Hardware Stack area: 0x26E to 0x45F
-L33=Hardware Stack size: 498 byte(s)
+L32=Hardware Stack area: 0x278 to 0x45F
+L33=Hardware Stack size: 488 byte(s)
 L34=
 L35=Heap size: 0 byte(s)
 L36=
 L37=EEPROM usage: 0 byte(s), 0,0% of EEPROM
-L38=Program size: 555 words (1110 bytes), 6,8% of FLASH
+L38=Program size: 950 words (1900 bytes), 11,6% of FLASH
 Lines=39
-L39=23 words (46 bytes), 4,0% reduced by Code Compression
+L39=35 words (70 bytes), 3,6% reduced by Code Compression
 [BuildInfoAssembler]
 L1=AVRASM: AVR macro assembler 2.1.30 (build 592 Nov  7 2008 12:38:17)
 L2=Copyright (C) 1995-2008 ATMEL Corporation
 L3=
-L4=C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\List\SECURITY_SYSTEM.asm(2294): No EEPROM data, deleting C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\Exe\SECURITY_SYSTEM.eep
+L4=C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\List\SECURITY_SYSTEM.asm(2936): No EEPROM data, deleting C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\Exe\SECURITY_SYSTEM.eep
 L5=
 L6=ATmega16 memory use summary [bytes]:
 L7=Segment   Begin    End      Code   Data   Used    Size   Use%
 L8=---------------------------------------------------------------
-L9=[.cseg] 0x000000 0x000456    754    356   1110   16384   6.8%
-L10=[.dseg] 0x000060 0x00026e      0    270    270    1024  26.4%
+L9=[.cseg] 0x000000 0x00076c   1516    384   1900   16384  11.6%
+L10=[.dseg] 0x000060 0x000278      0    280    280    1024  27.3%
 L11=[.eseg] 0x000000 0x000000      0      0      0     512   0.0%
 L12=
 Lines=12
@@ -746,13 +748,22 @@ BK6=-1
 BK7=-1
 BK8=-1
 BK9=-1
+[FoldedCode6]
+Blocks=0
+[FoldedCode8]
+Blocks=0
+[FoldedCode9]
+Blocks=0
+[FoldedCode7]
+Blocks=0
 [HeadersList]
-Files=5
+Files=6
 F1=C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\main.c
 F2=C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Codes\config.c
 F3=C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Codes\lcd.c
 F4=C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Codes\password.c
 F5=C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Codes\timer.c
+F6=C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Codes\keypad.c
 [Header1]
 Files=4
 F1=D:\cvavr\inc\mega16.h
@@ -760,13 +771,15 @@ F2=D:\cvavr\inc\mega16_bits.h
 F3=Codes\config.h
 F4=Codes\system_state.h
 [Header2]
-Files=6
+Files=8
 F1=D:\cvavr\inc\mega16.h
 F2=D:\cvavr\inc\mega16_bits.h
 F3=Codes\config.h
 F4=Codes\system_state.h
 F5=Codes\lcd.h
 F6=Codes\timer.h
+F7=Codes\keypad.h
+F8=Codes\password.h
 [Header3]
 Files=6
 F1=D:\cvavr\inc\mega16.h
@@ -776,20 +789,40 @@ F4=D:\cvavr\inc\delay.h
 F5=Codes\lcd.h
 F6=Codes\system_state.h
 [Header4]
-Files=3
-F1=Codes\password.h
-F2=Codes\lcd.h
-F3=Codes\system_state.h
+Files=4
+F1=D:\cvavr\inc\alcd.h
+F2=Codes\password.h
+F3=Codes\lcd.h
+F4=Codes\system_state.h
 [Header5]
 Files=3
 F1=D:\cvavr\inc\mega16.h
 F2=D:\cvavr\inc\mega16_bits.h
 F3=Codes\timer.h
-[FoldedCode6]
-Blocks=0
-[FoldedCode8]
-Blocks=0
-[FoldedCode9]
-Blocks=0
-[FoldedCode7]
+[Header6]
+Files=7
+F1=D:\cvavr\inc\mega16.h
+F2=D:\cvavr\inc\mega16_bits.h
+F3=D:\cvavr\inc\delay.h
+F4=Codes\config.h
+F5=Codes\system_state.h
+F6=Codes\keypad.h
+F7=Codes\password.h
+[Bookmarks10]
+TimeStamp=1558492176
+Row=76
+Column=47
+ScrollPosX=0
+ScrollPosY=57
+BK0=-1
+BK1=-1
+BK2=-1
+BK3=-1
+BK4=-1
+BK5=-1
+BK6=-1
+BK7=-1
+BK8=-1
+BK9=-1
+[FoldedCode10]
 Blocks=0
