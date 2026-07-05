@@ -22,68 +22,82 @@
 	#endif
 ;PCODE: $0000000B VOL: 0
 ;PCODE: $0000000C VOL: 0
-;void SystemInit(void)
-; 0001 000A {
+;interrupt [7] void timer1_compa_isr(void)
+; 0004 0007 {
 
 	.CSEG
 ;PCODE: $0000000D VOL: 0
 ;PCODE: $0000000E VOL: 0
-; 0001 000B // Configuração de registradores
-; 0001 000C LCDInit();
+; 0004 0008 TCNT1 = 0;
 ;PCODE: $0000000F VOL: 0
-; 0001 000D TIMER1Init();
 ;PCODE: $00000010 VOL: 0
-; 0001 000E #asm("sei");
+; 0004 0009 flag_tim1 = 1;
 ;PCODE: $00000011 VOL: 0
-; 0001 000F 
-; 0001 0010 }
-;PCODE: $00000012 VOL: 0
+;PCODE: $00000012 VOL: 1
+; 0004 000A }
 ;PCODE: $00000013 VOL: 0
-;void SystemUpdate(void)
-; 0001 0013 {
 ;PCODE: $00000014 VOL: 0
 ;PCODE: $00000015 VOL: 0
-; 0001 0014 if (lcd_update_pending)
+;void TIMER1Init(void)
+; 0004 000D {
 ;PCODE: $00000016 VOL: 0
 ;PCODE: $00000017 VOL: 0
+; 0004 000E // Registradores para configurar o Timer1
+; 0004 000F TCCR1B = 0x05; // Prescaler de 64
 ;PCODE: $00000018 VOL: 0
-; 0001 0015 {
-; 0001 0016 LCDUpdate(current_state);
 ;PCODE: $00000019 VOL: 0
+; 0004 0010 TIMSK = 0x10; // Habilita interrupção do Timer1 via comparacao registrador A
 ;PCODE: $0000001A VOL: 0
-; 0001 0017 lcd_update_pending = 0;
 ;PCODE: $0000001B VOL: 0
+; 0004 0011 OCR1A = 0x00;
 ;PCODE: $0000001C VOL: 0
 ;PCODE: $0000001D VOL: 0
-; 0001 0018 }
-; 0001 0019 }
+; 0004 0012 }
 ;PCODE: $0000001E VOL: 0
 ;PCODE: $0000001F VOL: 0
+;void UpdateTIMER1CompareValue(unsigned int time)
+; 0004 0015 {
 ;PCODE: $00000020 VOL: 0
-;void SystemSetState(SystemState state)
-; 0001 001C {
 ;PCODE: $00000021 VOL: 0
+; 0004 0016 // Recebe um periodo em ms e atualiza o valor do registrador de comparacao A do Timer1
+; 0004 0017 OCR1A = (14400UL * time) / 1000UL - 1;
 ;PCODE: $00000022 VOL: 0
-; 0001 001D current_state = state;
 ;PCODE: $00000023 VOL: 0
 ;PCODE: $00000024 VOL: 0
-;	state -> R17
+;	time -> R16,R17
 ;PCODE: $00000025 VOL: 0
 ;PCODE: $00000026 VOL: 0
-; 0001 001E lcd_update_pending = 1;
 ;PCODE: $00000027 VOL: 0
 ;PCODE: $00000028 VOL: 0
 ;PCODE: $00000029 VOL: 0
-; 0001 001F }
 ;PCODE: $0000002A VOL: 0
 ;PCODE: $0000002B VOL: 0
 ;PCODE: $0000002C VOL: 0
-;SystemState SystemGetState(void)
-; 0001 0022 {
 ;PCODE: $0000002D VOL: 0
+; 0004 0018 }
 ;PCODE: $0000002E VOL: 0
-; 0001 0023 return current_state;
 ;PCODE: $0000002F VOL: 0
 ;PCODE: $00000030 VOL: 0
-; 0001 0024 }
+;unsigned char GetTIMER1Flag(void)
+; 0004 001B {
 ;PCODE: $00000031 VOL: 0
+;PCODE: $00000032 VOL: 0
+; 0004 001C return flag_tim1;
+;PCODE: $00000033 VOL: 1
+;PCODE: $00000034 VOL: 0
+; 0004 001D }
+;PCODE: $00000035 VOL: 0
+;void SetTIMER1Flag(unsigned char value)
+; 0004 0020 {
+;PCODE: $00000036 VOL: 0
+;PCODE: $00000037 VOL: 0
+; 0004 0021 flag_tim1 = value;
+;PCODE: $00000038 VOL: 0
+;PCODE: $00000039 VOL: 0
+;	value -> R17
+;PCODE: $0000003A VOL: 1
+;PCODE: $0000003B VOL: 0
+; 0004 0022 }
+;PCODE: $0000003C VOL: 0
+;PCODE: $0000003D VOL: 0
+;PCODE: $0000003E VOL: 0

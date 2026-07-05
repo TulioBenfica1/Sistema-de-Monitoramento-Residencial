@@ -1,0 +1,9 @@
+VERSION:3 SOURCE_TIMESTAMP:5CE4A968
+NODE:I LEVEL:0 LINE:1 "D:\cvavr\inc\mega16.h"
+NODE:I LEVEL:0 LINE:2 "C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Codes\timer.h"
+NODE:V LEVEL:0 LINE:4 "flag_tim1_G004 -> RAM:????"
+NODE:F LEVEL:0 LINE:6 "timer1_compa_isr(void)"
+NODE:F LEVEL:0 LINE:12 "TIMER1Init(void)"
+NODE:F LEVEL:0 LINE:20 "UpdateTIMER1CompareValue(unsigned int time)"
+NODE:F LEVEL:0 LINE:26 "GetTIMER1Flag(void)"
+NODE:F LEVEL:0 LINE:31 "SetTIMER1Flag(unsigned char value)"

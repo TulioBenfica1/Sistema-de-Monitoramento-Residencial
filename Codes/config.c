@@ -1,5 +1,7 @@
+#include <mega16.h>
 #include "config.h"
 #include "lcd.h"
+#include "timer.h"
 
 static SystemState current_state;
 static bit lcd_update_pending = 1;
@@ -8,6 +10,8 @@ void SystemInit(void)
 {
     // Configuração de registradores 
     LCDInit(); 
+    TIMER1Init();
+    #asm("sei");
 
 }
 

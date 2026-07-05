@@ -1,5 +1,5 @@
 
-;CodeVisionAVR C Compiler V4.06a 
+;CodeVisionAVR C Compiler V4.06a Evaluation
 ;(C) Copyright 1998-2025 Pavel Haiduc, HP InfoTech S.R.L.
 ;http://www.hpinfotech.ro
 
@@ -1432,7 +1432,7 @@ __START_OF_CODE:
 	JMP  0x00
 	JMP  0x00
 	JMP  0x00
-	JMP  0x00
+	JMP  _timer1_compa_isr
 	JMP  0x00
 	JMP  0x00
 	JMP  0x00
@@ -1661,191 +1661,82 @@ __GLOBAL_INI_END:
 	.SET power_ctrl_reg=mcucr
 	#endif
 ;void main(void)
-; 0000 0007 {
+; 0000 0005 {
 
 	.CSEG
 _main:
 ; .FSTART _main
-; 0000 0008 unsigned char input;
-; 0000 0009 PasswordResult password_result;
-; 0000 000A 
-; 0000 000B SystemInit();
-;	input -> R17
-;	password_result -> R16
+; 0000 0006 SystemInit();
 	RCALL _SystemInit
-; 0000 000C DDRC &= ~0x1F;
-	IN   R30,0x14
-	ANDI R30,LOW(0xE0)
-	OUT  0x14,R30
-; 0000 000D PORTC |= 0x1F;
-	IN   R30,0x15
-	ORI  R30,LOW(0x1F)
-	OUT  0x15,R30
-; 0000 000E 
-; 0000 000F while (1)
+; 0000 0007 
+; 0000 0008 while (1)
 _0x3:
-; 0000 0010 {
-; 0000 0011 SystemUpdate();
+; 0000 0009 {
+; 0000 000A SystemUpdate();
 	RCALL _SystemUpdate
-; 0000 0012 input = 0;
-	LDI  R17,LOW(0)
-; 0000 0013 
-; 0000 0014 if ((PINC & 0x1F) != 0x1F)
-	IN   R30,0x13
-	ANDI R30,LOW(0x1F)
-	CPI  R30,LOW(0x1F)
-	BREQ _0x6
-; 0000 0015 {
-; 0000 0016 delay_ms(20);
-	LDI  R26,LOW(20)
-	LDI  R27,0
-	RCALL _delay_ms
-; 0000 0017 
-; 0000 0018 if (PINC.0 == 0)
-	SBIC 0x13,0
-	RJMP _0x7
-; 0000 0019 {
-; 0000 001A SystemSetState(ST_MOTION);
-	LDI  R26,LOW(5)
-	RCALL _SystemSetState
-; 0000 001B PasswordStart();
-	RCALL _PasswordStart
-; 0000 001C }
-; 0000 001D else if (PINC.1 == 0)
-	RJMP _0x8
-_0x7:
-	SBIC 0x13,1
-	RJMP _0x9
-; 0000 001E {
-; 0000 001F input = '2';
-	LDI  R17,LOW(50)
-; 0000 0020 }
-; 0000 0021 else if (PINC.2 == 0)
-	RJMP _0xA
-_0x9:
-	SBIC 0x13,2
-	RJMP _0xB
-; 0000 0022 {
-; 0000 0023 input = '3';
-	LDI  R17,LOW(51)
-; 0000 0024 }
-; 0000 0025 else if (PINC.3 == 0)
-	RJMP _0xC
-_0xB:
-	SBIC 0x13,3
-	RJMP _0xD
-; 0000 0026 {
-; 0000 0027 input = '4';
-	LDI  R17,LOW(52)
-; 0000 0028 }
-; 0000 0029 else if (PINC.4 == 0)
-	RJMP _0xE
-_0xD:
-	SBIC 0x13,4
-	RJMP _0xF
-; 0000 002A {
-; 0000 002B password_result = PasswordConfirm();
-	RCALL _PasswordConfirm
-	MOV  R16,R30
-; 0000 002C delay_ms(1000);
-	LDI  R26,LOW(1000)
-	LDI  R27,HIGH(1000)
-	RCALL _delay_ms
-; 0000 002D if (password_result == PASSWORD_INCORRECT)
-	CPI  R16,2
-	BRNE _0x10
-; 0000 002E SystemSetState(ST_MOTION);
-	LDI  R26,LOW(5)
-	RJMP _0x18
-; 0000 002F else if (password_result == PASSWORD_CORRECT)
-_0x10:
-	CPI  R16,1
-	BRNE _0x12
-; 0000 0030 SystemSetState(ST_DISARMED);
-	LDI  R26,LOW(3)
-_0x18:
-	RCALL _SystemSetState
-; 0000 0031 }
-_0x12:
-; 0000 0032 
-; 0000 0033 if (input != 0)
-_0xF:
-_0xE:
-_0xC:
-_0xA:
-_0x8:
-	CPI  R17,0
-	BREQ _0x13
-; 0000 0034 PasswordInput(input);
-	MOV  R26,R17
-	RCALL _PasswordInput
-; 0000 0035 
-; 0000 0036 while ((PINC & 0x1F) != 0x1F) {}
-_0x13:
-_0x14:
-	IN   R30,0x13
-	ANDI R30,LOW(0x1F)
-	CPI  R30,LOW(0x1F)
-	BRNE _0x14
-; 0000 0037 }
-; 0000 0038 }
-_0x6:
+; 0000 000B }
 	RJMP _0x3
-; 0000 0039 }
-_0x17:
-	RJMP _0x17
+; 0000 000C }
+_0x6:
+	RJMP _0x6
 ; .FEND
+	#ifndef __SLEEP_DEFINED__
+	#define __SLEEP_DEFINED__
+	.EQU __se_bit=0x40
+	.EQU __sm_mask=0xB0
+	.EQU __sm_powerdown=0x20
+	.EQU __sm_powersave=0x30
+	.EQU __sm_standby=0xA0
+	.EQU __sm_ext_standby=0xB0
+	.EQU __sm_adc_noise_red=0x10
+	.SET power_ctrl_reg=mcucr
+	#endif
 ;void SystemInit(void)
-; 0001 0008 {
+; 0001 000A {
 
 	.CSEG
 _SystemInit:
 ; .FSTART _SystemInit
-; 0001 0009 // Configuração de registradores
-; 0001 000A LCDInit();
+; 0001 000B // Configuração de registradores
+; 0001 000C LCDInit();
 	RCALL _LCDInit
-; 0001 000B 
-; 0001 000C }
+; 0001 000D TIMER1Init();
+	RCALL _TIMER1Init
+; 0001 000E #asm("sei");
+	SEI
+; 0001 000F 
+; 0001 0010 }
 	RET
 ; .FEND
 ;void SystemUpdate(void)
-; 0001 000F {
+; 0001 0013 {
 _SystemUpdate:
 ; .FSTART _SystemUpdate
-; 0001 0010 if (lcd_update_pending)
+; 0001 0014 if (lcd_update_pending)
 	SBRS R2,0
 	RJMP _0x20003
-; 0001 0011 {
-; 0001 0012 LCDUpdate(current_state);
+; 0001 0015 {
+; 0001 0016 LCDUpdate(current_state);
 	LDS  R26,_current_state_G001
 	RCALL _LCDUpdate
-; 0001 0013 lcd_update_pending = 0;
+; 0001 0017 lcd_update_pending = 0;
 	CLT
 	BLD  R2,0
-; 0001 0014 }
-; 0001 0015 }
+; 0001 0018 }
+; 0001 0019 }
 _0x20003:
 	RET
 ; .FEND
 ;void SystemSetState(SystemState state)
-; 0001 0018 {
-_SystemSetState:
-; .FSTART _SystemSetState
-; 0001 0019 current_state = state;
-	ST   -Y,R17
-	MOV  R17,R26
+; 0001 001C {
+; 0001 001D current_state = state;
 ;	state -> R17
-	STS  _current_state_G001,R17
-; 0001 001A lcd_update_pending = 1;
-	SET
-	BLD  R2,0
-; 0001 001B }
-	JMP  _0x2080001
-; .FEND
+; 0001 001E lcd_update_pending = 1;
+; 0001 001F }
 ;SystemState SystemGetState(void)
-; 0001 001E {
-; 0001 001F return current_state;
-; 0001 0020 }
+; 0001 0022 {
+; 0001 0023 return current_state;
+; 0001 0024 }
 	#ifndef __SLEEP_DEFINED__
 	#define __SLEEP_DEFINED__
 	.EQU __se_bit=0x40
@@ -1881,40 +1772,19 @@ _LCDInit:
 ; .FEND
 ;void UpdatePasswordDisplay(unsigned char input, unsigned char length)
 ; 0002 0011 {
-_UpdatePasswordDisplay:
-; .FSTART _UpdatePasswordDisplay
 ; 0002 0012 lcd_gotoxy(7 + 2 * (length - 1), 1);
-	RCALL SUBOPT_0x0
 ;	input -> R16
 ;	length -> R17
-	RCALL SUBOPT_0x1
 ; 0002 0013 lcd_putchar(input);
-	MOV  R26,R16
-	RCALL _lcd_putchar
 ; 0002 0014 delay_ms(500);
-	LDI  R26,LOW(500)
-	LDI  R27,HIGH(500)
-	RCALL _delay_ms
 ; 0002 0015 lcd_gotoxy(7 + 2 * (length - 1), 1);
-	MOV  R30,R17
-	RCALL SUBOPT_0x1
 ; 0002 0016 lcd_putchar('*');
-	LDI  R26,LOW(42)
-	RCALL _lcd_putchar
 ; 0002 0017 }
-	RJMP _0x2080002
-; .FEND
 ;void WrongPasswordDisplay(void)
 ; 0002 001A {
-_WrongPasswordDisplay:
-; .FSTART _WrongPasswordDisplay
 ; 0002 001B lcd_gotoxy(0, 1);
-	RCALL SUBOPT_0x2
 ; 0002 001C lcd_puts("Senha Incorreta");
-	__POINTW2MN _0x40003,0
-	RJMP _0x2080003
 ; 0002 001D }
-; .FEND
 
 	.DSEG
 _0x40003:
@@ -1923,17 +1793,9 @@ _0x40003:
 ; 0002 0020 {
 
 	.CSEG
-_CorrectPasswordDisplay:
-; .FSTART _CorrectPasswordDisplay
 ; 0002 0021 lcd_clear();
-	RCALL _lcd_clear
 ; 0002 0022 lcd_puts("Senha Correta");
-	__POINTW2MN _0x40004,0
-_0x2080003:
-	RCALL _lcd_puts
 ; 0002 0023 }
-	RET
-; .FEND
 
 	.DSEG
 _0x40004:
@@ -1977,9 +1839,8 @@ _0x4000A:
 	BRNE _0x4000B
 ; 0002 0035 lcd_puts("Armando Sistema");
 	__POINTW2MN _0x40009,26
-	RCALL _lcd_puts
+	RCALL SUBOPT_0x0
 ; 0002 0036 lcd_gotoxy(0, 1);
-	RCALL SUBOPT_0x2
 ; 0002 0037 lcd_puts("...");
 	__POINTW2MN _0x40009,42
 	RJMP _0x40013
@@ -2000,9 +1861,8 @@ _0x4000C:
 	BRNE _0x4000D
 ; 0002 003F lcd_puts("Alerta: Intrusao");
 	__POINTW2MN _0x40009,64
-	RCALL _lcd_puts
+	RCALL SUBOPT_0x0
 ; 0002 0040 lcd_gotoxy(0, 1);
-	RCALL SUBOPT_0x2
 ; 0002 0041 lcd_puts("Senha: _ _ _ _");
 	__POINTW2MN _0x40009,81
 	RJMP _0x40013
@@ -2014,9 +1874,8 @@ _0x4000D:
 	BRNE _0x4000E
 ; 0002 0045 lcd_puts("Alerta: Presenca");
 	__POINTW2MN _0x40009,96
-	RCALL _lcd_puts
+	RCALL SUBOPT_0x0
 ; 0002 0046 lcd_gotoxy(0, 1);
-	RCALL SUBOPT_0x2
 ; 0002 0047 lcd_puts("Senha: _ _ _ _");
 	__POINTW2MN _0x40009,113
 	RJMP _0x40013
@@ -2028,9 +1887,8 @@ _0x4000E:
 	BRNE _0x4000F
 ; 0002 004B lcd_puts("Alerta: Fumaça");
 	__POINTW2MN _0x40009,128
-	RCALL _lcd_puts
+	RCALL SUBOPT_0x0
 ; 0002 004C lcd_gotoxy(0, 1);
-	RCALL SUBOPT_0x2
 ; 0002 004D lcd_puts("Senha: _ _ _ _");
 	__POINTW2MN _0x40009,144
 	RJMP _0x40013
@@ -2042,9 +1900,8 @@ _0x4000F:
 	BRNE _0x40010
 ; 0002 0051 lcd_puts("Superaquecimento");
 	__POINTW2MN _0x40009,159
-	RCALL _lcd_puts
+	RCALL SUBOPT_0x0
 ; 0002 0052 lcd_gotoxy(0, 1);
-	RCALL SUBOPT_0x2
 ; 0002 0053 lcd_puts("Senha: _ _ _ _");
 	__POINTW2MN _0x40009,176
 	RJMP _0x40013
@@ -2068,7 +1925,7 @@ _0x40013:
 ; 0002 005C break;
 ; 0002 005D }
 ; 0002 005E }
-	RJMP _0x2080001
+	JMP  _0x2080001
 ; .FEND
 
 	.DSEG
@@ -2080,95 +1937,103 @@ _0x40009:
 ; 0003 000C {
 
 	.CSEG
-_PasswordStart:
-; .FSTART _PasswordStart
 ; 0003 000D password_length = 0;
-	LDI  R30,LOW(0)
-	STS  _password_length_G003,R30
 ; 0003 000E password_incorrect = 0;
-	STS  _password_incorrect_G003,R30
 ; 0003 000F password_entry_active = 1;
-	LDI  R30,LOW(1)
-	STS  _password_entry_active_G003,R30
 ; 0003 0010 }
-	RET
-; .FEND
 ;void PasswordInput(unsigned char input)
 ; 0003 0013 {
-_PasswordInput:
-; .FSTART _PasswordInput
 ; 0003 0014 
 ; 0003 0015 if (password[password_length] != input)
-	ST   -Y,R17
-	MOV  R17,R26
 ;	input -> R17
-	LDS  R30,_password_length_G003
-	LDI  R31,0
-	SUBI R30,LOW(-_password_G003)
-	SBCI R31,HIGH(-_password_G003)
-	LD   R26,Z
-	CP   R17,R26
-	BREQ _0x60004
 ; 0003 0016 password_incorrect = 1;
-	LDI  R30,LOW(1)
-	STS  _password_incorrect_G003,R30
 ; 0003 0017 
 ; 0003 0018 password_length++;
-_0x60004:
-	LDS  R30,_password_length_G003
-	SUBI R30,-LOW(1)
-	STS  _password_length_G003,R30
 ; 0003 0019 UpdatePasswordDisplay(input, password_length);
-	ST   -Y,R17
-	LDS  R26,_password_length_G003
-	RCALL _UpdatePasswordDisplay
 ; 0003 001A }
-	RJMP _0x2080001
-; .FEND
 ;PasswordResult PasswordConfirm(void)
 ; 0003 001D {
-_PasswordConfirm:
-; .FSTART _PasswordConfirm
 ; 0003 001E if (!password_entry_active || password_length < PASSWORD_LENGTH)
-	LDS  R30,_password_entry_active_G003
-	CPI  R30,0
-	BREQ _0x60006
-	LDS  R26,_password_length_G003
-	CPI  R26,LOW(0x4)
-	BRSH _0x60005
-_0x60006:
 ; 0003 001F return PASSWORD_PENDING;
-	LDI  R30,LOW(0)
-	RET
 ; 0003 0020 
 ; 0003 0021 if (password_incorrect)
-_0x60005:
-	LDS  R30,_password_incorrect_G003
-	CPI  R30,0
-	BREQ _0x60008
 ; 0003 0022 {
 ; 0003 0023 WrongPasswordDisplay();
-	RCALL _WrongPasswordDisplay
 ; 0003 0024 PasswordStart();
-	RCALL _PasswordStart
 ; 0003 0025 return PASSWORD_INCORRECT;
-	LDI  R30,LOW(2)
-	RET
 ; 0003 0026 }
 ; 0003 0027 
 ; 0003 0028 CorrectPasswordDisplay();
-_0x60008:
-	RCALL _CorrectPasswordDisplay
 ; 0003 0029 password_entry_active = 0;
-	LDI  R30,LOW(0)
-	STS  _password_entry_active_G003,R30
 ; 0003 002A password_length = 0;
-	STS  _password_length_G003,R30
 ; 0003 002B return PASSWORD_CORRECT;
-	LDI  R30,LOW(1)
-	RET
 ; 0003 002C }
+	#ifndef __SLEEP_DEFINED__
+	#define __SLEEP_DEFINED__
+	.EQU __se_bit=0x40
+	.EQU __sm_mask=0xB0
+	.EQU __sm_powerdown=0x20
+	.EQU __sm_powersave=0x30
+	.EQU __sm_standby=0xA0
+	.EQU __sm_ext_standby=0xB0
+	.EQU __sm_adc_noise_red=0x10
+	.SET power_ctrl_reg=mcucr
+	#endif
+;interrupt [7] void timer1_compa_isr(void)
+; 0004 0007 {
+
+	.CSEG
+_timer1_compa_isr:
+; .FSTART _timer1_compa_isr
+	ST   -Y,R30
+	ST   -Y,R31
+; 0004 0008 TCNT1 = 0;
+	LDI  R30,LOW(0)
+	LDI  R31,HIGH(0)
+	OUT  0x2C+1,R31
+	OUT  0x2C,R30
+; 0004 0009 flag_tim1 = 1;
+	LDI  R30,LOW(1)
+	STS  _flag_tim1_G004,R30
+; 0004 000A }
+	LD   R31,Y+
+	LD   R30,Y+
+	RETI
 ; .FEND
+;void TIMER1Init(void)
+; 0004 000D {
+_TIMER1Init:
+; .FSTART _TIMER1Init
+; 0004 000E // Registradores para configurar o Timer1
+; 0004 000F TCCR1B = 0x05; // Prescaler de 64
+	LDI  R30,LOW(5)
+	OUT  0x2E,R30
+; 0004 0010 TIMSK = 0x10; // Habilita interrupção do Timer1 via comparacao registrador A
+	LDI  R30,LOW(16)
+	OUT  0x39,R30
+; 0004 0011 OCR1A = 0x00;
+	LDI  R30,LOW(0)
+	LDI  R31,HIGH(0)
+	OUT  0x2A+1,R31
+	OUT  0x2A,R30
+; 0004 0012 }
+	RET
+; .FEND
+;void UpdateTIMER1CompareValue(unsigned int time)
+; 0004 0015 {
+; 0004 0016 // Recebe um periodo em ms e atualiza o valor do registrador de comparacao A do Timer1
+; 0004 0017 OCR1A = (14400UL * time) / 1000UL - 1;
+;	time -> R16,R17
+; 0004 0018 }
+;unsigned char GetTIMER1Flag(void)
+; 0004 001B {
+; 0004 001C return flag_tim1;
+; 0004 001D }
+;void SetTIMER1Flag(unsigned char value)
+; 0004 0020 {
+; 0004 0021 flag_tim1 = value;
+;	value -> R17
+; 0004 0022 }
 	#ifndef __SLEEP_DEFINED__
 	#define __SLEEP_DEFINED__
 	.EQU __se_bit=0x40
@@ -2218,7 +2083,11 @@ __lcd_write_data:
 ; .FEND
 _lcd_gotoxy:
 ; .FSTART _lcd_gotoxy
-	RCALL SUBOPT_0x0
+	ST   -Y,R17
+	ST   -Y,R16
+	MOV  R17,R26
+	LDD  R16,Y+2
+	MOV  R30,R17
 	LDI  R31,0
 	SUBI R30,LOW(-__base_y_G100)
 	SBCI R31,HIGH(-__base_y_G100)
@@ -2228,7 +2097,6 @@ _lcd_gotoxy:
 	RCALL __lcd_write_data
 	MOV  R5,R16
 	MOV  R4,R17
-_0x2080002:
 	LDD  R17,Y+1
 	LDD  R16,Y+0
 	ADIW R28,3
@@ -2237,11 +2105,11 @@ _0x2080002:
 _lcd_clear:
 ; .FSTART _lcd_clear
 	LDI  R26,LOW(2)
-	RCALL SUBOPT_0x3
+	RCALL SUBOPT_0x1
 	LDI  R26,LOW(12)
 	RCALL __lcd_write_data
 	LDI  R26,LOW(1)
-	RCALL SUBOPT_0x3
+	RCALL SUBOPT_0x1
 	LDI  R30,LOW(0)
 	MOV  R4,R30
 	MOV  R5,R30
@@ -2313,9 +2181,9 @@ _lcd_init:
 	LDI  R26,LOW(20)
 	LDI  R27,0
 	RCALL _delay_ms
-	RCALL SUBOPT_0x4
-	RCALL SUBOPT_0x4
-	RCALL SUBOPT_0x4
+	RCALL SUBOPT_0x2
+	RCALL SUBOPT_0x2
+	RCALL SUBOPT_0x2
 	LDI  R26,LOW(32)
 	RCALL __lcd_write_nibble_G100
 	__DELAY_USW 369
@@ -2361,44 +2229,29 @@ _password_incorrect_G003:
 	.BYTE 0x1
 _password_entry_active_G003:
 	.BYTE 0x1
+_flag_tim1_G004:
+	.BYTE 0x1
 __base_y_G100:
 	.BYTE 0x4
 
 	.CSEG
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:2 WORDS
+;OPTIMIZER ADDED SUBROUTINE, CALLED 5 TIMES, CODE SIZE REDUCTION:14 WORDS
 SUBOPT_0x0:
-	ST   -Y,R17
-	ST   -Y,R16
-	MOV  R17,R26
-	LDD  R16,Y+2
-	MOV  R30,R17
-	RET
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:3 WORDS
-SUBOPT_0x1:
-	SUBI R30,LOW(1)
-	LSL  R30
-	SUBI R30,-LOW(7)
-	ST   -Y,R30
-	LDI  R26,LOW(1)
-	RJMP _lcd_gotoxy
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 6 TIMES, CODE SIZE REDUCTION:13 WORDS
-SUBOPT_0x2:
+	RCALL _lcd_puts
 	LDI  R30,LOW(0)
 	ST   -Y,R30
 	LDI  R26,LOW(1)
 	RJMP _lcd_gotoxy
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
-SUBOPT_0x3:
+SUBOPT_0x1:
 	RCALL __lcd_write_data
 	LDI  R26,LOW(3)
 	LDI  R27,0
 	RJMP _delay_ms
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:8 WORDS
-SUBOPT_0x4:
+SUBOPT_0x2:
 	LDI  R26,LOW(48)
 	RCALL __lcd_write_nibble_G100
 	__DELAY_USW 369
