@@ -4,6 +4,7 @@
 #include "timer.h"
 #include "pwm.h"
 #include "keypad.h"
+#include "buzzer.h"
 #include "password.h"
 
 static SystemState current_state;
@@ -14,7 +15,7 @@ void SystemInit(void)
 {
     // Configuração de registradores 
     LCDInit(); 
-    KEYPAD_init();
+    KEYPADInit();
     TIMER1Init();
     PWMInit();
     #asm("sei");
@@ -32,6 +33,7 @@ void SystemUpdate(void)
     {
         KEYPADProcess(current_state);
     }
+    BuzzerUpdate(current_state);
 }
 
 void SystemSetState(SystemState state)

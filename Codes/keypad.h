@@ -3,7 +3,7 @@
 
 #include "system_state.h"
 
-void KEYPAD_init(void);
+void KEYPADInit(void);
 void KEYPADProcess(SystemState state);
 unsigned InKey(void);
 unsigned char KeyToIndex (unsigned key);

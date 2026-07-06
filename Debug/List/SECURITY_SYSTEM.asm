@@ -1,5 +1,5 @@
 
-;CodeVisionAVR C Compiler V4.06a Evaluation
+;CodeVisionAVR C Compiler V4.06a 
 ;(C) Copyright 1998-2025 Pavel Haiduc, HP InfoTech S.R.L.
 ;http://www.hpinfotech.ro
 
@@ -1461,7 +1461,7 @@ _tbl16_G101:
 
 ;REGISTER BIT VARIABLES INITIALIZATION
 __REG_BIT_VARS:
-	.DW  0x0001
+	.DW  0x0005
 
 _0x40000:
 	.DB  0x53,0x65,0x6E,0x68,0x61,0x20,0x49,0x6E
@@ -1482,20 +1482,22 @@ _0x40000:
 	.DB  0x5F,0x0,0x41,0x6C,0x65,0x72,0x74,0x61
 	.DB  0x3A,0x20,0x50,0x72,0x65,0x73,0x65,0x6E
 	.DB  0x63,0x61,0x0,0x41,0x6C,0x65,0x72,0x74
-	.DB  0x61,0x3A,0x20,0x46,0x75,0x6D,0x61,0xC3
-	.DB  0xA7,0x61,0x0,0x53,0x75,0x70,0x65,0x72
-	.DB  0x61,0x71,0x75,0x65,0x63,0x69,0x6D,0x65
-	.DB  0x6E,0x74,0x6F,0x0,0x45,0x72,0x72,0x6F
-	.DB  0x20,0x6E,0x6F,0x20,0x53,0x69,0x73,0x74
-	.DB  0x65,0x6D,0x61,0x0,0x45,0x73,0x74,0x61
-	.DB  0x64,0x6F,0x20,0x44,0x65,0x73,0x63,0x6F
-	.DB  0x6E,0x68,0x65,0x63,0x69,0x64,0x6F,0x0
+	.DB  0x61,0x3A,0x20,0x46,0x75,0x6D,0x61,0x63
+	.DB  0x61,0x0,0x53,0x75,0x70,0x65,0x72,0x61
+	.DB  0x71,0x75,0x65,0x63,0x69,0x6D,0x65,0x6E
+	.DB  0x74,0x6F,0x0,0x45,0x72,0x72,0x6F,0x20
+	.DB  0x6E,0x6F,0x20,0x53,0x69,0x73,0x74,0x65
+	.DB  0x6D,0x61,0x0,0x45,0x73,0x74,0x61,0x64
+	.DB  0x6F,0x20,0x44,0x65,0x73,0x63,0x6F,0x6E
+	.DB  0x68,0x65,0x63,0x69,0x64,0x6F,0x0
 _0x60003:
 	.DB  0x32,0x32,0x33,0x34
 _0xA0003:
 	.DB  0xA
 _0xA0004:
 	.DB  0x40
+_0xE0008:
+	.DB  0x8A,0x2,0x26,0x2
 _0x2000003:
 	.DB  0x80,0xC0
 
@@ -1548,29 +1550,29 @@ __GLOBAL_INI_TBL:
 	.DW  _0x40009+113
 	.DW  _0x40000*2+107
 
-	.DW  0x10
+	.DW  0x0F
 	.DW  _0x40009+128
 	.DW  _0x40000*2+139
 
 	.DW  0x0F
-	.DW  _0x40009+144
+	.DW  _0x40009+143
 	.DW  _0x40000*2+107
 
 	.DW  0x11
-	.DW  _0x40009+159
-	.DW  _0x40000*2+155
+	.DW  _0x40009+158
+	.DW  _0x40000*2+154
 
 	.DW  0x0F
-	.DW  _0x40009+176
+	.DW  _0x40009+175
 	.DW  _0x40000*2+107
 
 	.DW  0x10
-	.DW  _0x40009+191
-	.DW  _0x40000*2+172
+	.DW  _0x40009+190
+	.DW  _0x40000*2+171
 
 	.DW  0x14
-	.DW  _0x40009+207
-	.DW  _0x40000*2+188
+	.DW  _0x40009+206
+	.DW  _0x40000*2+187
 
 	.DW  0x04
 	.DW  _password_G003
@@ -1583,6 +1585,10 @@ __GLOBAL_INI_TBL:
 	.DW  0x01
 	.DW  _column_S0050000000
 	.DW  _0xA0004*2
+
+	.DW  0x04
+	.DW  _f_S0070001000
+	.DW  _0xE0008*2
 
 	.DW  0x02
 	.DW  __base_y_G100
@@ -1691,11 +1697,29 @@ _0x3:
 ; 0000 0009 {
 ; 0000 000A SystemUpdate();
 	RCALL _SystemUpdate
-; 0000 000B }
-	RJMP _0x3
-; 0000 000C }
-_0x6:
+; 0000 000B if(PINB.0 == 0)
+	SBIC 0x16,0
 	RJMP _0x6
+; 0000 000C {
+; 0000 000D SystemSetState(ST_MOTION);
+	LDI  R26,LOW(5)
+	RCALL _SystemSetState
+; 0000 000E }
+; 0000 000F if(PINB.1 == 0)
+_0x6:
+	SBIC 0x16,1
+	RJMP _0x7
+; 0000 0010 {
+; 0000 0011 SystemSetState(ST_SMOKE);
+	LDI  R26,LOW(6)
+	RCALL _SystemSetState
+; 0000 0012 }
+; 0000 0013 }
+_0x7:
+	RJMP _0x3
+; 0000 0014 }
+_0x8:
+	RJMP _0x8
 ; .FEND
 	#ifndef __SLEEP_DEFINED__
 	#define __SLEEP_DEFINED__
@@ -1709,67 +1733,72 @@ _0x6:
 	.SET power_ctrl_reg=mcucr
 	#endif
 ;void SystemInit(void)
-; 0001 000D {
+; 0001 000F {
 
 	.CSEG
 _SystemInit:
 ; .FSTART _SystemInit
-; 0001 000E // Configuração de registradores
-; 0001 000F LCDInit();
+; 0001 0010 // Configuração de registradores
+; 0001 0011 LCDInit();
 	RCALL _LCDInit
-; 0001 0010 KEYPAD_init();
-	RCALL _KEYPAD_init
-; 0001 0011 TIMER1Init();
+; 0001 0012 KEYPADInit();
+	RCALL _KEYPADInit
+; 0001 0013 TIMER1Init();
 	RCALL _TIMER1Init
-; 0001 0012 #asm("sei");
+; 0001 0014 PWMInit();
+	RCALL _PWMInit
+; 0001 0015 #asm("sei");
 	SEI
-; 0001 0013 
-; 0001 0014 }
+; 0001 0016 
+; 0001 0017 }
 	RET
 ; .FEND
 ;void SystemUpdate(void)
-; 0001 0017 {
+; 0001 001A {
 _SystemUpdate:
 ; .FSTART _SystemUpdate
-; 0001 0018 if (lcd_update_pending)
+; 0001 001B if (lcd_update_pending)
 	SBRS R2,0
 	RJMP _0x20003
-; 0001 0019 {
-; 0001 001A LCDUpdate(current_state);
+; 0001 001C {
+; 0001 001D LCDUpdate(current_state);
 	LDS  R26,_current_state_G001
 	RCALL _LCDUpdate
-; 0001 001B lcd_update_pending = 0;
+; 0001 001E lcd_update_pending = 0;
 	CLT
 	BLD  R2,0
-; 0001 001C }
-; 0001 001D if(keypad_entry)
+; 0001 001F }
+; 0001 0020 if(keypad_entry)
 _0x20003:
 	SBRS R2,1
 	RJMP _0x20004
-; 0001 001E {
-; 0001 001F KEYPADProcess(current_state);
+; 0001 0021 {
+; 0001 0022 KEYPADProcess(current_state);
 	LDS  R26,_current_state_G001
 	RCALL _KEYPADProcess
-; 0001 0020 }
-; 0001 0021 }
+; 0001 0023 }
+; 0001 0024 BuzzerUpdate(current_state);
 _0x20004:
+	LDS  R26,_current_state_G001
+	RCALL _BuzzerUpdate
+; 0001 0025 }
 	RET
 ; .FEND
 ;void SystemSetState(SystemState state)
-; 0001 0024 {
+; 0001 0028 {
 _SystemSetState:
 ; .FSTART _SystemSetState
-; 0001 0025 current_state = state;
+; 0001 0029 current_state = state;
 	ST   -Y,R17
 	MOV  R17,R26
 ;	state -> R17
 	STS  _current_state_G001,R17
-; 0001 0026 lcd_update_pending = 1;
+; 0001 002A lcd_update_pending = 1;
 	SET
 	BLD  R2,0
-; 0001 0027 if (state == ST_DISARMED || state == ST_SHOCK ||
-; 0001 0028 state == ST_MOTION || state == ST_SMOKE ||
-; 0001 0029 state == ST_OVERHEAT)
+; 0001 002B if (state == ST_DISARMED || state == ST_SHOCK ||
+; 0001 002C state == ST_MOTION || state == ST_SMOKE ||
+; 0001 002D state == ST_OVERHEAT)
 	CPI  R17,3
 	BREQ _0x20006
 	CPI  R17,4
@@ -1781,29 +1810,29 @@ _SystemSetState:
 	CPI  R17,7
 	BRNE _0x20005
 _0x20006:
-; 0001 002A {
-; 0001 002B keypad_entry = 1;
+; 0001 002E {
+; 0001 002F keypad_entry = 1;
 	SET
 	BLD  R2,1
-; 0001 002C PasswordStart();
+; 0001 0030 PasswordStart();
 	RCALL _PasswordStart
-; 0001 002D }
-; 0001 002E else
+; 0001 0031 }
+; 0001 0032 else
 	RJMP _0x20008
 _0x20005:
-; 0001 002F {
-; 0001 0030 keypad_entry = 0;
+; 0001 0033 {
+; 0001 0034 keypad_entry = 0;
 	CLT
 	BLD  R2,1
-; 0001 0031 }
+; 0001 0035 }
 _0x20008:
-; 0001 0032 }
+; 0001 0036 }
 	JMP  _0x2080001
 ; .FEND
 ;SystemState SystemGetState(void)
-; 0001 0035 {
-; 0001 0036 return current_state;
-; 0001 0037 }
+; 0001 0039 {
+; 0001 003A return current_state;
+; 0001 003B }
 	#ifndef __SLEEP_DEFINED__
 	#define __SLEEP_DEFINED__
 	.EQU __se_bit=0x40
@@ -1870,7 +1899,7 @@ _WrongPasswordDisplay:
 	RCALL SUBOPT_0x2
 ; 0002 001C lcd_puts("Senha Incorreta");
 	__POINTW2MN _0x40003,0
-	RJMP _0x2080004
+	RJMP _0x2080005
 ; 0002 001D }
 ; .FEND
 
@@ -1887,7 +1916,7 @@ _CorrectPasswordDisplay:
 	RCALL _lcd_clear
 ; 0002 0022 lcd_puts("Senha Correta");
 	__POINTW2MN _0x40004,0
-_0x2080004:
+_0x2080005:
 	RCALL _lcd_puts
 ; 0002 0023 }
 	RET
@@ -1984,13 +2013,13 @@ _0x4000D:
 _0x4000E:
 	CPI  R30,LOW(0x6)
 	BRNE _0x4000F
-; 0002 004B lcd_puts("Alerta: Fumaça");
+; 0002 004B lcd_puts("Alerta: Fumaca");
 	__POINTW2MN _0x40009,128
 	RCALL _lcd_puts
 ; 0002 004C lcd_gotoxy(0, 1);
 	RCALL SUBOPT_0x2
 ; 0002 004D lcd_puts("Senha: _ _ _ _");
-	__POINTW2MN _0x40009,144
+	__POINTW2MN _0x40009,143
 	RJMP _0x40013
 ; 0002 004E break;
 ; 0002 004F 
@@ -1999,12 +2028,12 @@ _0x4000F:
 	CPI  R30,LOW(0x7)
 	BRNE _0x40010
 ; 0002 0051 lcd_puts("Superaquecimento");
-	__POINTW2MN _0x40009,159
+	__POINTW2MN _0x40009,158
 	RCALL _lcd_puts
 ; 0002 0052 lcd_gotoxy(0, 1);
 	RCALL SUBOPT_0x2
 ; 0002 0053 lcd_puts("Senha: _ _ _ _");
-	__POINTW2MN _0x40009,176
+	__POINTW2MN _0x40009,175
 	RJMP _0x40013
 ; 0002 0054 break;
 ; 0002 0055 
@@ -2013,14 +2042,14 @@ _0x40010:
 	CPI  R30,LOW(0x8)
 	BRNE _0x40012
 ; 0002 0057 lcd_puts("Erro no Sistema");
-	__POINTW2MN _0x40009,191
+	__POINTW2MN _0x40009,190
 	RJMP _0x40013
 ; 0002 0058 break;
 ; 0002 0059 
 ; 0002 005A default:
 _0x40012:
 ; 0002 005B lcd_puts("Estado Desconhecido");
-	__POINTW2MN _0x40009,207
+	__POINTW2MN _0x40009,206
 _0x40013:
 	RCALL _lcd_puts
 ; 0002 005C break;
@@ -2031,7 +2060,7 @@ _0x40013:
 
 	.DSEG
 _0x40009:
-	.BYTE 0xE3
+	.BYTE 0xE2
 
 	.DSEG
 ;void PasswordStart(void)
@@ -2213,8 +2242,9 @@ _TIMER1Init:
 ; 0004 000F TCCR1B = 0x05; // Prescaler de 64
 	LDI  R30,LOW(5)
 	OUT  0x2E,R30
-; 0004 0010 TIMSK = 0x10; // Habilita interrupção do Timer1 via comparacao registrador A
-	LDI  R30,LOW(16)
+; 0004 0010 TIMSK |= 0x10; // Habilita interrupção do Timer1 sem desabilitar o Timer0
+	IN   R30,0x39
+	ORI  R30,0x10
 	OUT  0x39,R30
 ; 0004 0011 OCR1A = 0x00;
 	LDI  R30,LOW(0)
@@ -2226,19 +2256,50 @@ _TIMER1Init:
 ; .FEND
 ;void UpdateTIMER1CompareValue(unsigned int time)
 ; 0004 0015 {
+_UpdateTIMER1CompareValue:
+; .FSTART _UpdateTIMER1CompareValue
 ; 0004 0016 // Recebe um periodo em ms e atualiza o valor do registrador de comparacao A do Timer1
 ; 0004 0017 OCR1A = (14400UL * time) / 1000UL - 1;
+	ST   -Y,R17
+	ST   -Y,R16
+	MOVW R16,R26
 ;	time -> R16,R17
+	MOVW R30,R16
+	CLR  R22
+	CLR  R23
+	__GETD2N 0x3840
+	RCALL __MULD12U
+	MOVW R26,R30
+	MOVW R24,R22
+	__GETD1N 0x3E8
+	RCALL __DIVD21U
+	SBIW R30,1
+	OUT  0x2A+1,R31
+	OUT  0x2A,R30
 ; 0004 0018 }
+	RJMP _0x2080004
+; .FEND
 ;unsigned char GetTIMER1Flag(void)
 ; 0004 001B {
+_GetTIMER1Flag:
+; .FSTART _GetTIMER1Flag
 ; 0004 001C return flag_tim1;
+	LDS  R30,_flag_tim1_G004
+	RET
 ; 0004 001D }
+; .FEND
 ;void SetTIMER1Flag(unsigned char value)
 ; 0004 0020 {
+_SetTIMER1Flag:
+; .FSTART _SetTIMER1Flag
 ; 0004 0021 flag_tim1 = value;
+	ST   -Y,R17
+	MOV  R17,R26
 ;	value -> R17
+	STS  _flag_tim1_G004,R17
 ; 0004 0022 }
+	JMP  _0x2080001
+; .FEND
 	#ifndef __SLEEP_DEFINED__
 	#define __SLEEP_DEFINED__
 	.EQU __se_bit=0x40
@@ -2251,7 +2312,7 @@ _TIMER1Init:
 	.SET power_ctrl_reg=mcucr
 	#endif
 ;interrupt [10] void timer0_ovf_isr(void)
-; 0005 0019 {
+; 0005 001A {
 
 	.CSEG
 _timer0_ovf_isr:
@@ -2262,29 +2323,29 @@ _timer0_ovf_isr:
 	ST   -Y,R31
 	IN   R30,SREG
 	ST   -Y,R30
-; 0005 001A // Interrupção do Timer0 para varredura do teclado a cada 2ms
-; 0005 001B static byte key_pressed_counter = 10;
+; 0005 001B // Interrupção do Timer0 para varredura do teclado a cada 2ms
+; 0005 001C static byte key_pressed_counter = 10;
 
 	.DSEG
 
 	.CSEG
-; 0005 001C static byte key_released_counter, column = FIRST_COLUMN;
+; 0005 001D static byte key_released_counter, column = FIRST_COLUMN;
 
 	.DSEG
 
 	.CSEG
-; 0005 001D static unsigned row_data, crt_key;
-; 0005 001E 
-; 0005 001F // Reinicia o timer0
-; 0005 0020 TCNT0 = 0x8D; // 2ms
+; 0005 001E static unsigned row_data, crt_key;
+; 0005 001F 
+; 0005 0020 // Reinicia o timer0
+; 0005 0021 TCNT0 = 0x8D; // 2ms
 	LDI  R30,LOW(141)
 	OUT  0x32,R30
-; 0005 0021 
-; 0005 0022 row_data <<= 4;
+; 0005 0022 
+; 0005 0023 row_data <<= 4;
 	RCALL SUBOPT_0x4
 	RCALL __LSLW4
 	RCALL SUBOPT_0x5
-; 0005 0023 row_data |= ~(KEYIN)&0xF; // le as linhas do teclado
+; 0005 0024 row_data |= ~(KEYIN)&0xF; // le as linhas do teclado
 	IN   R30,0x13
 	COM  R30
 	ANDI R30,LOW(0xF)
@@ -2293,102 +2354,102 @@ _timer0_ovf_isr:
 	OR   R30,R26
 	OR   R31,R27
 	RCALL SUBOPT_0x5
-; 0005 0024 column >>= 1; // muda para a proxima coluna
+; 0005 0025 column >>= 1; // muda para a proxima coluna
 	LDS  R30,_column_S0050000000
 	LSR  R30
 	STS  _column_S0050000000,R30
-; 0005 0025 
-; 0005 0026 if(column == (LAST_COLUMN >> 1)) // se chegou na ultima coluna
+; 0005 0026 
+; 0005 0027 if(column == (LAST_COLUMN >> 1)) // se chegou na ultima coluna
 	LDS  R26,_column_S0050000000
 	CPI  R26,LOW(0x8)
 	BRNE _0xA0005
-; 0005 0027 {
-; 0005 0028 column = FIRST_COLUMN; // volta para a primeira coluna
+; 0005 0028 {
+; 0005 0029 column = FIRST_COLUMN; // volta para a primeira coluna
 	LDI  R30,LOW(64)
 	STS  _column_S0050000000,R30
-; 0005 0029 
-; 0005 002A // Verifica se alguma tecla foi pressionada, logica para debouncing
-; 0005 002B if(row_data == 0)
+; 0005 002A 
+; 0005 002B // Verifica se alguma tecla foi pressionada, logica para debouncing
+; 0005 002C if(row_data == 0)
 	RCALL SUBOPT_0x4
 	SBIW R30,0
 	BREQ _0xA0007
-; 0005 002C {
-; 0005 002D goto new_key;
-; 0005 002E }
-; 0005 002F if(key_released_counter)
+; 0005 002D {
+; 0005 002E goto new_key;
+; 0005 002F }
+; 0005 0030 if(key_released_counter)
 	LDS  R30,_key_released_counter_S0050000000
 	CPI  R30,0
 	BREQ _0xA0008
-; 0005 0030 {
-; 0005 0031 --key_released_counter;
+; 0005 0031 {
+; 0005 0032 --key_released_counter;
 	SUBI R30,LOW(1)
 	RJMP _0xA001C
-; 0005 0032 }
-; 0005 0033 else
+; 0005 0033 }
+; 0005 0034 else
 _0xA0008:
-; 0005 0034 {
-; 0005 0035 if(--key_pressed_counter == 9)
+; 0005 0035 {
+; 0005 0036 if(--key_pressed_counter == 9)
 	LDS  R26,_key_pressed_counter_S0050000000
 	SUBI R26,LOW(1)
 	STS  _key_pressed_counter_S0050000000,R26
 	CPI  R26,LOW(0x9)
 	BRNE _0xA000A
-; 0005 0036 {
-; 0005 0037 crt_key = row_data;
+; 0005 0037 {
+; 0005 0038 crt_key = row_data;
 	RCALL SUBOPT_0x4
 	STS  _crt_key_S0050000000,R30
 	STS  _crt_key_S0050000000+1,R31
-; 0005 0038 }
-; 0005 0039 else
+; 0005 0039 }
+; 0005 003A else
 	RJMP _0xA000B
 _0xA000A:
-; 0005 003A {
-; 0005 003B if(row_data != crt_key)
+; 0005 003B {
+; 0005 003C if(row_data != crt_key)
 	LDS  R30,_crt_key_S0050000000
 	LDS  R31,_crt_key_S0050000000+1
 	RCALL SUBOPT_0x6
 	CP   R30,R26
 	CPC  R31,R27
 	BREQ _0xA000C
-; 0005 003C {
-; 0005 003D new_key:
+; 0005 003D {
+; 0005 003E new_key:
 _0xA0007:
-; 0005 003E key_pressed_counter = 10;
+; 0005 003F key_pressed_counter = 10;
 	LDI  R30,LOW(10)
 	STS  _key_pressed_counter_S0050000000,R30
-; 0005 003F key_released_counter = 10;
+; 0005 0040 key_released_counter = 10;
 	RJMP _0xA001C
-; 0005 0040 goto end_key;
-; 0005 0041 }
-; 0005 0042 if(!key_pressed_counter)
+; 0005 0041 goto end_key;
+; 0005 0042 }
+; 0005 0043 if(!key_pressed_counter)
 _0xA000C:
 	LDS  R30,_key_pressed_counter_S0050000000
 	CPI  R30,0
 	BRNE _0xA000E
-; 0005 0043 {
-; 0005 0044 keys = row_data;
+; 0005 0044 {
+; 0005 0045 keys = row_data;
 	__GETWRMN 4,5,0,_row_data_S0050000000
-; 0005 0045 key_released_counter = 20;
+; 0005 0046 key_released_counter = 20;
 	LDI  R30,LOW(20)
 _0xA001C:
 	STS  _key_released_counter_S0050000000,R30
-; 0005 0046 }
 ; 0005 0047 }
+; 0005 0048 }
 _0xA000E:
 _0xA000B:
-; 0005 0048 }
-; 0005 0049 end_key:
-; 0005 004A row_data = 0;
+; 0005 0049 }
+; 0005 004A end_key:
+; 0005 004B row_data = 0;
 	LDI  R30,LOW(0)
 	STS  _row_data_S0050000000,R30
 	STS  _row_data_S0050000000+1,R30
-; 0005 004B }
-; 0005 004C KEYOUT = ~column; // seleciona a proxima coluna do teclado
+; 0005 004C }
+; 0005 004D KEYOUT = ~column; // seleciona a proxima coluna do teclado
 _0xA0005:
 	LDS  R30,_column_S0050000000
 	COM  R30
 	OUT  0x15,R30
-; 0005 004D }
+; 0005 004E }
 	LD   R30,Y+
 	OUT  SREG,R30
 	LD   R31,Y+
@@ -2398,12 +2459,12 @@ _0xA0005:
 	RETI
 ; .FEND
 ;unsigned InKey(void)
-; 0005 0050 {
+; 0005 0051 {
 _InKey:
 ; .FSTART _InKey
-; 0005 0051 // Retorna o valor da tecla pressionada, se houver
-; 0005 0052 unsigned k;
-; 0005 0053 if (k=keys)
+; 0005 0052 // Retorna o valor da tecla pressionada, se houver
+; 0005 0053 unsigned k;
+; 0005 0054 if (k=keys)
 	ST   -Y,R17
 	ST   -Y,R16
 ;	k -> R16,R17
@@ -2411,56 +2472,57 @@ _InKey:
 	MOVW R16,R30
 	SBIW R30,0
 	BREQ _0xA000F
-; 0005 0054 keys = 0;
+; 0005 0055 keys = 0;
 	CLR  R4
 	CLR  R5
-; 0005 0055 return k;
+; 0005 0056 return k;
 _0xA000F:
 	MOVW R30,R16
+_0x2080004:
 	LD   R16,Y+
 	LD   R17,Y+
 	RET
-; 0005 0056 }
+; 0005 0057 }
 ; .FEND
-;void KEYPAD_init(void)
-; 0005 0059 {
-_KEYPAD_init:
-; .FSTART _KEYPAD_init
-; 0005 005A // Configuracoes dos registradores do teclado
-; 0005 005B DDRC |= 0x70; // Bits 0..3: entrada, 4..6: saida - Ultima coluna inativa
+;void KEYPADInit(void)
+; 0005 005A {
+_KEYPADInit:
+; .FSTART _KEYPADInit
+; 0005 005B // Configuracoes dos registradores do teclado
+; 0005 005C DDRC |= 0x70; // Bits 0..3: entrada, 4..6: saida - Ultima coluna inativa
 	IN   R30,0x14
 	ORI  R30,LOW(0x70)
 	OUT  0x14,R30
-; 0005 005C PORTC |= 0x7f; // saida alta em 4..6
+; 0005 005D PORTC |= 0x7f; // saida alta em 4..6
 	IN   R30,0x15
 	ORI  R30,LOW(0x7F)
 	OUT  0x15,R30
-; 0005 005D 
-; 0005 005E // Configuracoes do Timer0 para varredura do teclado a cada 2ms
-; 0005 005F TCCR0 |= 0x04;
+; 0005 005E 
+; 0005 005F // Configuracoes do Timer0 para varredura do teclado a cada 2ms
+; 0005 0060 TCCR0 |= 0x04;
 	IN   R30,0x33
 	ORI  R30,4
 	OUT  0x33,R30
-; 0005 0060 TCNT0 |= 0x8D;
+; 0005 0061 TCNT0 |= 0x8D;
 	IN   R30,0x32
 	ORI  R30,LOW(0x8D)
 	OUT  0x32,R30
-; 0005 0061 
-; 0005 0062 TIMSK |= 0x01; // habilita interrupcao do Timer0
+; 0005 0062 
+; 0005 0063 TIMSK |= 0x01; // habilita interrupcao do Timer0
 	IN   R30,0x39
 	ORI  R30,1
 	OUT  0x39,R30
-; 0005 0063 }
+; 0005 0064 }
 	RET
 ; .FEND
 ;unsigned char KeyToIndex (unsigned key)
-; 0005 0066 {
+; 0005 0067 {
 _KeyToIndex:
 ; .FSTART _KeyToIndex
-; 0005 0067 // Converte o valor da tecla pressionada para um índice de 0 a 11
-; 0005 0068 unsigned char i;
-; 0005 0069 
-; 0005 006A for (i = 0; i < 12; i++)
+; 0005 0068 // Converte o valor da tecla pressionada para um índice de 0 a 11
+; 0005 0069 unsigned char i;
+; 0005 006A 
+; 0005 006B for (i = 0; i < 12; i++)
 	RCALL __SAVELOCR4
 	MOVW R18,R26
 ;	key -> R18,R19
@@ -2469,8 +2531,8 @@ _KeyToIndex:
 _0xA0011:
 	CPI  R17,12
 	BRSH _0xA0012
-; 0005 006B {
-; 0005 006C if (key & (1U << i))
+; 0005 006C {
+; 0005 006D if (key & (1U << i))
 	MOV  R30,R17
 	LDI  R26,LOW(1)
 	LDI  R27,HIGH(1)
@@ -2479,29 +2541,29 @@ _0xA0011:
 	AND  R31,R19
 	SBIW R30,0
 	BREQ _0xA0013
-; 0005 006D 
-; 0005 006E return i;
+; 0005 006E 
+; 0005 006F return i;
 	MOV  R30,R17
-	RJMP _0x2080002
-; 0005 006F }
+	JMP  _0x2080002
+; 0005 0070 }
 _0xA0013:
 	SUBI R17,-1
 	RJMP _0xA0011
 _0xA0012:
-; 0005 0070 }
-	RJMP _0x2080002
+; 0005 0071 }
+	JMP  _0x2080002
 ; .FEND
 ;void KEYPADProcess(SystemState state)
-; 0005 0073 {
+; 0005 0074 {
 _KEYPADProcess:
 ; .FSTART _KEYPADProcess
-; 0005 0074 // Processa a tecla pressionada, se houver
-; 0005 0075 unsigned k;
-; 0005 0076 unsigned char index;
-; 0005 0077 char key;
-; 0005 0078 PasswordResult password_result;
-; 0005 0079 
-; 0005 007A if(k=InKey())
+; 0005 0075 // Processa a tecla pressionada, se houver
+; 0005 0076 unsigned k;
+; 0005 0077 unsigned char index;
+; 0005 0078 char key;
+; 0005 0079 PasswordResult password_result;
+; 0005 007A 
+; 0005 007B if(k=InKey())
 	RCALL __SAVELOCR6
 	MOV  R20,R26
 ;	state -> R20
@@ -2513,67 +2575,377 @@ _KEYPADProcess:
 	MOVW R16,R30
 	SBIW R30,0
 	BREQ _0xA0014
-; 0005 007B {
-; 0005 007C index = KeyToIndex(k);
+; 0005 007C {
+; 0005 007D index = KeyToIndex(k);
 	MOVW R26,R16
 	RCALL _KeyToIndex
 	MOV  R19,R30
-; 0005 007D key = keymap[index];
+; 0005 007E key = keymap[index];
 	RCALL SUBOPT_0x7
 	LPM  R18,Z
-; 0005 007E if (key == '<') // Tecla *
+; 0005 007F if (key == '<') // Tecla <
 	CPI  R18,60
 	BRNE _0xA0015
-; 0005 007F {
-; 0005 0080 CleanLastDigit();
+; 0005 0080 {
+; 0005 0081 CleanLastDigit();
 	RCALL _CleanLastDigit
-; 0005 0081 }
-; 0005 0082 else if (key == '#') // Tecla #
+; 0005 0082 }
+; 0005 0083 else if (key == '#') // Tecla #
 	RJMP _0xA0016
 _0xA0015:
 	CPI  R18,35
 	BRNE _0xA0017
-; 0005 0083 {
-; 0005 0084 password_result = PasswordConfirm();
+; 0005 0084 {
+; 0005 0085 password_result = PasswordConfirm();
 	RCALL _PasswordConfirm
 	MOV  R21,R30
-; 0005 0085 delay_ms(1000);
+; 0005 0086 delay_ms(1000);
 	LDI  R26,LOW(1000)
 	LDI  R27,HIGH(1000)
 	RCALL _delay_ms
-; 0005 0086 if (password_result == PASSWORD_INCORRECT)
+; 0005 0087 if (password_result == PASSWORD_INCORRECT)
 	CPI  R21,2
 	BRNE _0xA0018
-; 0005 0087 SystemSetState(state);
+; 0005 0088 SystemSetState(state);
 	MOV  R26,R20
 	RJMP _0xA001D
-; 0005 0088 else if (password_result == PASSWORD_CORRECT)
+; 0005 0089 else if (password_result == PASSWORD_CORRECT)
 _0xA0018:
 	CPI  R21,1
 	BRNE _0xA001A
-; 0005 0089 SystemSetState(ST_DISARMED);
+; 0005 008A SystemSetState(ST_DISARMED);
 	LDI  R26,LOW(3)
 _0xA001D:
 	RCALL _SystemSetState
-; 0005 008A }
+; 0005 008B BeepSound();
 _0xA001A:
-; 0005 008B else
+	RCALL _BeepSound
+; 0005 008C }
+; 0005 008D else
 	RJMP _0xA001B
 _0xA0017:
-; 0005 008C {
-; 0005 008D PasswordInput(keymap[index]);
+; 0005 008E {
+; 0005 008F PasswordInput(keymap[index]);
 	RCALL SUBOPT_0x7
 	LPM  R26,Z
 	RCALL _PasswordInput
-; 0005 008E }
+; 0005 0090 }
 _0xA001B:
 _0xA0016:
-; 0005 008F }
-; 0005 0090 }
+; 0005 0091 }
+; 0005 0092 }
 _0xA0014:
 	RCALL __LOADLOCR6
 	ADIW R28,6
 	RET
+; .FEND
+	#ifndef __SLEEP_DEFINED__
+	#define __SLEEP_DEFINED__
+	.EQU __se_bit=0x40
+	.EQU __sm_mask=0xB0
+	.EQU __sm_powerdown=0x20
+	.EQU __sm_powersave=0x30
+	.EQU __sm_standby=0xA0
+	.EQU __sm_ext_standby=0xB0
+	.EQU __sm_adc_noise_red=0x10
+	.SET power_ctrl_reg=mcucr
+	#endif
+;void PWMInit(void)
+; 0006 0005 {
+
+	.CSEG
+_PWMInit:
+; .FSTART _PWMInit
+; 0006 0006 // Configuracoes do PWM no modo geracao de onda quadrada no timer 2
+; 0006 0007 // modo CTC (clear timer on compare match), prescaler = 1024, pino PD7 pro PWM2
+; 0006 0008 TCCR2 = 0b00011100;
+	LDI  R30,LOW(28)
+	OUT  0x25,R30
+; 0006 0009 DDRD = 0x80;
+	LDI  R30,LOW(128)
+	OUT  0x11,R30
+; 0006 000A }
+	RET
+; .FEND
+;void SetPWMFrequency(unsigned int frequency)
+; 0006 000D {
+_SetPWMFrequency:
+; .FSTART _SetPWMFrequency
+; 0006 000E // Altera o registrador OCR2 para alterar a frequencia do PWM
+; 0006 000F unsigned char reg;
+; 0006 0010 
+; 0006 0011 if(frequency == 0) {
+	RCALL __SAVELOCR4
+	MOVW R18,R26
+;	frequency -> R18,R19
+;	reg -> R17
+	MOV  R0,R18
+	OR   R0,R19
+	BRNE _0xC0003
+; 0006 0012 DDRD &= ~0x80; // Desliga o pino PD7
+	CBI  0x11,7
+; 0006 0013 return;
+	RJMP _0x2080002
+; 0006 0014 }
+; 0006 0015 
+; 0006 0016 DDRD |= 0x80;
+_0xC0003:
+	SBI  0x11,7
+; 0006 0017 
+; 0006 0018 reg = (unsigned char)((14745600UL / (128UL * frequency)) - 1);
+	MOVW R30,R18
+	CLR  R22
+	CLR  R23
+	__GETD2N 0x80
+	RCALL __MULD12U
+	__GETD2N 0xE10000
+	RCALL __DIVD21U
+	SUBI R30,LOW(1)
+	MOV  R17,R30
+; 0006 0019 OCR2 = reg;
+	OUT  0x23,R17
+; 0006 001A }
+	RJMP _0x2080002
+; .FEND
+;void PoliceSiren(void)
+; 0007 0006 {
+
+	.CSEG
+_PoliceSiren:
+; .FSTART _PoliceSiren
+; 0007 0007 static unsigned int f;
+; 0007 0008 static bit drive = 1;  // Variavel para controlar a direcao da frequencia: 1 - subindo, 0 - descendo
+; 0007 0009 
+; 0007 000A UpdateTIMER1CompareValue(20);
+	RCALL SUBOPT_0x8
+; 0007 000B 
+; 0007 000C if(GetTIMER1Flag())
+	BREQ _0xE0003
+; 0007 000D {
+; 0007 000E SetTIMER1Flag(0);
+	LDI  R26,LOW(0)
+	RCALL _SetTIMER1Flag
+; 0007 000F 
+; 0007 0010 if (drive == 1)
+	SBRS R2,2
+	RJMP _0xE0004
+; 0007 0011 {
+; 0007 0012 f += 10;
+	RCALL SUBOPT_0x9
+	ADIW R30,10
+	RCALL SUBOPT_0xA
+; 0007 0013 if (f >= 1400) {
+	CPI  R26,LOW(0x578)
+	LDI  R30,HIGH(0x578)
+	CPC  R27,R30
+	BRLO _0xE0005
+; 0007 0014 drive = 0;
+	CLT
+	BLD  R2,2
+; 0007 0015 }
+; 0007 0016 }
+_0xE0005:
+; 0007 0017 else
+	RJMP _0xE0006
+_0xE0004:
+; 0007 0018 {
+; 0007 0019 f -= 10;
+	RCALL SUBOPT_0x9
+	SBIW R30,10
+	RCALL SUBOPT_0xA
+; 0007 001A if (f <= 600) {
+	CPI  R26,LOW(0x259)
+	LDI  R30,HIGH(0x259)
+	CPC  R27,R30
+	BRSH _0xE0007
+; 0007 001B drive = 1;
+	SET
+	BLD  R2,2
+; 0007 001C }
+; 0007 001D }
+_0xE0007:
+_0xE0006:
+; 0007 001E 
+; 0007 001F SetPWMFrequency(f);
+	LDS  R26,_f_S0070000000
+	LDS  R27,_f_S0070000000+1
+	RCALL _SetPWMFrequency
+; 0007 0020 }
+; 0007 0021 }
+_0xE0003:
+	RET
+; .FEND
+;void FireAlarm(void)
+; 0007 0024 {
+_FireAlarm:
+; .FSTART _FireAlarm
+; 0007 0025 static unsigned int f[2] = {650, 550};
+
+	.DSEG
+
+	.CSEG
+; 0007 0026 static bit drive = 0;
+; 0007 0027 
+; 0007 0028 UpdateTIMER1CompareValue(20);
+	RCALL SUBOPT_0x8
+; 0007 0029 
+; 0007 002A if(GetTIMER1Flag())
+	BREQ _0xE0009
+; 0007 002B {
+; 0007 002C SetTIMER1Flag(0);
+	LDI  R26,LOW(0)
+	RCALL _SetTIMER1Flag
+; 0007 002D 
+; 0007 002E if (drive == 0)
+	SBRC R2,3
+	RJMP _0xE000A
+; 0007 002F {
+; 0007 0030 f[drive] += 1;
+	RCALL SUBOPT_0xB
+	ADIW R30,1
+	ST   -X,R31
+	ST   -X,R30
+; 0007 0031 if (f[drive] >= 750) {
+	RCALL SUBOPT_0xB
+	CPI  R30,LOW(0x2EE)
+	LDI  R26,HIGH(0x2EE)
+	CPC  R31,R26
+	BRLO _0xE000B
+; 0007 0032 drive = 1;
+	SET
+	BLD  R2,3
+; 0007 0033 f[0] = 650;
+	LDI  R30,LOW(650)
+	LDI  R31,HIGH(650)
+	STS  _f_S0070001000,R30
+	STS  _f_S0070001000+1,R31
+; 0007 0034 }
+; 0007 0035 }
+_0xE000B:
+; 0007 0036 else
+	RJMP _0xE000C
+_0xE000A:
+; 0007 0037 {
+; 0007 0038 f[drive] -= 1;
+	RCALL SUBOPT_0xB
+	SBIW R30,1
+	ST   -X,R31
+	ST   -X,R30
+; 0007 0039 if (f[drive] <= 450) {
+	RCALL SUBOPT_0xB
+	CPI  R30,LOW(0x1C3)
+	LDI  R26,HIGH(0x1C3)
+	CPC  R31,R26
+	BRSH _0xE000D
+; 0007 003A drive = 0;
+	CLT
+	BLD  R2,3
+; 0007 003B f[1] = 550;
+	__POINTW1MN _f_S0070001000,2
+	LDI  R26,LOW(550)
+	LDI  R27,HIGH(550)
+	STD  Z+0,R26
+	STD  Z+1,R27
+; 0007 003C }
+; 0007 003D }
+_0xE000D:
+_0xE000C:
+; 0007 003E 
+; 0007 003F SetPWMFrequency(f[drive]);
+	RCALL SUBOPT_0xB
+	MOVW R26,R30
+	RCALL _SetPWMFrequency
+; 0007 0040 }
+; 0007 0041 }
+_0xE0009:
+	RET
+; .FEND
+;void StopSound(void)
+; 0007 0044 {
+_StopSound:
+; .FSTART _StopSound
+; 0007 0045 SetPWMFrequency(0);
+	LDI  R26,LOW(0)
+	LDI  R27,0
+	RCALL _SetPWMFrequency
+; 0007 0046 UpdateTIMER1CompareValue(0);
+	LDI  R26,LOW(0)
+	LDI  R27,0
+	RCALL _UpdateTIMER1CompareValue
+; 0007 0047 }
+	RET
+; .FEND
+;void BeepSound(void)
+; 0007 004A {
+_BeepSound:
+; .FSTART _BeepSound
+; 0007 004B UpdateTIMER1CompareValue(20);
+	RCALL SUBOPT_0x8
+; 0007 004C if(GetTIMER1Flag()) {
+	BREQ _0xE000E
+; 0007 004D SetTIMER1Flag(0);
+	LDI  R26,LOW(0)
+	RCALL _SetTIMER1Flag
+; 0007 004E SetPWMFrequency(2000);
+	LDI  R26,LOW(2000)
+	LDI  R27,HIGH(2000)
+	RJMP _0xE001A
+; 0007 004F }
+; 0007 0050 else {
+_0xE000E:
+; 0007 0051 SetPWMFrequency(0);
+	LDI  R26,LOW(0)
+	LDI  R27,0
+_0xE001A:
+	RCALL _SetPWMFrequency
+; 0007 0052 }
+; 0007 0053 }
+	RET
+; .FEND
+;void BuzzerUpdate(SystemState state)
+; 0007 0056 {
+_BuzzerUpdate:
+; .FSTART _BuzzerUpdate
+; 0007 0057 switch (state)
+	ST   -Y,R17
+	MOV  R17,R26
+;	state -> R17
+	MOV  R30,R17
+; 0007 0058 {
+; 0007 0059 case ST_MOTION:
+	CPI  R30,LOW(0x5)
+	BREQ _0xE0014
+; 0007 005A case ST_SHOCK:
+	CPI  R30,LOW(0x4)
+	BRNE _0xE0015
+_0xE0014:
+; 0007 005B PoliceSiren();
+	RCALL _PoliceSiren
+; 0007 005C break;
+	RJMP _0xE0012
+; 0007 005D 
+; 0007 005E case ST_OVERHEAT:
+_0xE0015:
+	CPI  R30,LOW(0x7)
+	BREQ _0xE0017
+; 0007 005F case ST_SMOKE:
+	CPI  R30,LOW(0x6)
+	BRNE _0xE0019
+_0xE0017:
+; 0007 0060 FireAlarm();
+	RCALL _FireAlarm
+; 0007 0061 break;
+	RJMP _0xE0012
+; 0007 0062 
+; 0007 0063 default:
+_0xE0019:
+; 0007 0064 StopSound();
+	RCALL _StopSound
+; 0007 0065 break;
+; 0007 0066 }
+_0xE0012:
+; 0007 0067 }
+	RJMP _0x2080001
 ; .FEND
 	#ifndef __SLEEP_DEFINED__
 	#define __SLEEP_DEFINED__
@@ -2643,11 +3015,11 @@ _0x2080003:
 _lcd_clear:
 ; .FSTART _lcd_clear
 	LDI  R26,LOW(2)
-	RCALL SUBOPT_0x8
+	RCALL SUBOPT_0xC
 	LDI  R26,LOW(12)
 	RCALL __lcd_write_data
 	LDI  R26,LOW(1)
-	RCALL SUBOPT_0x8
+	RCALL SUBOPT_0xC
 	LDI  R30,LOW(0)
 	MOV  R6,R30
 	MOV  R7,R30
@@ -2720,9 +3092,9 @@ _lcd_init:
 	LDI  R26,LOW(20)
 	LDI  R27,0
 	RCALL _delay_ms
-	RCALL SUBOPT_0x9
-	RCALL SUBOPT_0x9
-	RCALL SUBOPT_0x9
+	RCALL SUBOPT_0xD
+	RCALL SUBOPT_0xD
+	RCALL SUBOPT_0xD
 	LDI  R26,LOW(32)
 	RCALL __lcd_write_nibble_G100
 	__DELAY_USW 369
@@ -2780,6 +3152,10 @@ _row_data_S0050000000:
 	.BYTE 0x2
 _crt_key_S0050000000:
 	.BYTE 0x2
+_f_S0070000000:
+	.BYTE 0x2
+_f_S0070001000:
+	.BYTE 0x4
 __base_y_G100:
 	.BYTE 0x4
 
@@ -2842,15 +3218,54 @@ SUBOPT_0x7:
 	SBCI R31,HIGH(-_keymap_G005*2)
 	RET
 
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
+;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:6 WORDS
 SUBOPT_0x8:
+	LDI  R26,LOW(20)
+	LDI  R27,0
+	RCALL _UpdateTIMER1CompareValue
+	RCALL _GetTIMER1Flag
+	CPI  R30,0
+	RET
+
+;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
+SUBOPT_0x9:
+	LDS  R30,_f_S0070000000
+	LDS  R31,_f_S0070000000+1
+	RET
+
+;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:5 WORDS
+SUBOPT_0xA:
+	STS  _f_S0070000000,R30
+	STS  _f_S0070000000+1,R31
+	LDS  R26,_f_S0070000000
+	LDS  R27,_f_S0070000000+1
+	RET
+
+;OPTIMIZER ADDED SUBROUTINE, CALLED 5 TIMES, CODE SIZE REDUCTION:42 WORDS
+SUBOPT_0xB:
+	LDI  R30,0
+	SBRC R2,3
+	LDI  R30,1
+	LDI  R26,LOW(_f_S0070001000)
+	LDI  R27,HIGH(_f_S0070001000)
+	LDI  R31,0
+	LSL  R30
+	ROL  R31
+	ADD  R26,R30
+	ADC  R27,R31
+	LD   R30,X+
+	LD   R31,X+
+	RET
+
+;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
+SUBOPT_0xC:
 	RCALL __lcd_write_data
 	LDI  R26,LOW(3)
 	LDI  R27,0
 	RJMP _delay_ms
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:8 WORDS
-SUBOPT_0x9:
+SUBOPT_0xD:
 	LDI  R26,LOW(48)
 	RCALL __lcd_write_nibble_G100
 	__DELAY_USW 369
@@ -2918,6 +3333,82 @@ __LSLW2:
 	ROL  R31
 	LSL  R30
 	ROL  R31
+	RET
+
+__MULD12:
+__MULD12U:
+	MUL  R23,R26
+	MOV  R23,R0
+	MUL  R22,R27
+	ADD  R23,R0
+	MUL  R31,R24
+	ADD  R23,R0
+	MUL  R30,R25
+	ADD  R23,R0
+	MUL  R22,R26
+	MOV  R22,R0
+	ADD  R23,R1
+	MUL  R31,R27
+	ADD  R22,R0
+	ADC  R23,R1
+	MUL  R30,R24
+	ADD  R22,R0
+	ADC  R23,R1
+	CLR  R24
+	MUL  R31,R26
+	MOV  R31,R0
+	ADD  R22,R1
+	ADC  R23,R24
+	MUL  R30,R27
+	ADD  R31,R0
+	ADC  R22,R1
+	ADC  R23,R24
+	MUL  R30,R26
+	MOV  R30,R0
+	ADD  R31,R1
+	ADC  R22,R24
+	ADC  R23,R24
+	RET
+
+__DIVD21U:
+	PUSH R19
+	PUSH R20
+	PUSH R21
+	CLR  R0
+	CLR  R1
+	MOVW R20,R0
+	LDI  R19,32
+__DIVD21U1:
+	LSL  R26
+	ROL  R27
+	ROL  R24
+	ROL  R25
+	ROL  R0
+	ROL  R1
+	ROL  R20
+	ROL  R21
+	SUB  R0,R30
+	SBC  R1,R31
+	SBC  R20,R22
+	SBC  R21,R23
+	BRCC __DIVD21U2
+	ADD  R0,R30
+	ADC  R1,R31
+	ADC  R20,R22
+	ADC  R21,R23
+	RJMP __DIVD21U3
+__DIVD21U2:
+	SBR  R26,1
+__DIVD21U3:
+	DEC  R19
+	BRNE __DIVD21U1
+	MOVW R30,R26
+	MOVW R22,R24
+	MOVW R26,R0
+	MOVW R24,R20
+	POP  R21
+	POP  R20
+	POP  R19
 	RET
 
 _delay_ms:

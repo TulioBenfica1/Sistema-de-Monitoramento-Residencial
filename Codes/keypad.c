@@ -3,6 +3,7 @@
 #include "config.h"
 #include "keypad.h"
 #include "password.h"
+#include "buzzer.h"
 
 #define KEYIN PINC // PINC0..3 para entrada do teclado nas linhas
 #define KEYOUT PORTC // PORTC4..6 para saida do teclado nas colunas
@@ -85,7 +86,7 @@ unsigned InKey(void)
    return k;
 }
 
-void KEYPAD_init(void)
+void KEYPADInit(void)
 {
    // Configuracoes dos registradores do teclado
    DDRC |= 0x70; // Bits 0..3: entrada, 4..6: saida - Ultima coluna inativa
@@ -123,7 +124,7 @@ void KEYPADProcess(SystemState state)
    {
       index = KeyToIndex(k);
       key = keymap[index];
-      if (key == '<') // Tecla *
+      if (key == '<') // Tecla <
       {
          CleanLastDigit();
       }
@@ -135,6 +136,7 @@ void KEYPADProcess(SystemState state)
             SystemSetState(state);
          else if (password_result == PASSWORD_CORRECT)
             SystemSetState(ST_DISARMED);
+            BeepSound();
       }
       else 
       {
