@@ -72,7 +72,7 @@ void LCDUpdate(SystemState state)
             break;
 
         case ST_SMOKE:
-            lcd_puts("Alerta: Fumaça");
+            lcd_puts("Alerta: Fumaca");
             lcd_gotoxy(0, 1);
             lcd_puts("Senha: _ _ _ _");
             break;

@@ -8,5 +8,13 @@ void main(void)
     while (1)
     {
         SystemUpdate();
+        if(PINB.0 == 0)
+        {                                                                   
+            SystemSetState(ST_MOTION);
+        }
+        if(PINB.1 == 0)
+        {
+            SystemSetState(ST_SMOKE);                                                                                                             
+        }
     }
 }

@@ -46,26 +46,26 @@
 ; 0004 000F TCCR1B = 0x05; // Prescaler de 64
 ;PCODE: $00000018 VOL: 0
 ;PCODE: $00000019 VOL: 0
-; 0004 0010 TIMSK = 0x10; // Habilita interrupção do Timer1 via comparacao registrador A
+; 0004 0010 TIMSK |= 0x10; // Habilita interrupção do Timer1 sem desabilitar o Timer0
 ;PCODE: $0000001A VOL: 0
 ;PCODE: $0000001B VOL: 0
-; 0004 0011 OCR1A = 0x00;
 ;PCODE: $0000001C VOL: 0
+; 0004 0011 OCR1A = 0x00;
 ;PCODE: $0000001D VOL: 0
-; 0004 0012 }
 ;PCODE: $0000001E VOL: 0
+; 0004 0012 }
 ;PCODE: $0000001F VOL: 0
+;PCODE: $00000020 VOL: 0
 ;void UpdateTIMER1CompareValue(unsigned int time)
 ; 0004 0015 {
-;PCODE: $00000020 VOL: 0
 ;PCODE: $00000021 VOL: 0
+;PCODE: $00000022 VOL: 0
 ; 0004 0016 // Recebe um periodo em ms e atualiza o valor do registrador de comparacao A do Timer1
 ; 0004 0017 OCR1A = (14400UL * time) / 1000UL - 1;
-;PCODE: $00000022 VOL: 0
 ;PCODE: $00000023 VOL: 0
 ;PCODE: $00000024 VOL: 0
-;	time -> R16,R17
 ;PCODE: $00000025 VOL: 0
+;	time -> R16,R17
 ;PCODE: $00000026 VOL: 0
 ;PCODE: $00000027 VOL: 0
 ;PCODE: $00000028 VOL: 0
@@ -74,30 +74,31 @@
 ;PCODE: $0000002B VOL: 0
 ;PCODE: $0000002C VOL: 0
 ;PCODE: $0000002D VOL: 0
-; 0004 0018 }
 ;PCODE: $0000002E VOL: 0
+; 0004 0018 }
 ;PCODE: $0000002F VOL: 0
 ;PCODE: $00000030 VOL: 0
+;PCODE: $00000031 VOL: 0
 ;unsigned char GetTIMER1Flag(void)
 ; 0004 001B {
-;PCODE: $00000031 VOL: 0
 ;PCODE: $00000032 VOL: 0
+;PCODE: $00000033 VOL: 0
 ; 0004 001C return flag_tim1;
-;PCODE: $00000033 VOL: 1
-;PCODE: $00000034 VOL: 0
-; 0004 001D }
+;PCODE: $00000034 VOL: 1
 ;PCODE: $00000035 VOL: 0
+; 0004 001D }
+;PCODE: $00000036 VOL: 0
 ;void SetTIMER1Flag(unsigned char value)
 ; 0004 0020 {
-;PCODE: $00000036 VOL: 0
 ;PCODE: $00000037 VOL: 0
-; 0004 0021 flag_tim1 = value;
 ;PCODE: $00000038 VOL: 0
+; 0004 0021 flag_tim1 = value;
 ;PCODE: $00000039 VOL: 0
+;PCODE: $0000003A VOL: 0
 ;	value -> R17
-;PCODE: $0000003A VOL: 1
-;PCODE: $0000003B VOL: 0
-; 0004 0022 }
+;PCODE: $0000003B VOL: 1
 ;PCODE: $0000003C VOL: 0
+; 0004 0022 }
 ;PCODE: $0000003D VOL: 0
 ;PCODE: $0000003E VOL: 0
+;PCODE: $0000003F VOL: 0

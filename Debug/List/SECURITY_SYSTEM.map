@@ -1,18 +1,20 @@
 RAM Allocation [bytes]
 Variable                                                                          Address   Size
 ------------------------------------------------------------------------------------------------
-current_state (config.c)                                                          0x0261       1
-password (password.c)                                                             0x0262       4
-password_length (password.c)                                                      0x0266       1
-password_input (password.c)                                                       0x0267       4
-password_entry_active (password.c)                                                0x026B       1
-flag_tim1 (timer.c)                                                               0x026C       1
-key_pressed_counter (keypad.c)                                                    0x026D       1
-key_released_counter (keypad.c)                                                   0x026E       1
-column (keypad.c)                                                                 0x026F       1
-row_data (keypad.c)                                                               0x0270       2
-crt_key (keypad.c)                                                                0x0272       2
-_base_y (alcd.lib)                                                                0x0274       4
+current_state (config.c)                                                          0x0260       1
+password (password.c)                                                             0x0261       4
+password_length (password.c)                                                      0x0265       1
+password_input (password.c)                                                       0x0266       4
+password_entry_active (password.c)                                                0x026A       1
+flag_tim1 (timer.c)                                                               0x026B       1
+key_pressed_counter (keypad.c)                                                    0x026C       1
+key_released_counter (keypad.c)                                                   0x026D       1
+column (keypad.c)                                                                 0x026E       1
+row_data (keypad.c)                                                               0x026F       2
+crt_key (keypad.c)                                                                0x0271       2
+f (buzzer.c)                                                                      0x0273       2
+f (buzzer.c)                                                                      0x0275       4
+_base_y (alcd.lib)                                                                0x0279       4
 
 EEPROM Allocation [bytes]
 Variable                                                                          Address   Size
@@ -24,6 +26,8 @@ Variable                                                                        
 lcd_update_pending                                                                R2.0      1bit
 keypad_entry                                                                      R2.1      1bit
 keys                                                                              R4,R5        2
+drive                                                                             R2.2      1bit
+drive                                                                             R2.3      1bit
 _lcd_x                                                                            R7           1
 _lcd_y                                                                            R6           1
 _lcd_maxx                                                                         R9           1
@@ -31,30 +35,40 @@ _lcd_maxx                                                                       
 FLASH Allocation [words]
 Function                                                                          Address   Size
 ------------------------------------------------------------------------------------------------
-main                                                                              0x00117      4
-SystemInit                                                                        0x0011B      5
-SystemUpdate                                                                      0x00120     13
-SystemSetState                                                                    0x0012D     24
-LCDInit                                                                           0x00145      9
-UpdatePasswordDisplay                                                             0x0014E     13
-WrongPasswordDisplay                                                              0x0015B      4
-CorrectPasswordDisplay                                                            0x0015F      5
-LCDUpdate                                                                         0x00164     74
-PasswordStart                                                                     0x001AE      4
-PasswordInput                                                                     0x001B2     25
-CleanLastDigit                                                                    0x001CB     17
-PasswordConfirm                                                                   0x001DC     41
-timer1_compa_isr                                                                  0x00205     12
-TIMER1Init                                                                        0x00211      9
-timer0_ovf_isr                                                                    0x0021A     92
-InKey                                                                             0x00276     12
-KEYPAD_init                                                                       0x00282     16
-KeyToIndex                                                                        0x00292     18
-KEYPADProcess                                                                     0x002A4     37
-_lcd_write_nibble_G100                                                            0x002C9     21
-_lcd_write_data                                                                   0x002DE     13
-lcd_gotoxy                                                                        0x002EB     14
-lcd_clear                                                                         0x002F9     10
-lcd_putchar                                                                       0x00303     19
-lcd_puts                                                                          0x00316     15
-lcd_init                                                                          0x00325     43
+main                                                                              0x0011C     12
+SystemInit                                                                        0x00128      6
+SystemUpdate                                                                      0x0012E     16
+SystemSetState                                                                    0x0013E     24
+LCDInit                                                                           0x00156      9
+UpdatePasswordDisplay                                                             0x0015F     13
+WrongPasswordDisplay                                                              0x0016C      4
+CorrectPasswordDisplay                                                            0x00170      5
+LCDUpdate                                                                         0x00175     74
+PasswordStart                                                                     0x001BF      4
+PasswordInput                                                                     0x001C3     25
+CleanLastDigit                                                                    0x001DC     17
+PasswordConfirm                                                                   0x001ED     41
+timer1_compa_isr                                                                  0x00216     12
+TIMER1Init                                                                        0x00222     10
+UpdateTIMER1CompareValue                                                          0x0022C     22
+GetTIMER1Flag                                                                     0x00242      3
+SetTIMER1Flag                                                                     0x00245      6
+timer0_ovf_isr                                                                    0x0024B     92
+InKey                                                                             0x002A7     12
+KEYPADInit                                                                        0x002B3     16
+KeyToIndex                                                                        0x002C3     20
+KEYPADProcess                                                                     0x002D7     38
+PWMInit                                                                           0x002FD      5
+SetPWMFrequency                                                                   0x00302     25
+PoliceSiren                                                                       0x0031B     31
+FireAlarm                                                                         0x0033A     45
+StopSound                                                                         0x00367      7
+BeepSound                                                                         0x0036E     11
+BuzzerUpdate                                                                      0x00379     17
+_lcd_write_nibble_G100                                                            0x0038A     21
+_lcd_write_data                                                                   0x0039F     13
+lcd_gotoxy                                                                        0x003AC     14
+lcd_clear                                                                         0x003BA     10
+lcd_putchar                                                                       0x003C4     19
+lcd_puts                                                                          0x003D7     15
+lcd_init                                                                          0x003E6     43

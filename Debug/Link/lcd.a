@@ -241,7 +241,7 @@ _0x40004:
 ;PCODE: $00000094 VOL: 0
 ;PCODE: $00000095 VOL: 0
 ;PCODE: $00000096 VOL: 0
-; 0002 004B lcd_puts("Alerta: Fumaça");
+; 0002 004B lcd_puts("Alerta: Fumaca");
 ;PCODE: $00000097 VOL: 0
 ;PCODE: $00000098 VOL: 0
 ;PCODE: $00000099 VOL: 0
@@ -305,4 +305,4 @@ _0x40004:
 
 	.DSEG
 _0x40009:
-	.BYTE 0xE3
+	.BYTE 0xE2

@@ -13,7 +13,7 @@ void TIMER1Init(void)
 { 
     // Registradores para configurar o Timer1
     TCCR1B = 0x05; // Prescaler de 64
-    TIMSK = 0x10; // Habilita interrupção do Timer1 via comparacao registrador A
+    TIMSK |= 0x10; // Habilita interrupção do Timer1 sem desabilitar o Timer0
     OCR1A = 0x00;
 }
 
