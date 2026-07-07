@@ -20,7 +20,7 @@ void TIMER1Init(void)
 void UpdateTIMER1CompareValue(unsigned int time)
 {
     // Recebe um periodo em ms e atualiza o valor do registrador de comparacao A do Timer1
-    OCR1A = (14400UL * time) / 1000UL - 1;
+    OCR1A = (int)((14400UL * time) / 1000UL) - 1;
 }
 
 unsigned char GetTIMER1Flag(void)

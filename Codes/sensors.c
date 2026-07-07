@@ -1,13 +1,14 @@
+#include <mega16.h>
 #include <sensors.h>
 
-void SensorsInit(void) {
+void SENSORSInit(void) {
     DDRB = 0x00; // Configura PORTB como entrada
 }
 
 void SensorsUpdate(void) {
-    unsigned char flame = ~(PINB & (1 << PB0)); 
-    unsigned char presence = (PINB & (1 << PB1)); 
-    unsigned char vibration = (PINB & (1 << PB2));
+    unsigned char flame = PINB.0; 
+    unsigned char presence = PINB.1; 
+    unsigned char vibration = PINB.2;
 
     if (flame) {
         SystemSetState(ST_FLAME);

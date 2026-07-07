@@ -2,7 +2,7 @@
 #include <alcd.h>
 #include <delay.h>
 
-#include "lcd.h"
+#include "lcd.h" 
 
 void LCDInit(void)
 {
@@ -55,32 +55,33 @@ void LCDUpdate(SystemState state)
             lcd_puts("...");
             break;
 
-        case ST_DISARMED:
-            lcd_puts("Sistema Desarmado");
-            break;
+        case ST_DISARMED:     
+            lcd_puts("Ative o sistema:");
+            lcd_gotoxy(0, 1);
+            lcd_puts("Senha: _ _ _ _  ");
 
         case ST_SHOCK:
             lcd_puts("Alerta: Intrusao");
             lcd_gotoxy(0, 1);
-            lcd_puts("Senha: _ _ _ _");
+            lcd_puts("Senha: _ _ _ _  ");
             break;
 
         case ST_MOTION:
             lcd_puts("Alerta: Presenca");
             lcd_gotoxy(0, 1);
-            lcd_puts("Senha: _ _ _ _");
+            lcd_puts("Senha: _ _ _ _  ");
             break;
 
-        case ST_SMOKE:
-            lcd_puts("Alerta: Fumaca");
+        case ST_FLAME:
+            lcd_puts("Alerta: Incendio");
             lcd_gotoxy(0, 1);
-            lcd_puts("Senha: _ _ _ _");
+            lcd_puts("Senha: _ _ _ _  ");
             break;
 
         case ST_OVERHEAT:
             lcd_puts("Superaquecimento");
             lcd_gotoxy(0, 1);
-            lcd_puts("Senha: _ _ _ _");
+            lcd_puts("Senha: _ _ _ _  ");
             break;
 
         case ST_ERROR:

@@ -75,7 +75,7 @@ void BeepSound(void)
     UpdateTIMER1CompareValue(20);
     if(GetTIMER1Flag()) {
         SetTIMER1Flag(0);
-        SetPWMFrequency(2000);
+        SetPWMFrequency(450);
     }
     else {
         SetPWMFrequency(0);
@@ -92,7 +92,7 @@ void BuzzerUpdate(SystemState state)
             break;
             
         case ST_OVERHEAT:
-        case ST_SMOKE:
+        case ST_FLAME:
             FireAlarm();
             break;
             

@@ -1,9 +1,11 @@
 #include <mega16.h>
 #include <delay.h>
+#include <alcd.h>
 #include "config.h"
 #include "keypad.h"
 #include "password.h"
 #include "buzzer.h"
+#include "lcd.h"
 
 #define KEYIN PINC // PINC0..3 para entrada do teclado nas linhas
 #define KEYOUT PORTC // PORTC4..6 para saida do teclado nas colunas
@@ -118,7 +120,7 @@ void KEYPADProcess(SystemState state)
    unsigned k;
    unsigned char index;    
    char key;
-   PasswordResult password_result;
+   static PasswordResult password_result;
    
    if(k=InKey())
    {
@@ -133,10 +135,29 @@ void KEYPADProcess(SystemState state)
          password_result = PasswordConfirm();
          delay_ms(1000);
          if (password_result == PASSWORD_INCORRECT)
+         {
             SystemSetState(state);
+            BeepSound();   
+         }
          else if (password_result == PASSWORD_CORRECT)
-            SystemSetState(ST_DISARMED);
-            BeepSound();
+         {   
+            if(state == ST_DISARMED)
+            {                       
+                LCDUpdate(ST_ARMING_DELAY);
+                SystemSetState(ST_ARMING_DELAY);
+            }
+            else
+            {
+                SystemSetState(ST_DISARMED);
+         
+                lcd_clear();
+            
+                lcd_puts("    Sistema");
+                lcd_gotoxy(0,1);
+                lcd_puts("  Desarmado");
+                delay_ms(1000);
+            }
+         }
       }
       else 
       {

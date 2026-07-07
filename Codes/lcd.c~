@@ -2,7 +2,7 @@
 #include <alcd.h>
 #include <delay.h>
 
-#include "lcd.h"
+#include "lcd.h" 
 
 void LCDInit(void)
 {
@@ -13,13 +13,25 @@ void LCDInit(void)
     lcd_gotoxy(0, 0); // Posicão padrão do cursor no LCD
 }
 
-void updatePasswordDisplay(char input, int length)
+void UpdatePasswordDisplay(unsigned char input, unsigned char length)
 {
     lcd_gotoxy(7 + 2 * (length - 1), 1);
-    lcd_putc(input);
-    delay_ms(1000);
+    lcd_putchar(input);
+    delay_ms(500);
     lcd_gotoxy(7 + 2 * (length - 1), 1);
-    lcd_putc('*');
+    lcd_putchar('*');
+}
+
+void WrongPasswordDisplay(void)
+{
+    lcd_gotoxy(0, 1);
+    lcd_puts("Senha Incorreta");
+}
+
+void CorrectPasswordDisplay(void)
+{
+    lcd_clear();
+    lcd_puts("Senha Correta");
 }
 
 void LCDUpdate(SystemState state)
@@ -43,9 +55,10 @@ void LCDUpdate(SystemState state)
             lcd_puts("...");
             break;
 
-        case ST_DISARMED:
-            lcd_puts("Sistema Desarmado");
-            break;
+        case ST_DISARMED:     
+            lcd_puts("Ative o sistema:");
+            lcd_gotoxy(0, 1);
+            lcd_puts("Senha: _ _ _ _  ");
 
         case ST_SHOCK:
             lcd_puts("Alerta: Intrusao");
@@ -59,8 +72,8 @@ void LCDUpdate(SystemState state)
             lcd_puts("Senha: _ _ _ _");
             break;
 
-        case ST_SMOKE:
-            lcd_puts("Alerta: Fumaça");
+        case ST_FLAME:
+            lcd_puts("Alerta: Incendio");
             lcd_gotoxy(0, 1);
             lcd_puts("Senha: _ _ _ _");
             break;

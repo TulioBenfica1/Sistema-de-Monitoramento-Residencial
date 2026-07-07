@@ -1,0 +1,32 @@
+RAM Allocation
+Variable                                                          Address   Size
+--------------------------------------------------------------------------------
+current_state                                                     0x0292       1
+password                                                          0x0293       4
+password_length                                                   0x0297       1
+password_input                                                    0x0298       4
+password_entry_active                                             0x029C       1
+flag_tim1                                                         0x029D       1
+key_pressed_counter                                               0x029E       1
+key_released_counter                                              0x029F       1
+column                                                            0x02A0       1
+row_data                                                          0x02A1       2
+crt_key                                                           0x02A3       2
+password_result                                                   0x02A5       1
+_base_y                                                           0x02A6       4
+
+EEPROM Allocation
+Variable                                                          Address   Size
+--------------------------------------------------------------------------------
+
+Register Allocation
+Variable                                                          Register  Size
+--------------------------------------------------------------------------------
+lcd_update_pending                                                R2.0      1bit
+keypad_entry                                                      R2.1      1bit
+keys                                                              R4,R5        2
+drive                                                             R2.2      1bit
+drive                                                             R2.3      1bit
+_lcd_x                                                            R7           1
+_lcd_y                                                            R6           1
+_lcd_maxx                                                         R9           1

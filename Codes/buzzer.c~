@@ -34,7 +34,7 @@ void PoliceSiren(void)
 
 void FireAlarm(void)
 {
-    static unsigned int f[2] = {650, 450};    
+    static unsigned int f[2] = {650, 550};    
     static bit drive = 0;  
 
     UpdateTIMER1CompareValue(20);
@@ -54,9 +54,9 @@ void FireAlarm(void)
         else                    
         {
             f[drive] -= 1;
-            if (f[drive] <= 350) {
+            if (f[drive] <= 450) {
                 drive = 0;
-                f[1] = 450;
+                f[1] = 550;
             }
         }
 
@@ -92,7 +92,7 @@ void BuzzerUpdate(SystemState state)
             break;
             
         case ST_OVERHEAT:
-        case ST_SMOKE:
+        case ST_FLAME:
             FireAlarm();
             break;
             

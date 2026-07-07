@@ -1,18 +1,27 @@
+#include <mega16.h>
+#include <delay.h>
 #include "config.h"
 #include "lcd.h"
+#include "timer.h"
+#include "pwm.h"
+#include "keypad.h"
+#include "buzzer.h"
+#include "password.h"
+#include "sensors.h"
 
 static SystemState current_state;
-static unsigned char lcd_update_pending = 1;
-
-void setLCD_flag (void)
-{
-    lcd_update_pending = 0;
-}
+static bit lcd_update_pending = 1;
+static bit keypad_entry = 0;
 
 void SystemInit(void)
 {
     // Configuração de registradores 
     LCDInit(); 
+    KEYPADInit();
+    TIMER1Init();
+    SENSORSInit();
+    PWMInit();
+    #asm("sei");
 
 }
 
@@ -21,14 +30,45 @@ void SystemUpdate(void)
     if (lcd_update_pending)
     {
         LCDUpdate(current_state);
+        if(current_state == ST_BOOT)
+        {   
+            delay_ms(5000);   
+            LCDUpdate(ST_ARMING_DELAY);
+            SystemSetState(ST_ARMING_DELAY); 
+            return;   
+        }   
         lcd_update_pending = 0;
     }
+    if(keypad_entry)
+    {
+        KEYPADProcess(current_state);
+    }
+    
+    //BuzzerUpdate(current_state);
 }
 
 void SystemSetState(SystemState state)
 {
     current_state = state;
     lcd_update_pending = 1;
+    if (state == ST_SHOCK || state == ST_MOTION || 
+        state == ST_FLAME || state == ST_OVERHEAT || 
+        state == ST_DISARMED)
+    {
+        keypad_entry = 1;
+        PasswordStart();
+    }
+    else
+    {
+        keypad_entry = 0;
+    }
+    
+    if(state == ST_ARMING_DELAY)
+    {
+        //delay_ms(60000);         // tempo para ajuste de sensores
+        delay_ms(2000);
+        current_state = ST_ARMED;
+    }
 }
 
 SystemState SystemGetState(void)

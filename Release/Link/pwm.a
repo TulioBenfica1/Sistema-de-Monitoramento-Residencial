@@ -1,0 +1,92 @@
+;#include <mega16.h>
+;PCODE: $00000000 VOL: 0
+	#ifndef __SLEEP_DEFINED__
+;PCODE: $00000001 VOL: 0
+	#define __SLEEP_DEFINED__
+;PCODE: $00000002 VOL: 0
+	.EQU __se_bit=0x40
+;PCODE: $00000003 VOL: 0
+	.EQU __sm_mask=0xB0
+;PCODE: $00000004 VOL: 0
+	.EQU __sm_powerdown=0x20
+;PCODE: $00000005 VOL: 0
+	.EQU __sm_powersave=0x30
+;PCODE: $00000006 VOL: 0
+	.EQU __sm_standby=0xA0
+;PCODE: $00000007 VOL: 0
+	.EQU __sm_ext_standby=0xB0
+;PCODE: $00000008 VOL: 0
+	.EQU __sm_adc_noise_red=0x10
+;PCODE: $00000009 VOL: 0
+	.SET power_ctrl_reg=mcucr
+;PCODE: $0000000A VOL: 0
+	#endif
+;PCODE: $0000000B VOL: 0
+;PCODE: $0000000C VOL: 0
+;#include "pwm.h"
+;
+;void PWMInit(void)
+; 0006 0005 {
+
+	.CSEG
+;PCODE: $0000000D VOL: 0
+;PCODE: $0000000E VOL: 0
+; 0006 0006     // Configuracoes do PWM no modo geracao de onda quadrada no timer 2
+; 0006 0007     // modo CTC (clear timer on compare match), prescaler = 1024, pino PD7 pro PWM2
+; 0006 0008     TCCR2 = 0b00011100;
+;PCODE: $0000000F VOL: 0
+;PCODE: $00000010 VOL: 0
+; 0006 0009     DDRD = 0x80;
+;PCODE: $00000011 VOL: 0
+;PCODE: $00000012 VOL: 0
+; 0006 000A }
+;PCODE: $00000013 VOL: 0
+;PCODE: $00000014 VOL: 0
+;
+;void SetPWMFrequency(unsigned int frequency)
+; 0006 000D {
+;PCODE: $00000015 VOL: 0
+;PCODE: $00000016 VOL: 0
+; 0006 000E     // Altera o registrador OCR2 para alterar a frequencia do PWM
+; 0006 000F     unsigned char reg;
+; 0006 0010 
+; 0006 0011     if(frequency == 0) {
+;PCODE: $00000017 VOL: 0
+;	frequency -> Y+1
+;	reg -> R17
+;PCODE: $00000018 VOL: 0
+;PCODE: $00000019 VOL: 0
+;PCODE: $0000001A VOL: 0
+; 0006 0012         DDRD &= ~0x80; // Desliga o pino PD7
+;PCODE: $0000001B VOL: 0
+;PCODE: $0000001C VOL: 0
+; 0006 0013         return;
+;PCODE: $0000001D VOL: 0
+;PCODE: $0000001E VOL: 0
+;PCODE: $0000001F VOL: 0
+;PCODE: $00000020 VOL: 0
+; 0006 0014     }
+; 0006 0015 
+; 0006 0016     DDRD |= 0x80;
+;PCODE: $00000021 VOL: 0
+;PCODE: $00000022 VOL: 0
+;PCODE: $00000023 VOL: 0
+; 0006 0017 
+; 0006 0018     reg = (unsigned char)((14745600UL / (128UL * frequency)) - 1);
+;PCODE: $00000024 VOL: 0
+;PCODE: $00000025 VOL: 0
+;PCODE: $00000026 VOL: 0
+;PCODE: $00000027 VOL: 0
+;PCODE: $00000028 VOL: 0
+;PCODE: $00000029 VOL: 0
+;PCODE: $0000002A VOL: 0
+;PCODE: $0000002B VOL: 0
+; 0006 0019     OCR2 = reg;
+;PCODE: $0000002C VOL: 0
+;PCODE: $0000002D VOL: 0
+; 0006 001A }
+;PCODE: $0000002E VOL: 0
+;PCODE: $0000002F VOL: 0
+;PCODE: $00000030 VOL: 0
+;PCODE: $00000031 VOL: 0
+;PCODE: $00000032 VOL: 0
