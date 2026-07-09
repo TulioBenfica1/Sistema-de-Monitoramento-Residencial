@@ -23,47 +23,49 @@
 	#endif
 ;PCODE: $0000000B VOL: 0
 ;PCODE: $0000000C VOL: 0
+;#include <stdio.h>
 ;#include "config.h"
 ;
+;
 ;void main(void)
-; 0000 0005 {
+; 0000 0007 {
 
 	.CSEG
 ;PCODE: $0000000D VOL: 0
-; 0000 0006     SystemInit();
+; 0000 0008     SystemInit();
 ;PCODE: $0000000E VOL: 0
-; 0000 0007 
-; 0000 0008     while (1)
+; 0000 0009 
+; 0000 000A     while (1)
 ;PCODE: $0000000F VOL: 0
-; 0000 0009     {
-; 0000 000A         SystemUpdate();
+; 0000 000B     {
+; 0000 000C         SystemUpdate();
 ;PCODE: $00000010 VOL: 0
-; 0000 000B         if(PIND.2 == 0)
+; 0000 000D         if(PIND.2 == 0)
 ;PCODE: $00000011 VOL: 0
 ;PCODE: $00000012 VOL: 0
 ;PCODE: $00000013 VOL: 0
-; 0000 000C         {
-; 0000 000D             SystemSetState(ST_MOTION);
+; 0000 000E         {
+; 0000 000F             SystemSetState(ST_MOTION);
 ;PCODE: $00000014 VOL: 0
 ;PCODE: $00000015 VOL: 0
 ;PCODE: $00000016 VOL: 0
-; 0000 000E         }
-; 0000 000F         if(PIND.3 == 0)
+; 0000 0010         }
+; 0000 0011         if(PIND.3 == 0)
 ;PCODE: $00000017 VOL: 0
 ;PCODE: $00000018 VOL: 0
 ;PCODE: $00000019 VOL: 0
 ;PCODE: $0000001A VOL: 0
-; 0000 0010         {
-; 0000 0011             SystemSetState(ST_FLAME);
+; 0000 0012         {
+; 0000 0013             SystemSetState(ST_FLAME);
 ;PCODE: $0000001B VOL: 0
 ;PCODE: $0000001C VOL: 0
 ;PCODE: $0000001D VOL: 0
-; 0000 0012         }
-; 0000 0013     }
+; 0000 0014         }
+; 0000 0015     }
 ;PCODE: $0000001E VOL: 0
 ;PCODE: $0000001F VOL: 0
 ;PCODE: $00000020 VOL: 0
-; 0000 0014 }
+; 0000 0016 }
 ;PCODE: $00000021 VOL: 0
 ;PCODE: $00000022 VOL: 0
 ;PCODE: $00000023 VOL: 0

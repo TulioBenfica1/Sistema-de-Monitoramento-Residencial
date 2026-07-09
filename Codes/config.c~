@@ -1,5 +1,6 @@
 #include <mega16.h>
 #include <delay.h>
+#include <alcd.h>
 #include "config.h"
 #include "lcd.h"
 #include "timer.h"
@@ -8,6 +9,8 @@
 #include "buzzer.h"
 #include "password.h"
 #include "sensors.h"
+#include "i2c.h"
+#include "rtc.h"
 
 static SystemState current_state;
 static bit lcd_update_pending = 1;
@@ -21,8 +24,9 @@ void SystemInit(void)
     TIMER1Init();
     SENSORSInit();
     PWMInit();
+    //RTCInit();
+    //I2CInit();    
     #asm("sei");
-
 }
 
 void SystemUpdate(void)
@@ -32,19 +36,20 @@ void SystemUpdate(void)
         LCDUpdate(current_state);
         if(current_state == ST_BOOT)
         {   
-            delay_ms(5000);   
-            LCDUpdate(ST_ARMING_DELAY);
-            SystemSetState(ST_ARMING_DELAY); 
+            delay_ms(5000);
+            SystemSetState(ST_SET_DATA); 
             return;   
-        }   
+        }
+          
         lcd_update_pending = 0;
     }
     if(keypad_entry)
     {
         KEYPADProcess(current_state);
     }
+    //SensorsUpdate();    
+    BuzzerUpdate(current_state);   
     
-    //BuzzerUpdate(current_state);
 }
 
 void SystemSetState(SystemState state)
@@ -53,10 +58,15 @@ void SystemSetState(SystemState state)
     lcd_update_pending = 1;
     if (state == ST_SHOCK || state == ST_MOTION || 
         state == ST_FLAME || state == ST_OVERHEAT || 
-        state == ST_DISARMED)
+        state == ST_DISARMED || state == ST_INVASION)
     {
         keypad_entry = 1;
         PasswordStart();
+    }
+    else if (state == ST_SET_DATA)
+    {
+        keypad_entry = 1;
+        DataStart();    
     }
     else
     {

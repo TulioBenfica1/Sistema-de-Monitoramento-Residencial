@@ -81,7 +81,7 @@
 ; 0007 0024 {
 ;PCODE: $0000002B VOL: 0
 ;PCODE: $0000002C VOL: 0
-; 0007 0025     static unsigned int f[2] = {650, 550};
+; 0007 0025     static unsigned int f[2] = {700, 555};
 
 	.DSEG
 
@@ -108,7 +108,7 @@
 ;PCODE: $00000037 VOL: 0
 ;PCODE: $00000038 VOL: 0
 ; 0007 002F         {
-; 0007 0030             f[drive] += 1;
+; 0007 0030             f[drive] += 5;
 ;PCODE: $00000039 VOL: 0
 ;PCODE: $0000003A VOL: 0
 ;PCODE: $0000003B VOL: 0
@@ -118,7 +118,7 @@
 ;PCODE: $0000003F VOL: 0
 ;PCODE: $00000040 VOL: 0
 ;PCODE: $00000041 VOL: 0
-; 0007 0031             if (f[drive] >= 750) {
+; 0007 0031             if (f[drive] >= 740)
 ;PCODE: $00000042 VOL: 0
 ;PCODE: $00000043 VOL: 0
 ;PCODE: $00000044 VOL: 0
@@ -128,21 +128,22 @@
 ;PCODE: $00000048 VOL: 0
 ;PCODE: $00000049 VOL: 0
 ;PCODE: $0000004A VOL: 0
-; 0007 0032                 drive = 1;
+; 0007 0032             {
+; 0007 0033                 drive = 1;
 ;PCODE: $0000004B VOL: 0
 ;PCODE: $0000004C VOL: 0
 ;PCODE: $0000004D VOL: 0
-; 0007 0033                 f[0] = 650;
+; 0007 0034                 f[0] = 700;
 ;PCODE: $0000004E VOL: 0
 ;PCODE: $0000004F VOL: 0
-; 0007 0034             }
-; 0007 0035         }
+; 0007 0035             }
+; 0007 0036         }
 ;PCODE: $00000050 VOL: 0
-; 0007 0036         else
+; 0007 0037         else
 ;PCODE: $00000051 VOL: 0
 ;PCODE: $00000052 VOL: 0
-; 0007 0037         {
-; 0007 0038             f[drive] -= 1;
+; 0007 0038         {
+; 0007 0039             f[drive] -= 5;
 ;PCODE: $00000053 VOL: 0
 ;PCODE: $00000054 VOL: 0
 ;PCODE: $00000055 VOL: 0
@@ -152,7 +153,7 @@
 ;PCODE: $00000059 VOL: 0
 ;PCODE: $0000005A VOL: 0
 ;PCODE: $0000005B VOL: 0
-; 0007 0039             if (f[drive] <= 450) {
+; 0007 003A             if (f[drive] <= 455)
 ;PCODE: $0000005C VOL: 0
 ;PCODE: $0000005D VOL: 0
 ;PCODE: $0000005E VOL: 0
@@ -162,133 +163,123 @@
 ;PCODE: $00000062 VOL: 0
 ;PCODE: $00000063 VOL: 0
 ;PCODE: $00000064 VOL: 0
-; 0007 003A                 drive = 0;
+; 0007 003B             {
+; 0007 003C                 drive = 0;
 ;PCODE: $00000065 VOL: 0
 ;PCODE: $00000066 VOL: 0
 ;PCODE: $00000067 VOL: 0
-; 0007 003B                 f[1] = 550;
+; 0007 003D                 f[1] = 555;
 ;PCODE: $00000068 VOL: 0
 ;PCODE: $00000069 VOL: 0
 ;PCODE: $0000006A VOL: 0
 ;PCODE: $0000006B VOL: 0
-; 0007 003C             }
-; 0007 003D         }
+; 0007 003E             }
+; 0007 003F         }
 ;PCODE: $0000006C VOL: 0
 ;PCODE: $0000006D VOL: 0
-; 0007 003E 
-; 0007 003F         SetPWMFrequency(f[drive]);
+; 0007 0040     }
+; 0007 0041 }
 ;PCODE: $0000006E VOL: 0
 ;PCODE: $0000006F VOL: 0
 ;PCODE: $00000070 VOL: 0
-;PCODE: $00000071 VOL: 0
-;PCODE: $00000072 VOL: 0
-;PCODE: $00000073 VOL: 0
-;PCODE: $00000074 VOL: 0
-;PCODE: $00000075 VOL: 0
-;PCODE: $00000076 VOL: 0
-; 0007 0040     }
-; 0007 0041 }
-;PCODE: $00000077 VOL: 0
-;PCODE: $00000078 VOL: 0
-;PCODE: $00000079 VOL: 0
 ;
 ;void StopSound(void)
 ; 0007 0044 {
-;PCODE: $0000007A VOL: 0
-;PCODE: $0000007B VOL: 0
+;PCODE: $00000071 VOL: 0
+;PCODE: $00000072 VOL: 0
 ; 0007 0045     SetPWMFrequency(0);
-;PCODE: $0000007C VOL: 0
-;PCODE: $0000007D VOL: 0
-;PCODE: $0000007E VOL: 0
+;PCODE: $00000073 VOL: 0
+;PCODE: $00000074 VOL: 0
+;PCODE: $00000075 VOL: 0
 ; 0007 0046     UpdateTIMER1CompareValue(0);
-;PCODE: $0000007F VOL: 0
-;PCODE: $00000080 VOL: 0
-;PCODE: $00000081 VOL: 0
+;PCODE: $00000076 VOL: 0
+;PCODE: $00000077 VOL: 0
+;PCODE: $00000078 VOL: 0
 ; 0007 0047 }
-;PCODE: $00000082 VOL: 0
-;PCODE: $00000083 VOL: 0
+;PCODE: $00000079 VOL: 0
+;PCODE: $0000007A VOL: 0
 ;
 ;void BeepSound(void)
 ; 0007 004A {
+;PCODE: $0000007B VOL: 0
+;PCODE: $0000007C VOL: 0
+; 0007 004B     UpdateTIMER1CompareValue(100);
+;PCODE: $0000007D VOL: 0
+;PCODE: $0000007E VOL: 0
+;PCODE: $0000007F VOL: 0
+; 0007 004C     if(GetTIMER1Flag()) {
+;PCODE: $00000080 VOL: 0
+;PCODE: $00000081 VOL: 0
+;PCODE: $00000082 VOL: 0
+; 0007 004D         SetTIMER1Flag(0);
+;PCODE: $00000083 VOL: 0
 ;PCODE: $00000084 VOL: 0
 ;PCODE: $00000085 VOL: 0
-; 0007 004B     UpdateTIMER1CompareValue(20);
+; 0007 004E         SetPWMFrequency(450);
 ;PCODE: $00000086 VOL: 0
 ;PCODE: $00000087 VOL: 0
 ;PCODE: $00000088 VOL: 0
-; 0007 004C     if(GetTIMER1Flag()) {
-;PCODE: $00000089 VOL: 0
-;PCODE: $0000008A VOL: 0
-;PCODE: $0000008B VOL: 0
-; 0007 004D         SetTIMER1Flag(0);
-;PCODE: $0000008C VOL: 0
-;PCODE: $0000008D VOL: 0
-;PCODE: $0000008E VOL: 0
-; 0007 004E         SetPWMFrequency(450);
-;PCODE: $0000008F VOL: 0
-;PCODE: $00000090 VOL: 0
-;PCODE: $00000091 VOL: 0
 ; 0007 004F     }
 ; 0007 0050     else {
-;PCODE: $00000092 VOL: 0
-;PCODE: $00000093 VOL: 0
+;PCODE: $00000089 VOL: 0
+;PCODE: $0000008A VOL: 0
 ; 0007 0051         SetPWMFrequency(0);
-;PCODE: $00000094 VOL: 0
-;PCODE: $00000095 VOL: 0
-;PCODE: $00000096 VOL: 0
+;PCODE: $0000008B VOL: 0
+;PCODE: $0000008C VOL: 0
+;PCODE: $0000008D VOL: 0
 ; 0007 0052     }
-;PCODE: $00000097 VOL: 0
+;PCODE: $0000008E VOL: 0
 ; 0007 0053 }
-;PCODE: $00000098 VOL: 0
-;PCODE: $00000099 VOL: 0
+;PCODE: $0000008F VOL: 0
+;PCODE: $00000090 VOL: 0
 ;
 ;void BuzzerUpdate(SystemState state)
 ; 0007 0056 {
-;PCODE: $0000009A VOL: 0
-;PCODE: $0000009B VOL: 0
+;PCODE: $00000091 VOL: 0
+;PCODE: $00000092 VOL: 0
 ; 0007 0057     switch (state)
 ;	state -> Y+0
-;PCODE: $0000009C VOL: 0
-;PCODE: $0000009D VOL: 0
+;PCODE: $00000093 VOL: 0
+;PCODE: $00000094 VOL: 0
 ; 0007 0058     {
 ; 0007 0059         case ST_MOTION:
+;PCODE: $00000095 VOL: 0
+;PCODE: $00000096 VOL: 0
+; 0007 005A         case ST_SHOCK:
+;PCODE: $00000097 VOL: 0
+;PCODE: $00000098 VOL: 0
+;PCODE: $00000099 VOL: 0
+;PCODE: $0000009A VOL: 0
+;PCODE: $0000009B VOL: 0
+; 0007 005B             PoliceSiren();
+;PCODE: $0000009C VOL: 0
+; 0007 005C             break;
+;PCODE: $0000009D VOL: 0
+; 0007 005D 
+; 0007 005E         case ST_OVERHEAT:
 ;PCODE: $0000009E VOL: 0
 ;PCODE: $0000009F VOL: 0
-; 0007 005A         case ST_SHOCK:
 ;PCODE: $000000A0 VOL: 0
+; 0007 005F         case ST_FLAME:
 ;PCODE: $000000A1 VOL: 0
 ;PCODE: $000000A2 VOL: 0
 ;PCODE: $000000A3 VOL: 0
 ;PCODE: $000000A4 VOL: 0
-; 0007 005B             PoliceSiren();
 ;PCODE: $000000A5 VOL: 0
-; 0007 005C             break;
+; 0007 0060             FireAlarm();
 ;PCODE: $000000A6 VOL: 0
-; 0007 005D 
-; 0007 005E         case ST_OVERHEAT:
+; 0007 0061             break;
 ;PCODE: $000000A7 VOL: 0
+; 0007 0062 
+; 0007 0063         default:
 ;PCODE: $000000A8 VOL: 0
+; 0007 0064             StopSound();
 ;PCODE: $000000A9 VOL: 0
-; 0007 005F         case ST_FLAME:
+; 0007 0065             break;
 ;PCODE: $000000AA VOL: 0
+; 0007 0066     }
 ;PCODE: $000000AB VOL: 0
+; 0007 0067 }
 ;PCODE: $000000AC VOL: 0
 ;PCODE: $000000AD VOL: 0
 ;PCODE: $000000AE VOL: 0
-; 0007 0060             FireAlarm();
-;PCODE: $000000AF VOL: 0
-; 0007 0061             break;
-;PCODE: $000000B0 VOL: 0
-; 0007 0062 
-; 0007 0063         default:
-;PCODE: $000000B1 VOL: 0
-; 0007 0064             StopSound();
-;PCODE: $000000B2 VOL: 0
-; 0007 0065             break;
-;PCODE: $000000B3 VOL: 0
-; 0007 0066     }
-;PCODE: $000000B4 VOL: 0
-; 0007 0067 }
-;PCODE: $000000B5 VOL: 0
-;PCODE: $000000B6 VOL: 0
-;PCODE: $000000B7 VOL: 0

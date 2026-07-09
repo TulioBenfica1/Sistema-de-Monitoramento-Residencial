@@ -1,19 +1,25 @@
 RAM Allocation
 Variable                                                          Address   Size
 --------------------------------------------------------------------------------
-current_state                                                     0x0292       1
-password                                                          0x0293       4
-password_length                                                   0x0297       1
-password_input                                                    0x0298       4
-password_entry_active                                             0x029C       1
-flag_tim1                                                         0x029D       1
-key_pressed_counter                                               0x029E       1
-key_released_counter                                              0x029F       1
-column                                                            0x02A0       1
-row_data                                                          0x02A1       2
-crt_key                                                           0x02A3       2
-password_result                                                   0x02A5       1
-_base_y                                                           0x02A6       4
+current_state                                                     0x02DE       1
+password                                                          0x02DF       4
+password_length                                                   0x02E3       1
+data_length                                                       0x02E4       1
+password_input                                                    0x02E5       4
+data_input                                                        0x02E9      14
+password_entry_active                                             0x02F7       1
+data_entry_active                                                 0x02F8       1
+flag_tim1                                                         0x02F9       1
+key_pressed_counter                                               0x02FA       1
+key_released_counter                                              0x02FB       1
+column                                                            0x02FC       1
+row_data                                                          0x02FD       2
+crt_key                                                           0x02FF       2
+password_result                                                   0x0301       1
+data_result                                                       0x0302       1
+f                                                                 0x0303       2
+f                                                                 0x0305       4
+_base_y                                                           0x0309       4
 
 EEPROM Allocation
 Variable                                                          Address   Size

@@ -8,9 +8,19 @@ typedef enum
     PASSWORD_INCORRECT
 } PasswordResult;
 
+typedef enum
+{
+    DATA_PENDING,
+    DATA_SET,
+}Data;
+
 void PasswordStart(void);
+void DataStart(void);
 void PasswordInput(unsigned char input);
-void CleanLastDigit(void);
+void DataInput(unsigned char input);
+void CleanLastPasswordDigit(void);
+void CleanLastDataDigit(void);
 PasswordResult PasswordConfirm(void);
+Data DataSet(void);
 
 #endif

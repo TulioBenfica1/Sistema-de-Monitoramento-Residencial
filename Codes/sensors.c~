@@ -6,9 +6,9 @@ void SENSORSInit(void) {
 }
 
 void SensorsUpdate(void) {
-    unsigned char flame = ~PINB.0; 
-    unsigned char presence = PINB.1; 
-    unsigned char vibration = PINB.2;
+    unsigned char flame = PIND.0; 
+    unsigned char presence = PIND.1; 
+    unsigned char vibration = PIND.2;
 
     if (flame) {
         SystemSetState(ST_FLAME);

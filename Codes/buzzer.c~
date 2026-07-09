@@ -34,7 +34,7 @@ void PoliceSiren(void)
 
 void FireAlarm(void)
 {
-    static unsigned int f[2] = {650, 550};    
+    static unsigned int f[2] = {700, 555}; 
     static bit drive = 0;  
 
     UpdateTIMER1CompareValue(20);
@@ -45,23 +45,21 @@ void FireAlarm(void)
 
         if (drive == 0) 
         {
-            f[drive] += 1;
-            if (f[drive] >= 750) {
+            f[drive] += 5;
+            if (f[drive] >= 740) {
                 drive = 1;
-                f[0] = 650; 
+                f[0] = 700; 
             } 
         } 
         else                    
         {
-            f[drive] -= 1;
-            if (f[drive] <= 450) {
+            f[drive] -= 5;
+            if (f[drive] <= 455) {
                 drive = 0;
-                f[1] = 550;
+                f[1] = 555;
             }
         }
-
-        SetPWMFrequency(f[drive]);
-    }           
+    }
 }
 
 void StopSound(void)
@@ -72,10 +70,10 @@ void StopSound(void)
 
 void BeepSound(void)
 {
-    UpdateTIMER1CompareValue(20);
+    UpdateTIMER1CompareValue(100);
     if(GetTIMER1Flag()) {
         SetTIMER1Flag(0);
-        SetPWMFrequency(2000);
+        SetPWMFrequency(450);
     }
     else {
         SetPWMFrequency(0);

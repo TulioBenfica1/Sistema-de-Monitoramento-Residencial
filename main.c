@@ -1,9 +1,11 @@
 #include <mega16.h>
+#include <stdio.h>
 #include "config.h"
+
 
 void main(void)
 {
-    SystemInit();
+    SystemInit(); 
         
     while (1)
     {                  

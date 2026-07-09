@@ -6,6 +6,7 @@ typedef enum {
     ST_BOOT,
     ST_ARMED,
     ST_ARMING_DELAY,
+    ST_SET_DATA,
     ST_DISARMED,
     ST_SHOCK,
     ST_MOTION,

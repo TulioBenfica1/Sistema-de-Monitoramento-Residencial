@@ -21,6 +21,11 @@ void UpdatePasswordDisplay(unsigned char input, unsigned char length)
     lcd_gotoxy(7 + 2 * (length - 1), 1);
     lcd_putchar('*');
 }
+void UpdateDataDisplay(unsigned char input, unsigned char length)
+{
+    lcd_gotoxy((length - 1), 1);
+    lcd_putchar(input);
+}
 
 void WrongPasswordDisplay(void)
 {
@@ -32,6 +37,12 @@ void CorrectPasswordDisplay(void)
 {
     lcd_clear();
     lcd_puts("Senha Correta");
+}
+
+void SetDataDisplay (void)
+{
+    lcd_clear();
+    lcd_puts("Data setada");
 }
 
 void LCDUpdate(SystemState state)
@@ -49,10 +60,16 @@ void LCDUpdate(SystemState state)
             lcd_puts("Sistema Armado");
             break;
 
-        case ST_ARMING_DELAY:
-            lcd_puts("Armando Sistema");
+        case ST_ARMING_DELAY: 
+            lcd_puts("Armando sistema");
             lcd_gotoxy(0, 1);
             lcd_puts("...");
+            break;
+        
+        case ST_SET_DATA:
+            lcd_puts("Data e Hora: ");
+            lcd_gotoxy(0, 1);
+            lcd_puts("__/__/__ __:__  ");
             break;
 
         case ST_DISARMED:     
@@ -83,6 +100,12 @@ void LCDUpdate(SystemState state)
             lcd_gotoxy(0, 1);
             lcd_puts("Senha: _ _ _ _  ");
             break;
+            
+        case ST_INVASION:
+            lcd_puts("Alerta: Invasao");
+            lcd_gotoxy(0, 1);
+            lcd_puts("Senha: _ _ _ _  ");
+            break;            
 
         case ST_ERROR:
             lcd_puts("Erro no Sistema");

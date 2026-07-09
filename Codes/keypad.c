@@ -121,6 +121,7 @@ void KEYPADProcess(SystemState state)
    unsigned char index;    
    char key;
    static PasswordResult password_result;
+   static Data data_result;
    
    if(k=InKey())
    {
@@ -128,10 +129,26 @@ void KEYPADProcess(SystemState state)
       key = keymap[index];
       if (key == '<') // Tecla <
       {
-         CleanLastDigit();
+        if (state == ST_SET_DATA)
+        {
+            CleanLastDataDigit();
+            return;
+        } 
+        CleanLastPasswordDigit();
       }
       else if (key == '#') // Tecla #
-      {
+      {  
+         if(state == ST_SET_DATA)
+         {
+            data_result = DataSet();
+            delay_ms(1000);
+            if(data_result == DATA_SET)
+            {
+                LCDUpdate(ST_ARMING_DELAY);
+                SystemSetState(ST_ARMING_DELAY);        
+            } 
+            return;         
+         } 
          password_result = PasswordConfirm();
          delay_ms(1000);
          if (password_result == PASSWORD_INCORRECT)
@@ -160,8 +177,15 @@ void KEYPADProcess(SystemState state)
          }
       }
       else 
-      {
-         PasswordInput(keymap[index]);
+      {  
+        if(state == ST_SET_DATA)
+        {
+            DataInput(keymap[index]);
+        }
+        else
+        {
+            PasswordInput(keymap[index]);
+        }
       }
    }  
 }
