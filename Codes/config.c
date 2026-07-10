@@ -1,6 +1,7 @@
 #include <mega16.h>
 #include <delay.h>
 #include <alcd.h>
+#include <i2c.h>
 #include "config.h"
 #include "lcd.h"
 #include "timer.h"
@@ -9,7 +10,6 @@
 #include "buzzer.h"
 #include "password.h"
 #include "sensors.h"
-#include "i2c.h"
 #include "rtc.h"
 
 static SystemState current_state;
@@ -25,7 +25,7 @@ void SystemInit(void)
     SENSORSInit();
     PWMInit();
     //RTCInit();
-    //I2CInit();    
+    i2c_init();
     #asm("sei");
 }
 

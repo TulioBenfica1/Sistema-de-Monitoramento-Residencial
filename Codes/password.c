@@ -3,7 +3,7 @@
 #include "lcd.h"
 
 #define PASSWORD_LENGTH 4
-#define DATA_LENGTH 14
+#define DATA_LENGTH 15
 
 static unsigned char password[PASSWORD_LENGTH] = {'2', '2', '3', '4'};
 static unsigned char password_length;
@@ -38,18 +38,18 @@ void PasswordInput(unsigned char input)
 
 void DataInput(unsigned char input)
 {
-    if (data_length%3 == 0 && data_length != 0)
-        data_length = data_length + 2;
-        return; 
-        
     if (data_length >= DATA_LENGTH)
         return;
 
-    data_input[data_length] = input;
-    
-    data_length++ ;
+    data_input[data_length] = input;    
+    data_length++;
 
     UpdateDataDisplay(input, data_length);
+    
+    if (data_length % 3 == 2 && data_length < DATA_LENGTH)
+    {
+        data_length++;
+    }
 }
 
 
@@ -65,13 +65,16 @@ void CleanLastPasswordDigit(void)
 
 void CleanLastDataDigit(void)
 {
-    if(data_length > 0)
+    if (data_length > 0)
     {
         data_length--;
+        if (data_length % 3 == 2)
+        {
+            return;
+        }
         lcd_gotoxy(data_length, 1);
         lcd_putchar('_');
     }
-
 }
 
 PasswordResult PasswordConfirm(void)

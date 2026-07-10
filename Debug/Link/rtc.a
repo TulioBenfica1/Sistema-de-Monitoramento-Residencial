@@ -1,0 +1,68 @@
+;PCODE: $00000000 VOL: 0
+	#ifndef __SLEEP_DEFINED__
+;PCODE: $00000001 VOL: 0
+	#define __SLEEP_DEFINED__
+;PCODE: $00000002 VOL: 0
+	.EQU __se_bit=0x40
+;PCODE: $00000003 VOL: 0
+	.EQU __sm_mask=0xB0
+;PCODE: $00000004 VOL: 0
+	.EQU __sm_powerdown=0x20
+;PCODE: $00000005 VOL: 0
+	.EQU __sm_powersave=0x30
+;PCODE: $00000006 VOL: 0
+	.EQU __sm_standby=0xA0
+;PCODE: $00000007 VOL: 0
+	.EQU __sm_ext_standby=0xB0
+;PCODE: $00000008 VOL: 0
+	.EQU __sm_adc_noise_red=0x10
+;PCODE: $00000009 VOL: 0
+	.SET power_ctrl_reg=mcucr
+;PCODE: $0000000A VOL: 0
+	#endif
+;PCODE: $0000000B VOL: 0
+;PCODE: $0000000C VOL: 0
+;void RTCInit(void)
+; 0009 0009 {
+
+	.CSEG
+;PCODE: $0000000D VOL: 0
+;PCODE: $0000000E VOL: 0
+; 0009 000A rtc_init(0,1,0); // 1Hz, pino de saida baixo
+;PCODE: $0000000F VOL: 0
+;PCODE: $00000010 VOL: 0
+;PCODE: $00000011 VOL: 0
+;PCODE: $00000012 VOL: 0
+;PCODE: $00000013 VOL: 0
+;PCODE: $00000014 VOL: 0
+; 0009 000B //rtc_set_time(0,0,0);
+; 0009 000C // rtc_set_date(0,0,0);
+; 0009 000D 
+; 0009 000E }
+;PCODE: $00000015 VOL: 0
+;PCODE: $00000016 VOL: 0
+;unsigned char *GetRTC(void)
+; 0009 0011 {
+;PCODE: $00000017 VOL: 0
+;PCODE: $00000018 VOL: 0
+; 0009 0012 unsigned char dia, mes, ano, hor, min, seg;
+; 0009 0013 unsigned char time[TIME_LENGTH];
+; 0009 0014 // rtc_get_date(&dia, &mes, &ano);
+; 0009 0015 // rtc_get_time(&hor, &min, &seg);
+; 0009 0016 //time[TIME_LENGTH] = {ano, mes, dia, hor, min, seg};
+; 0009 0017 return time;
+;PCODE: $00000019 VOL: 0
+;PCODE: $0000001A VOL: 0
+;	dia -> R17
+;	mes -> R16
+;	ano -> R19
+;	hor -> R18
+;	min -> R21
+;	seg -> R20
+;	time -> Y+6
+;PCODE: $0000001B VOL: 0
+;PCODE: $0000001C VOL: 0
+;PCODE: $0000001D VOL: 0
+;PCODE: $0000001E VOL: 0
+; 0009 0018 }
+;PCODE: $0000001F VOL: 0

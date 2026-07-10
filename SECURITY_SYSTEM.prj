@@ -6,10 +6,10 @@ CV=4.06a Evaluation
 A=
 C=
 D=28/06/2026
-Files=11
-OpenedFiles=8
-OF1=Codes\config.c
-ActiveTab=2
+Files=10
+OpenedFiles=1
+OF1=D:\cvavr\lib\ds1307.lib
+ActiveTab=1
 DebugOutputListFilesDirectory=Debug\List
 DebugOutputObjectFilesDirectory=Debug
 DebugOutputExecutableFilesDirectory=Debug\Exe
@@ -20,7 +20,7 @@ OutputExecutableFilesDirectory=Release\Exe
 OutputLinkerFilesDirectory=Release\Link
 AllowDisplayFunctionCallTree=0
 CleanUp=2
-TimeStamp1=1558805254
+TimeStamp1=1465535436
 OF2=main.c
 TimeStamp2=1558805221
 OF3=Codes\sensors.c
@@ -80,7 +80,6 @@ F7=Codes\pwm.c
 F8=Codes\buzzer.c
 F9=Codes\sensors.c
 F10=Codes\rtc.c
-F11=Codes\i2c_.c
 [CompilerDebug]
 Chip=ATmega16
 CPUClock=14745600
@@ -188,9 +187,9 @@ UseBootAppXmega=0
 UseUDSC_LGT8F=0
 RebuildAll=0
 LinkageInformationPresent=1
-COFFileTimeStamp=1558548083
-Build=119
-GlobalVarAddr=637
+COFFileTimeStamp=1558820178
+Build=216
+GlobalVarAddr=782
 EEPROMVarAddr=0
 [DefinedSymbolsDebug]
 Count=0
@@ -299,10 +298,10 @@ UseEEPROMLocation0=1
 DisplayCodeSizeError=1
 UseBootAppXmega=0
 UseUDSC_LGT8F=0
-RebuildAll=0
-LinkageInformationPresent=1
+RebuildAll=1
+LinkageInformationPresent=0
 COFFileTimeStamp=-1
-Build=199
+Build=216
 IncludePath0=D:\cvavr\inc
 IncludePath1=Codes
 IncludePath2=
@@ -461,7 +460,7 @@ DisableWatchdog=0
 UseMangledNames=0
 [Libraries]
 Use1Wire=0
-UseI2C=0
+UseI2C=1
 I2CBitRate=100
 UseDS1302=0
 UseFATFS=0
@@ -486,6 +485,10 @@ AlphanumericLCDDATA6Port=0
 AlphanumericLCDDATA6Bit=6
 AlphanumericLCDDATA7Port=0
 AlphanumericLCDDATA7Bit=7
+I2CPort=1
+I2CPortSCL=1
+SDA=1
+SCL=0
 [BeforeMake]
 RunUserProg=0
 WaitUserProgFinish=1
@@ -576,9 +579,9 @@ Row=0
 Column=0
 ScrollPosX=0
 ScrollPosY=0
-TimeStamp=1558805371
+TimeStamp=1558817681
 [BookmarksFoldedCode]
-Files=25
+Files=27
 F1=C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\main.c
 F2=Codes\lcd.h
 F3=Codes\config.h
@@ -604,6 +607,8 @@ F22=Codes\rtc.h
 F23=C:\cvavr2\inc\i2c.h
 F24=Codes\keypad.h
 F25=C:\cvavr2\inc\ds1307.h
+F26=Debug\List\SECURITY_SYSTEM.asm
+F27=D:\cvavr\lib\ds1307.lib
 [Bookmarks1]
 TimeStamp=1557951590
 Row=6
@@ -639,48 +644,48 @@ L13=Enhanced function parameters passing: Mode 2
 L14=Automatic register allocation: Yes
 L15=Smart register allocation: Yes
 L16=
-L17=Build: 119
-L18=16732 line(s) compiled
+L17=Build: 216
+L18=19918 line(s) compiled
 L19=No errors
-L20=2 warning(s)
+L20=8 warning(s)
 L21=
 L22=Bit variables area: 0x2 to 0x2
 L23=Bit variables size: 1 byte(s)
 L24=
 L25=Data Stack area: 0x60 to 0x15F
 L26=Data Stack size: 256 byte(s)
-L27=Estimated Data Stack usage: 28 byte(s)
+L27=Estimated Data Stack usage: 29 byte(s)
 L28=
-L29=RAM Global variables area: 0x160 to 0x27C
-L30=RAM Global variables size: 285 byte(s)
+L29=RAM Global variables area: 0x160 to 0x30D
+L30=RAM Global variables size: 430 byte(s)
 L31=
-L32=Hardware Stack area: 0x27D to 0x45F
-L33=Hardware Stack size: 483 byte(s)
+L32=Hardware Stack area: 0x30E to 0x45F
+L33=Hardware Stack size: 338 byte(s)
 L34=
 L35=Heap size: 0 byte(s)
 L36=
 L37=EEPROM usage: 0 byte(s), 0,0% of EEPROM
-L38=Program size: 1244 words (2488 bytes), 15,2% of FLASH
+L38=Program size: 1619 words (3238 bytes), 19,8% of FLASH
 Lines=39
-L39=89 words (178 bytes), 6,7% reduced by Code Compression
+L39=99 words (198 bytes), 5,8% reduced by Code Compression
 [BuildInfoAssembler]
 L1=AVRASM: AVR macro assembler 2.1.30 (build 592 Nov  7 2008 12:38:17)
 L2=Copyright (C) 1995-2008 ATMEL Corporation
 L3=
-L4=C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\List\SECURITY_SYSTEM.asm(3427): No EEPROM data, deleting C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\Exe\SECURITY_SYSTEM.eep
+L4=C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\List\SECURITY_SYSTEM.asm(4071): No EEPROM data, deleting C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Debug\Exe\SECURITY_SYSTEM.eep
 L5=
 L6=ATmega16 memory use summary [bytes]:
 L7=Segment   Begin    End      Code   Data   Used    Size   Use%
 L8=---------------------------------------------------------------
-L9=[.cseg] 0x000000 0x0009b8   2094    394   2488   16384  15.2%
-L10=[.dseg] 0x000060 0x00027d      0    285    285    1024  27.8%
+L9=[.cseg] 0x000000 0x000ca6   2710    528   3238   16384  19.8%
+L10=[.dseg] 0x000060 0x00030e      0    430    430    1024  42.0%
 L11=[.eseg] 0x000000 0x000000      0      0      0     512   0.0%
 L12=
 Lines=12
 [Bookmarks2]
-TimeStamp=1558806596
-Row=11
-Column=19
+TimeStamp=1558816882
+Row=0
+Column=0
 ScrollPosX=0
 ScrollPosY=0
 BK0=-1
@@ -710,11 +715,11 @@ BK7=-1
 BK8=-1
 BK9=-1
 [Bookmarks4]
-TimeStamp=1558806618
-Row=26
-Column=23
+TimeStamp=1558819200
+Row=24
+Column=1
 ScrollPosX=0
-ScrollPosY=55
+ScrollPosY=16
 BK0=-1
 BK1=-1
 BK2=-1
@@ -726,11 +731,11 @@ BK7=-1
 BK8=-1
 BK9=-1
 [Bookmarks5]
-TimeStamp=1558805254
-Row=19
-Column=41
+TimeStamp=1558817929
+Row=3
+Column=13
 ScrollPosX=0
-ScrollPosY=59
+ScrollPosY=0
 BK0=-1
 BK1=-1
 BK2=-1
@@ -742,11 +747,11 @@ BK7=-1
 BK8=-1
 BK9=-1
 [Bookmarks6]
-TimeStamp=1558806973
-Row=11
-Column=36
+TimeStamp=1558816882
+Row=0
+Column=0
 ScrollPosX=0
-ScrollPosY=3
+ScrollPosY=0
 BK0=-1
 BK1=-1
 BK2=-1
@@ -758,11 +763,11 @@ BK7=-1
 BK8=-1
 BK9=-1
 [Bookmarks7]
-TimeStamp=1558807009
-Row=101
+TimeStamp=1558816963
+Row=0
 Column=0
 ScrollPosX=0
-ScrollPosY=6
+ScrollPosY=0
 BK0=-1
 BK1=-1
 BK2=-1
@@ -808,11 +813,11 @@ BK9=-1
 [FoldedCode8]
 Blocks=0
 [Bookmarks10]
-TimeStamp=1558806808
-Row=170
-Column=21
+TimeStamp=1558816882
+Row=0
+Column=0
 ScrollPosX=0
-ScrollPosY=105
+ScrollPosY=0
 BK0=-1
 BK1=-1
 BK2=-1
@@ -894,11 +899,11 @@ BK9=-1
 [FoldedCode14]
 Blocks=0
 [Bookmarks15]
-TimeStamp=1558805937
-Row=2
-Column=32
+TimeStamp=1558816882
+Row=0
+Column=0
 ScrollPosX=0
-ScrollPosY=18
+ScrollPosY=0
 BK0=-1
 BK1=-1
 BK2=-1
@@ -910,11 +915,11 @@ BK7=-1
 BK8=-1
 BK9=-1
 [Bookmarks16]
-TimeStamp=1558804181
-Row=7
-Column=25
+TimeStamp=1558816882
+Row=0
+Column=0
 ScrollPosX=0
-ScrollPosY=3
+ScrollPosY=0
 BK0=-1
 BK1=-1
 BK2=-1
@@ -976,9 +981,9 @@ BK7=-1
 BK8=-1
 BK9=-1
 [Bookmarks20]
-TimeStamp=1558800966
-Row=3
-Column=26
+TimeStamp=1558817893
+Row=6
+Column=4
 ScrollPosX=0
 ScrollPosY=0
 BK0=-1
@@ -992,9 +997,9 @@ BK7=-1
 BK8=-1
 BK9=-1
 [Bookmarks21]
-TimeStamp=1558802912
-Row=21
-Column=6
+TimeStamp=1558817934
+Row=17
+Column=0
 ScrollPosX=0
 ScrollPosY=0
 BK0=-1
@@ -1008,9 +1013,9 @@ BK7=-1
 BK8=-1
 BK9=-1
 [Bookmarks22]
-TimeStamp=1558802092
-Row=4
-Column=28
+TimeStamp=1558816882
+Row=0
+Column=0
 ScrollPosX=0
 ScrollPosY=0
 BK0=-1
@@ -1024,10 +1029,6 @@ BK7=-1
 BK8=-1
 BK9=-1
 [FoldedCode3]
-Blocks=0
-[FoldedCode20]
-Blocks=0
-[FoldedCode22]
 Blocks=0
 [FoldedCode12]
 Blocks=0
@@ -1087,19 +1088,11 @@ BK9=-1
 Blocks=0
 [FoldedCode13]
 Blocks=0
-[FoldedCode21]
-Blocks=0
-[FoldedCode5]
-Blocks=0
 [FoldedCode23]
-Blocks=0
-[FoldedCode15]
 Blocks=0
 [FoldedCode11]
 Blocks=0
-[FoldedCode6]
-Blocks=0
-[FoldedCode4]
+[FoldedCode17]
 Blocks=0
 [FoldedCode16]
 Blocks=0
@@ -1107,71 +1100,131 @@ Blocks=0
 Blocks=0
 [FoldedCode7]
 Blocks=0
+[FoldedCode15]
+Blocks=0
 [FoldedCode2]
 Blocks=0
-[FoldedCode17]
+[FoldedCode6]
+Blocks=0
+[Bookmarks26]
+TimeStamp=1558817949
+Row=0
+Column=0
+ScrollPosX=0
+ScrollPosY=3978
+BK0=-1
+BK1=-1
+BK2=-1
+BK3=-1
+BK4=-1
+BK5=-1
+BK6=-1
+BK7=-1
+BK8=-1
+BK9=-1
+[Bookmarks27]
+TimeStamp=1465535436
+Row=16
+Column=22
+ScrollPosX=0
+ScrollPosY=0
+BK0=-1
+BK1=-1
+BK2=-1
+BK3=-1
+BK4=-1
+BK5=-1
+BK6=-1
+BK7=-1
+BK8=-1
+BK9=-1
+[FoldedCode20]
+Blocks=0
+[FoldedCode22]
+Blocks=0
+[FoldedCode21]
+Blocks=0
+[FoldedCode5]
+Blocks=0
+[FoldedCode26]
+Blocks=0
+[FoldedCode27]
+Blocks=0
+[FoldedCode4]
 Blocks=0
 [HeadersList]
-Files=11
-F1=C:\Users\Label\Documents\micro\TrabalhoFinal\Sistema-de-Monitoramento-Residencial\main.c
-F2=C:\Users\Label\Documents\micro\TrabalhoFinal\Sistema-de-Monitoramento-Residencial\Codes\config.c
-F3=C:\Users\Label\Documents\micro\TrabalhoFinal\Sistema-de-Monitoramento-Residencial\Codes\lcd.c
-F4=C:\Users\Label\Documents\micro\TrabalhoFinal\Sistema-de-Monitoramento-Residencial\Codes\password.c
-F5=C:\Users\Label\Documents\micro\TrabalhoFinal\Sistema-de-Monitoramento-Residencial\Codes\timer.c
-F6=C:\Users\Label\Documents\micro\TrabalhoFinal\Sistema-de-Monitoramento-Residencial\Codes\keypad.c
-F7=C:\Users\Label\Documents\micro\TrabalhoFinal\Sistema-de-Monitoramento-Residencial\Codes\pwm.c
-F8=C:\Users\Label\Documents\micro\TrabalhoFinal\Sistema-de-Monitoramento-Residencial\Codes\buzzer.c
-F9=C:\Users\Label\Documents\micro\TrabalhoFinal\Sistema-de-Monitoramento-Residencial\Codes\sensors.c
-F10=C:\Users\Label\Documents\micro\TrabalhoFinal\Sistema-de-Monitoramento-Residencial\Codes\rtc.c
-F11=C:\Users\Label\Documents\micro\TrabalhoFinal\Sistema-de-Monitoramento-Residencial\Codes\i2c_.c
+Files=10
+F1=C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\main.c
+F2=C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Codes\config.c
+F3=C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Codes\lcd.c
+F4=C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Codes\password.c
+F5=C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Codes\timer.c
+F6=C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Codes\keypad.c
+F7=C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Codes\pwm.c
+F8=C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Codes\buzzer.c
+F9=C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Codes\sensors.c
+F10=C:\Users\Usuario\Desktop\microprocessador\TrabalhoFinal\SecuritySystem\Codes\rtc.c
 [Header1]
-Files=6
-F1=C:\cvavr2\inc\mega16.h
-F2=C:\cvavr2\inc\mega16_bits.h
-F3=C:\cvavr2\inc\stdio.h
-F4=C:\cvavr2\inc\stdarg.h
-F5=Codes\config.h
-F6=Codes\system_state.h
+Files=7
+F1=D:\cvavr\inc\mega16.h
+F2=D:\cvavr\inc\mega16_bits.h
+F3=D:\cvavr\inc\stdio.h
+F4=D:\cvavr\inc\io.h
+F5=D:\cvavr\inc\stdarg.h
+F6=Codes\config.h
+F7=Codes\system_state.h
 [Header2]
 Files=15
-F1=C:\cvavr2\inc\mega16.h
-F2=C:\cvavr2\inc\mega16_bits.h
-F3=C:\cvavr2\inc\delay.h
-F4=C:\cvavr2\inc\alcd.h
-F5=Codes\config.h
-F6=Codes\system_state.h
-F7=Codes\lcd.h
-F8=Codes\timer.h
-F9=Codes\pwm.h
-F10=Codes\keypad.h
-F11=Codes\buzzer.h
-F12=Codes\password.h
-F13=Codes\sensors.h
-F14=C:\cvavr2\inc\i2c.h
+F1=D:\cvavr\inc\mega16.h
+F2=D:\cvavr\inc\mega16_bits.h
+F3=D:\cvavr\inc\delay.h
+F4=D:\cvavr\inc\alcd.h
+F5=D:\cvavr\inc\i2c.h
+F6=Codes\config.h
+F7=Codes\system_state.h
+F8=Codes\lcd.h
+F9=Codes\timer.h
+F10=Codes\pwm.h
+F11=Codes\keypad.h
+F12=Codes\buzzer.h
+F13=Codes\password.h
+F14=Codes\sensors.h
 F15=Codes\rtc.h
 [Header3]
 Files=6
-F1=C:\cvavr2\inc\mega16.h
-F2=C:\cvavr2\inc\mega16_bits.h
-F3=C:\cvavr2\inc\alcd.h
-F4=C:\cvavr2\inc\delay.h
+F1=D:\cvavr\inc\mega16.h
+F2=D:\cvavr\inc\mega16_bits.h
+F3=D:\cvavr\inc\alcd.h
+F4=D:\cvavr\inc\delay.h
 F5=Codes\lcd.h
 F6=Codes\system_state.h
 [Header4]
 Files=4
-F1=C:\cvavr2\inc\alcd.h
+F1=D:\cvavr\inc\alcd.h
 F2=Codes\password.h
 F3=Codes\lcd.h
 F4=Codes\system_state.h
 [Header5]
 Files=3
-F1=C:\cvavr2\inc\mega16.h
-F2=C:\cvavr2\inc\mega16_bits.h
+F1=D:\cvavr\inc\mega16.h
+F2=D:\cvavr\inc\mega16_bits.h
 F3=Codes\timer.h
+[Header6]
+Files=10
+F1=D:\cvavr\inc\mega16.h
+F2=D:\cvavr\inc\mega16_bits.h
+F3=D:\cvavr\inc\delay.h
+F4=D:\cvavr\inc\alcd.h
+F5=Codes\config.h
+F6=Codes\system_state.h
+F7=Codes\keypad.h
+F8=Codes\password.h
+F9=Codes\buzzer.h
+F10=Codes\lcd.h
 [Header7]
 Files=3
-F1=C:\cvavr2\inc\mega16.h
-F2=C:\cvavr2\inc\mega16_bits.h
+F1=D:\cvavr\inc\mega16.h
+F2=D:\cvavr\inc\mega16_bits.h
 F3=Codes\pwm.h
 [Header8]
 Files=4
@@ -1181,33 +1234,15 @@ F3=Codes\system_state.h
 F4=Codes\timer.h
 [Header9]
 Files=5
-F1=C:\cvavr2\inc\mega16.h
-F2=C:\cvavr2\inc\mega16_bits.h
+F1=D:\cvavr\inc\mega16.h
+F2=D:\cvavr\inc\mega16_bits.h
 F3=Codes\sensors.h
 F4=Codes\system_state.h
 F5=Codes\config.h
 [Header10]
 Files=5
-F1=C:\cvavr2\inc\mega16.h
-F2=C:\cvavr2\inc\mega16_bits.h
-F3=C:\cvavr2\inc\ds1307.h
-F4=C:\cvavr2\inc\i2c.h
+F1=D:\cvavr\inc\mega16.h
+F2=D:\cvavr\inc\mega16_bits.h
+F3=D:\cvavr\inc\ds1307.h
+F4=D:\cvavr\inc\i2c.h
 F5=Codes\rtc.h
-[Header11]
-Files=4
-F1=C:\cvavr2\inc\mega16.h
-F2=C:\cvavr2\inc\mega16_bits.h
-F3=C:\cvavr2\inc\i2c.h
-F4=Codes\i2c_.h
-[Header6]
-Files=10
-F1=C:\cvavr2\inc\mega16.h
-F2=C:\cvavr2\inc\mega16_bits.h
-F3=C:\cvavr2\inc\delay.h
-F4=C:\cvavr2\inc\alcd.h
-F5=Codes\config.h
-F6=Codes\system_state.h
-F7=Codes\keypad.h
-F8=Codes\password.h
-F9=Codes\buzzer.h
-F10=Codes\lcd.h

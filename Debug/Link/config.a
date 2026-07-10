@@ -23,122 +23,181 @@
 ;PCODE: $0000000B VOL: 0
 ;PCODE: $0000000C VOL: 0
 ;void SystemInit(void)
-; 0001 000F {
+; 0001 0014 {
 
 	.CSEG
 ;PCODE: $0000000D VOL: 0
 ;PCODE: $0000000E VOL: 0
-; 0001 0010 // Configuração de registradores
-; 0001 0011 LCDInit();
+; 0001 0015 // Configuração de registradores
+; 0001 0016 LCDInit();
 ;PCODE: $0000000F VOL: 0
-; 0001 0012 KEYPADInit();
+; 0001 0017 KEYPADInit();
 ;PCODE: $00000010 VOL: 0
-; 0001 0013 TIMER1Init();
+; 0001 0018 TIMER1Init();
 ;PCODE: $00000011 VOL: 0
-; 0001 0014 PWMInit();
+; 0001 0019 SENSORSInit();
 ;PCODE: $00000012 VOL: 0
-; 0001 0015 #asm("sei");
+; 0001 001A PWMInit();
 ;PCODE: $00000013 VOL: 0
-; 0001 0016 
-; 0001 0017 }
+; 0001 001B //RTCInit();
+; 0001 001C i2c_init();
 ;PCODE: $00000014 VOL: 0
+; 0001 001D #asm("sei");
 ;PCODE: $00000015 VOL: 0
-;void SystemUpdate(void)
-; 0001 001A {
+; 0001 001E }
 ;PCODE: $00000016 VOL: 0
 ;PCODE: $00000017 VOL: 0
-; 0001 001B if (lcd_update_pending)
+;void SystemUpdate(void)
+; 0001 0021 {
 ;PCODE: $00000018 VOL: 0
 ;PCODE: $00000019 VOL: 0
+; 0001 0022 if (lcd_update_pending)
 ;PCODE: $0000001A VOL: 0
-; 0001 001C {
-; 0001 001D LCDUpdate(current_state);
 ;PCODE: $0000001B VOL: 0
 ;PCODE: $0000001C VOL: 0
-; 0001 001E lcd_update_pending = 0;
+; 0001 0023 {
+; 0001 0024 LCDUpdate(current_state);
 ;PCODE: $0000001D VOL: 0
 ;PCODE: $0000001E VOL: 0
+; 0001 0025 if(current_state == ST_BOOT)
 ;PCODE: $0000001F VOL: 0
-; 0001 001F }
-; 0001 0020 if(keypad_entry)
 ;PCODE: $00000020 VOL: 0
 ;PCODE: $00000021 VOL: 0
+; 0001 0026 {
+; 0001 0027 delay_ms(5000);
 ;PCODE: $00000022 VOL: 0
 ;PCODE: $00000023 VOL: 0
-; 0001 0021 {
-; 0001 0022 KEYPADProcess(current_state);
+; 0001 0028 SystemSetState(ST_SET_DATA);
 ;PCODE: $00000024 VOL: 0
 ;PCODE: $00000025 VOL: 0
-; 0001 0023 }
-; 0001 0024 BuzzerUpdate(current_state);
+; 0001 0029 return;
 ;PCODE: $00000026 VOL: 0
+; 0001 002A }
+; 0001 002B 
+; 0001 002C lcd_update_pending = 0;
 ;PCODE: $00000027 VOL: 0
 ;PCODE: $00000028 VOL: 0
-; 0001 0025 }
 ;PCODE: $00000029 VOL: 0
 ;PCODE: $0000002A VOL: 0
-;void SystemSetState(SystemState state)
-; 0001 0028 {
+; 0001 002D }
+; 0001 002E if(keypad_entry)
 ;PCODE: $0000002B VOL: 0
 ;PCODE: $0000002C VOL: 0
-; 0001 0029 current_state = state;
 ;PCODE: $0000002D VOL: 0
 ;PCODE: $0000002E VOL: 0
-;	state -> R17
+; 0001 002F {
+; 0001 0030 KEYPADProcess(current_state);
 ;PCODE: $0000002F VOL: 0
 ;PCODE: $00000030 VOL: 0
-; 0001 002A lcd_update_pending = 1;
+; 0001 0031 }
+; 0001 0032 //SensorsUpdate();
+; 0001 0033 BuzzerUpdate(current_state);
 ;PCODE: $00000031 VOL: 0
 ;PCODE: $00000032 VOL: 0
 ;PCODE: $00000033 VOL: 0
-; 0001 002B if (state == ST_DISARMED || state == ST_SHOCK ||
-; 0001 002C state == ST_MOTION || state == ST_SMOKE ||
-; 0001 002D state == ST_OVERHEAT)
+; 0001 0034 
+; 0001 0035 }
 ;PCODE: $00000034 VOL: 0
 ;PCODE: $00000035 VOL: 0
+;void SystemSetState(SystemState state)
+; 0001 0038 {
 ;PCODE: $00000036 VOL: 0
 ;PCODE: $00000037 VOL: 0
+; 0001 0039 current_state = state;
 ;PCODE: $00000038 VOL: 0
 ;PCODE: $00000039 VOL: 0
+;	state -> R17
 ;PCODE: $0000003A VOL: 0
 ;PCODE: $0000003B VOL: 0
+; 0001 003A lcd_update_pending = 1;
 ;PCODE: $0000003C VOL: 0
 ;PCODE: $0000003D VOL: 0
 ;PCODE: $0000003E VOL: 0
+; 0001 003B if (state == ST_SHOCK || state == ST_MOTION ||
+; 0001 003C state == ST_FLAME || state == ST_OVERHEAT ||
+; 0001 003D state == ST_DISARMED || state == ST_INVASION)
 ;PCODE: $0000003F VOL: 0
 ;PCODE: $00000040 VOL: 0
 ;PCODE: $00000041 VOL: 0
 ;PCODE: $00000042 VOL: 0
 ;PCODE: $00000043 VOL: 0
 ;PCODE: $00000044 VOL: 0
-; 0001 002E {
-; 0001 002F keypad_entry = 1;
 ;PCODE: $00000045 VOL: 0
 ;PCODE: $00000046 VOL: 0
 ;PCODE: $00000047 VOL: 0
-; 0001 0030 PasswordStart();
 ;PCODE: $00000048 VOL: 0
-; 0001 0031 }
-; 0001 0032 else
 ;PCODE: $00000049 VOL: 0
 ;PCODE: $0000004A VOL: 0
-; 0001 0033 {
-; 0001 0034 keypad_entry = 0;
 ;PCODE: $0000004B VOL: 0
 ;PCODE: $0000004C VOL: 0
 ;PCODE: $0000004D VOL: 0
-; 0001 0035 }
 ;PCODE: $0000004E VOL: 0
-; 0001 0036 }
 ;PCODE: $0000004F VOL: 0
 ;PCODE: $00000050 VOL: 0
 ;PCODE: $00000051 VOL: 0
-;SystemState SystemGetState(void)
-; 0001 0039 {
 ;PCODE: $00000052 VOL: 0
+; 0001 003E {
+; 0001 003F keypad_entry = 1;
 ;PCODE: $00000053 VOL: 0
-; 0001 003A return current_state;
 ;PCODE: $00000054 VOL: 0
 ;PCODE: $00000055 VOL: 0
-; 0001 003B }
+; 0001 0040 PasswordStart();
 ;PCODE: $00000056 VOL: 0
+; 0001 0041 DataStart();
+;PCODE: $00000057 VOL: 0
+; 0001 0042 }
+; 0001 0043 else if (state == ST_SET_DATA)
+;PCODE: $00000058 VOL: 0
+;PCODE: $00000059 VOL: 0
+;PCODE: $0000005A VOL: 0
+;PCODE: $0000005B VOL: 0
+;PCODE: $0000005C VOL: 0
+; 0001 0044 {
+; 0001 0045 keypad_entry = 1;
+;PCODE: $0000005D VOL: 0
+;PCODE: $0000005E VOL: 0
+;PCODE: $0000005F VOL: 0
+; 0001 0046 DataStart();
+;PCODE: $00000060 VOL: 0
+; 0001 0047 PasswordStart();
+;PCODE: $00000061 VOL: 0
+; 0001 0048 }
+; 0001 0049 else
+;PCODE: $00000062 VOL: 0
+;PCODE: $00000063 VOL: 0
+; 0001 004A {
+; 0001 004B keypad_entry = 0;
+;PCODE: $00000064 VOL: 0
+;PCODE: $00000065 VOL: 0
+;PCODE: $00000066 VOL: 0
+; 0001 004C }
+;PCODE: $00000067 VOL: 0
+;PCODE: $00000068 VOL: 0
+; 0001 004D 
+; 0001 004E if(state == ST_ARMING_DELAY)
+;PCODE: $00000069 VOL: 0
+;PCODE: $0000006A VOL: 0
+;PCODE: $0000006B VOL: 0
+; 0001 004F {
+; 0001 0050 //delay_ms(60000);         // tempo para ajuste de sensores
+; 0001 0051 delay_ms(2000);
+;PCODE: $0000006C VOL: 0
+;PCODE: $0000006D VOL: 0
+; 0001 0052 current_state = ST_ARMED;
+;PCODE: $0000006E VOL: 0
+;PCODE: $0000006F VOL: 0
+; 0001 0053 }
+; 0001 0054 }
+;PCODE: $00000070 VOL: 0
+;PCODE: $00000071 VOL: 0
+;PCODE: $00000072 VOL: 0
+;PCODE: $00000073 VOL: 0
+;SystemState SystemGetState(void)
+; 0001 0057 {
+;PCODE: $00000074 VOL: 0
+;PCODE: $00000075 VOL: 0
+; 0001 0058 return current_state;
+;PCODE: $00000076 VOL: 0
+;PCODE: $00000077 VOL: 0
+; 0001 0059 }
+;PCODE: $00000078 VOL: 0
