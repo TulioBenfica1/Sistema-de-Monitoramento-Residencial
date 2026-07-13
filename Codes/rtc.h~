@@ -1,6 +1,11 @@
 #ifndef RTC_H
 #define RTC_H
 
+#define INFO_LENGTH 2
+
 void RTCInit(void);
+unsigned char *GetRTC(void);
+void SetDateRTC(unsigned char dia, unsigned char mes, unsigned char ano);
+void SetTimeRTC(unsigned char hor, unsigned char min);
 
 #endif 

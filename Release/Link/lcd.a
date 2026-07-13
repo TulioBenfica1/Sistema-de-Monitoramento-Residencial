@@ -238,7 +238,7 @@ _0x40005:
 ;PCODE: $00000088 VOL: 0
 ;PCODE: $00000089 VOL: 0
 ;PCODE: $0000008A VOL: 0
-; 0002 0042             lcd_puts("...");
+; 0002 0042             lcd_puts("      ...");
 ;PCODE: $0000008B VOL: 0
 ;PCODE: $0000008C VOL: 0
 ;PCODE: $0000008D VOL: 0
@@ -437,4 +437,4 @@ _0x40005:
 
 	.DSEG
 _0x4000A:
-	.BYTE 0x13C
+	.BYTE 0x142

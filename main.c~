@@ -1,25 +1,16 @@
 #include <mega16.h>
 #include <stdio.h>
 #include "config.h"
-
+#include "usart.h"
 
 void main(void)
 {
     SystemInit(); 
-    
-    UCSRA=0x00;
-    UCSRB=0x08;
-    UCSRC=0x86;
-    UBRRH=0x00;
-    UBRRL=0x2F;
-    
-    
-    printf("%d", SystemGetState());
+
         
     while (1)
     {                  
         SystemUpdate();
-        printf("%d", SystemGetState());
         if(PIND.2 == 0)
         {                                                                   
             SystemSetState(ST_MOTION);

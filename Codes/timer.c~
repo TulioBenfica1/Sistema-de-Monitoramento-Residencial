@@ -1,7 +1,10 @@
 #include <mega16.h>
 #include "timer.h"
+#include <stdio.h>
 
-static volatile unsigned char flag_tim1 = 0;
+static volatile unsigned char flag_tim1 = 0;      
+static volatile unsigned char flag_tim2 = 0;
+static unsigned int cont =0;  
 
 interrupt [TIM1_COMPA] void timer1_compa_isr(void)
 {
@@ -9,10 +12,19 @@ interrupt [TIM1_COMPA] void timer1_compa_isr(void)
     flag_tim1 = 1;
 }
 
+interrupt [TIM2_OVF] void timer2_ovf_isr(void)
+{
+    ++cont;
+    if (cont == 1000){  
+        flag_tim2 = 1;
+        cont=0;
+    }
+}
+
 void TIMER1Init(void)
 { 
     // Registradores para configurar o Timer1
-    TCCR1B = 0x05; // Prescaler de 64
+    TCCR1B |= 0x04; // Prescaler de 64
     TIMSK |= 0x10; // Habilita interrupção do Timer1 sem desabilitar o Timer0
     OCR1A = 0x00;
 }
@@ -20,7 +32,7 @@ void TIMER1Init(void)
 void UpdateTIMER1CompareValue(unsigned int time)
 {
     // Recebe um periodo em ms e atualiza o valor do registrador de comparacao A do Timer1
-    OCR1A = (int)((14400UL * time) / 1000UL0 - 1;
+    OCR1A = (int)((14400UL * time) / 1000UL) - 1;
 }
 
 unsigned char GetTIMER1Flag(void)
@@ -31,4 +43,24 @@ unsigned char GetTIMER1Flag(void)
 void SetTIMER1Flag(unsigned char value)
 {
     flag_tim1 = value; 
+}
+
+
+
+void TIMER2Init(void)
+{ 
+    // Registradores para configurar o Timer1
+    TCCR2 |= 0x05; // Prescaler de 64
+    TIMSK |= 0x40; // Habilita interrupção do Timer1 sem desabilitar o Timer0
+    OCR2 |= 0x00;
+}
+
+unsigned char GetTIMER2Flag(void)
+{
+    return flag_tim2;
+}
+
+void SetTIMER2Flag(unsigned char value)
+{
+    flag_tim2 = value; 
 }

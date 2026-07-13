@@ -2,6 +2,7 @@
 #include <delay.h>
 #include <alcd.h>
 #include <i2c.h>
+#include <stdio.h>
 #include "config.h"
 #include "lcd.h"
 #include "timer.h"
@@ -11,22 +12,39 @@
 #include "password.h"
 #include "sensors.h"
 #include "rtc.h"
+#include "usart.h"
+
 
 static SystemState current_state;
 static bit lcd_update_pending = 1;
 static bit keypad_entry = 0;
+static bit read_sensors_flag = 0;
+static bit flag_pulse = 0;
+
+
+interrupt [EXT_INT0] void int_ext_pulse (void)
+{
+    flag_pulse = 1;
+} 
 
 void SystemInit(void)
 {
     // Configuração de registradores 
-    LCDInit(); 
+    LCDInit();
+    RTCInit();   
+    USARTInit();
     KEYPADInit();
     TIMER1Init();
     SENSORSInit();
     PWMInit();
-    //RTCInit();
+    #asm
+        .equ __i2c_port=0x18
+        .equ __sda_bit=3
+        .equ __scl_bit=4
+    #endasm
     i2c_init();
     #asm("sei");
+    
 }
 
 void SystemUpdate(void)
@@ -35,7 +53,7 @@ void SystemUpdate(void)
     {
         LCDUpdate(current_state);
         if(current_state == ST_BOOT)
-        {   
+        {            
             delay_ms(5000);
             SystemSetState(ST_SET_DATA); 
             return;   
@@ -46,10 +64,16 @@ void SystemUpdate(void)
     if(keypad_entry)
     {
         KEYPADProcess(current_state);
-    }
-    //SensorsUpdate();    
-    BuzzerUpdate(current_state);   
-    
+    } 
+    if (read_sensors_flag)
+    {
+        //SensorsUpdate();
+    }    
+    //BuzzerUpdate(current_state); 
+    if(flag_pulse == 1 && read_sensors_flag==1){
+        SerialUpdate(); 
+        flag_pulse = 0;
+    } 
 }
 
 void SystemSetState(SystemState state)
@@ -80,6 +104,8 @@ void SystemSetState(SystemState state)
         //delay_ms(60000);         // tempo para ajuste de sensores
         delay_ms(2000);
         current_state = ST_ARMED;
+        printf("timestamp,estado do sistema\r\n");
+        read_sensors_flag = 1;
     }
 }
 
@@ -87,3 +113,4 @@ SystemState SystemGetState(void)
 {
     return current_state;
 }
+

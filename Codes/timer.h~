@@ -2,8 +2,11 @@
 #define TIMER_H
 
 void TIMER1Init(void);
-void UpdateTIMER1CompareValue(unsigned int period);
+void UpdateTIMER1CompareValue(unsigned int time);
 unsigned char GetTIMER1Flag(void);
 void SetTIMER1Flag(unsigned char value);
+void TIMER2Init(void);
+unsigned char GetTIMER2Flag(void);
+void SetTIMER2Flag(unsigned char value);
 
 #endif

@@ -23,10 +23,6 @@ void UpdatePasswordDisplay(unsigned char input, unsigned char length)
 }
 void UpdateDataDisplay(unsigned char input, unsigned char length)
 {
-    if (length%3 == 0 && length != 0)
-    {
-        return;
-    }
     lcd_gotoxy((length - 1), 1);
     lcd_putchar(input);
 }

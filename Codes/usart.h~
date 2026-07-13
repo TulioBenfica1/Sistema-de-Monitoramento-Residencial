@@ -1,0 +1,7 @@
+#ifndef USART_H
+#define USART_H
+
+void USARTInit(void);
+void SerialUpdate(unsigned char flag_data);
+
+#endif 

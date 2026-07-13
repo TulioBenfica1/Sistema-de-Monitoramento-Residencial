@@ -1,6 +1,8 @@
 #include <alcd.h>
 #include "password.h"
 #include "lcd.h"
+#include "rtc.h"
+#include <stdio.h>
 
 #define PASSWORD_LENGTH 4
 #define DATA_LENGTH 15
@@ -9,9 +11,11 @@ static unsigned char password[PASSWORD_LENGTH] = {'2', '2', '3', '4'};
 static unsigned char password_length;
 static unsigned char data_length;
 static unsigned char password_input[PASSWORD_LENGTH];
-static unsigned char data_input[DATA_LENGTH];
+static unsigned char data_input[DATA_LENGTH] = {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'};
 static unsigned char password_entry_active;
 static unsigned char data_entry_active;
+
+
 
 void PasswordStart(void)
 {
@@ -50,6 +54,7 @@ void DataInput(unsigned char input)
     {
         data_length++;
     }
+    
 }
 
 
@@ -102,10 +107,25 @@ PasswordResult PasswordConfirm(void)
 
 Data DataSet(void)
 {
+    unsigned char dia_;
+    unsigned char mes_;
+    unsigned char ano_;
+    unsigned char hor_;
+    unsigned char min_;
     if (!data_entry_active || data_length < DATA_LENGTH)
         return DATA_PENDING;
 
-    SetDataDisplay();
+    SetDataDisplay();  
+    if(data_length == DATA_LENGTH){
+        dia_ = (char)((data_input[0]- '0')*10 + (data_input[1]- '0'));
+        mes_ = (char)((data_input[3]- '0')*10 + (data_input[4]- '0'));
+        ano_ = (char)((data_input[6]- '0')*10 + (data_input[7]- '0'));
+        hor_ = (char)((data_input[9]- '0')*10 + (data_input[10]- '0'));
+        min_ = (char)((data_input[12]- '0')*10 + (data_input[13]- '0'));
+                     
+        SetDateRTC(dia_, mes_, ano_);
+        SetTimeRTC(hor_, min_);   
+    }
     data_entry_active = 0;
     data_length = 0;
     return DATA_SET;       

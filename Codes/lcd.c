@@ -63,7 +63,7 @@ void LCDUpdate(SystemState state)
         case ST_ARMING_DELAY: 
             lcd_puts("Armando sistema");
             lcd_gotoxy(0, 1);
-            lcd_puts("...");
+            lcd_puts("      ...");
             break;
         
         case ST_SET_DATA:

@@ -1,25 +1,26 @@
 RAM Allocation
 Variable                                                          Address   Size
 --------------------------------------------------------------------------------
-current_state                                                     0x02DE       1
-password                                                          0x02DF       4
-password_length                                                   0x02E3       1
-data_length                                                       0x02E4       1
-password_input                                                    0x02E5       4
-data_input                                                        0x02E9      14
-password_entry_active                                             0x02F7       1
-data_entry_active                                                 0x02F8       1
-flag_tim1                                                         0x02F9       1
-key_pressed_counter                                               0x02FA       1
-key_released_counter                                              0x02FB       1
-column                                                            0x02FC       1
-row_data                                                          0x02FD       2
-crt_key                                                           0x02FF       2
-password_result                                                   0x0301       1
-data_result                                                       0x0302       1
-f                                                                 0x0303       2
-f                                                                 0x0305       4
-_base_y                                                           0x0309       4
+current_state                                                     0x02E4       1
+password                                                          0x02E5       4
+password_length                                                   0x02E9       1
+data_length                                                       0x02EA       1
+password_input                                                    0x02EB       4
+data_input                                                        0x02EF      15
+password_entry_active                                             0x02FE       1
+data_entry_active                                                 0x02FF       1
+flag_tim1                                                         0x0300       1
+key_pressed_counter                                               0x0301       1
+key_released_counter                                              0x0302       1
+column                                                            0x0303       1
+row_data                                                          0x0304       2
+crt_key                                                           0x0306       2
+password_result                                                   0x0308       1
+data_result                                                       0x0309       1
+flame                                                             0x030A       1
+shock                                                             0x030B       1
+_base_y                                                           0x030C       4
+_seed                                                             0x0310       4
 
 EEPROM Allocation
 Variable                                                          Address   Size
@@ -30,9 +31,12 @@ Variable                                                          Register  Size
 --------------------------------------------------------------------------------
 lcd_update_pending                                                R2.0      1bit
 keypad_entry                                                      R2.1      1bit
+read_sensors_flag                                                 R2.2      1bit
+flag_pulse                                                        R2.3      1bit
 keys                                                              R4,R5        2
-drive                                                             R2.2      1bit
-drive                                                             R2.3      1bit
+drive                                                             R2.4      1bit
+drive                                                             R2.5      1bit
+flag_motion                                                       R2.6      1bit
 _lcd_x                                                            R7           1
 _lcd_y                                                            R6           1
 _lcd_maxx                                                         R9           1

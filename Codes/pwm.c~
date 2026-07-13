@@ -21,6 +21,6 @@ void SetPWMFrequency(unsigned int frequency)
 
     DDRD |= 0x80;
     
-    reg = (unsigned char)((14745600UL / (2048UL * frequency)) - 1);
+    reg = (unsigned char)((14745600UL / (128UL * frequency)) - 1);
     OCR2 = reg;
 }

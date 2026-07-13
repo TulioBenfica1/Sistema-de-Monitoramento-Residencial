@@ -33,47 +33,47 @@
 ;PCODE: $0000000E VOL: 0
 ; 0006 0006     // Configuracoes do PWM no modo geracao de onda quadrada no timer 2
 ; 0006 0007     // modo CTC (clear timer on compare match), prescaler = 1024, pino PD7 pro PWM2
-; 0006 0008     TCCR2 = 0b00011100;
+; 0006 0008     TCCR2 |= 0b00011100;
 ;PCODE: $0000000F VOL: 0
 ;PCODE: $00000010 VOL: 0
-; 0006 0009     DDRD = 0x80;
 ;PCODE: $00000011 VOL: 0
+; 0006 0009     DDRD |= 0x80;
 ;PCODE: $00000012 VOL: 0
-; 0006 000A }
 ;PCODE: $00000013 VOL: 0
+; 0006 000A }
 ;PCODE: $00000014 VOL: 0
+;PCODE: $00000015 VOL: 0
 ;
 ;void SetPWMFrequency(unsigned int frequency)
 ; 0006 000D {
-;PCODE: $00000015 VOL: 0
 ;PCODE: $00000016 VOL: 0
+;PCODE: $00000017 VOL: 0
 ; 0006 000E     // Altera o registrador OCR2 para alterar a frequencia do PWM
 ; 0006 000F     unsigned char reg;
 ; 0006 0010 
 ; 0006 0011     if(frequency == 0) {
-;PCODE: $00000017 VOL: 0
+;PCODE: $00000018 VOL: 0
 ;	frequency -> Y+1
 ;	reg -> R17
-;PCODE: $00000018 VOL: 0
 ;PCODE: $00000019 VOL: 0
 ;PCODE: $0000001A VOL: 0
-; 0006 0012         DDRD &= ~0x80; // Desliga o pino PD7
 ;PCODE: $0000001B VOL: 0
+; 0006 0012         DDRD &= ~0x80; // Desliga o pino PD7
 ;PCODE: $0000001C VOL: 0
-; 0006 0013         return;
 ;PCODE: $0000001D VOL: 0
+; 0006 0013         return;
 ;PCODE: $0000001E VOL: 0
 ;PCODE: $0000001F VOL: 0
 ;PCODE: $00000020 VOL: 0
+;PCODE: $00000021 VOL: 0
 ; 0006 0014     }
 ; 0006 0015 
 ; 0006 0016     DDRD |= 0x80;
-;PCODE: $00000021 VOL: 0
 ;PCODE: $00000022 VOL: 0
 ;PCODE: $00000023 VOL: 0
+;PCODE: $00000024 VOL: 0
 ; 0006 0017 
 ; 0006 0018     reg = (unsigned char)((14745600UL / (128UL * frequency)) - 1);
-;PCODE: $00000024 VOL: 0
 ;PCODE: $00000025 VOL: 0
 ;PCODE: $00000026 VOL: 0
 ;PCODE: $00000027 VOL: 0
@@ -81,12 +81,13 @@
 ;PCODE: $00000029 VOL: 0
 ;PCODE: $0000002A VOL: 0
 ;PCODE: $0000002B VOL: 0
-; 0006 0019     OCR2 = reg;
 ;PCODE: $0000002C VOL: 0
+; 0006 0019     OCR2 = reg;
 ;PCODE: $0000002D VOL: 0
-; 0006 001A }
 ;PCODE: $0000002E VOL: 0
+; 0006 001A }
 ;PCODE: $0000002F VOL: 0
 ;PCODE: $00000030 VOL: 0
 ;PCODE: $00000031 VOL: 0
 ;PCODE: $00000032 VOL: 0
+;PCODE: $00000033 VOL: 0

@@ -1,7 +1,9 @@
 #include <mega16.h>
 #include "timer.h"
+#include <stdio.h>
 
-static volatile unsigned char flag_tim1 = 0;
+static volatile unsigned char flag_tim1 = 0;      
+ 
 
 interrupt [TIM1_COMPA] void timer1_compa_isr(void)
 {
@@ -9,10 +11,12 @@ interrupt [TIM1_COMPA] void timer1_compa_isr(void)
     flag_tim1 = 1;
 }
 
+
+
 void TIMER1Init(void)
 { 
     // Registradores para configurar o Timer1
-    TCCR1B = 0x05; // Prescaler de 64
+    TCCR1B |= 0x04; // Prescaler de 64
     TIMSK |= 0x10; // Habilita interrupção do Timer1 sem desabilitar o Timer0
     OCR1A = 0x00;
 }
@@ -32,3 +36,5 @@ void SetTIMER1Flag(unsigned char value)
 {
     flag_tim1 = value; 
 }
+
+

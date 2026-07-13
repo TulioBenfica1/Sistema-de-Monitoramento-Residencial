@@ -24,19 +24,20 @@
 ;PCODE: $0000000B VOL: 0
 ;PCODE: $0000000C VOL: 0
 ;#include <ds1307.h>
+;#include <stdio.h>
+;#include <stdlib.h>
 ;
 ;#include "rtc.h"
-;#include "i2c.h"
 ;
 ;#define TIME_LENGTH 6
 ;
 ;void RTCInit(void)
-; 0009 000A {
+; 0009 000B {
 
 	.CSEG
 ;PCODE: $0000000D VOL: 0
 ;PCODE: $0000000E VOL: 0
-; 0009 000B     rtc_init(0,1,0); // 1Hz, pino de saida baixo
+; 0009 000C     rtc_init(0,1,0); // 1Hz, pino de saida baixo
 ;PCODE: $0000000F VOL: 0
 ;PCODE: $00000010 VOL: 0
 ;PCODE: $00000011 VOL: 0
@@ -44,33 +45,33 @@
 ;PCODE: $00000013 VOL: 0
 ;PCODE: $00000014 VOL: 0
 ;PCODE: $00000015 VOL: 0
-; 0009 000C 
-; 0009 000D 
-; 0009 000E }
+; 0009 000D     DDRD |= 0b00000000;
 ;PCODE: $00000016 VOL: 0
 ;PCODE: $00000017 VOL: 0
+;PCODE: $00000018 VOL: 0
+; 0009 000E     PORTD |= 0b00000100;
+;PCODE: $00000019 VOL: 0
+;PCODE: $0000001A VOL: 0
+; 0009 000F }
+;PCODE: $0000001B VOL: 0
+;PCODE: $0000001C VOL: 0
 ;
 ;unsigned char *GetRTC(void)
-; 0009 0011 {
-;PCODE: $00000018 VOL: 0
-;PCODE: $00000019 VOL: 0
-; 0009 0012     unsigned char dia, mes, ano, hor, min, seg;
-; 0009 0013     unsigned char time[TIME_LENGTH];
-; 0009 0014     rtc_get_date(&dia, &mes, &ano);
-;PCODE: $0000001A VOL: 0
-;PCODE: $0000001B VOL: 0
-;	dia -> R17
-;	mes -> R16
-;	ano -> R19
-;	hor -> R18
-;	min -> R21
-;	seg -> R20
-;	time -> Y+6
-;PCODE: $0000001C VOL: 0
+; 0009 0012 {
 ;PCODE: $0000001D VOL: 0
 ;PCODE: $0000001E VOL: 0
+; 0009 0013     char *time = (char*) malloc(TIME_LENGTH * sizeof(char));
+; 0009 0014     unsigned char dia, mes, ano, hor, min, seg;
+; 0009 0015     rtc_get_date(&dia, &mes, &ano);
 ;PCODE: $0000001F VOL: 0
 ;PCODE: $00000020 VOL: 0
+;	*time -> R16,R17
+;	dia -> R19
+;	mes -> R18
+;	ano -> R21
+;	hor -> R20
+;	min -> Y+7
+;	seg -> Y+6
 ;PCODE: $00000021 VOL: 0
 ;PCODE: $00000022 VOL: 0
 ;PCODE: $00000023 VOL: 0
@@ -79,7 +80,6 @@
 ;PCODE: $00000026 VOL: 0
 ;PCODE: $00000027 VOL: 0
 ;PCODE: $00000028 VOL: 0
-; 0009 0015     rtc_get_time(&hor, &min, &seg);
 ;PCODE: $00000029 VOL: 0
 ;PCODE: $0000002A VOL: 0
 ;PCODE: $0000002B VOL: 0
@@ -89,16 +89,83 @@
 ;PCODE: $0000002F VOL: 0
 ;PCODE: $00000030 VOL: 0
 ;PCODE: $00000031 VOL: 0
+; 0009 0016     rtc_get_time(&hor, &min, &seg);
 ;PCODE: $00000032 VOL: 0
 ;PCODE: $00000033 VOL: 0
 ;PCODE: $00000034 VOL: 0
 ;PCODE: $00000035 VOL: 0
-; 0009 0016     //time[TIME_LENGTH] = {ano, mes, dia, hor, min, seg};
-; 0009 0017     return time;
 ;PCODE: $00000036 VOL: 0
 ;PCODE: $00000037 VOL: 0
 ;PCODE: $00000038 VOL: 0
 ;PCODE: $00000039 VOL: 0
-; 0009 0018 }
 ;PCODE: $0000003A VOL: 0
+; 0009 0017     time[0] = ano;
+;PCODE: $0000003B VOL: 0
+;PCODE: $0000003C VOL: 0
+;PCODE: $0000003D VOL: 0
+; 0009 0018     time[1] = mes;
+;PCODE: $0000003E VOL: 0
+;PCODE: $0000003F VOL: 0
+;PCODE: $00000040 VOL: 0
+; 0009 0019     time[2] = dia;
+;PCODE: $00000041 VOL: 0
+;PCODE: $00000042 VOL: 0
+;PCODE: $00000043 VOL: 0
+; 0009 001A     time[3] = hor;
+;PCODE: $00000044 VOL: 0
+;PCODE: $00000045 VOL: 0
+;PCODE: $00000046 VOL: 0
+; 0009 001B     time[4] = min;
+;PCODE: $00000047 VOL: 0
+;PCODE: $00000048 VOL: 0
+;PCODE: $00000049 VOL: 0
+; 0009 001C     time[5] = seg;
+;PCODE: $0000004A VOL: 0
+;PCODE: $0000004B VOL: 0
+;PCODE: $0000004C VOL: 0
+; 0009 001D     return time;
+;PCODE: $0000004D VOL: 0
+;PCODE: $0000004E VOL: 0
+;PCODE: $0000004F VOL: 0
+;PCODE: $00000050 VOL: 0
+; 0009 001E }
+;PCODE: $00000051 VOL: 0
+;
+;void SetDateRTC(unsigned char dia, unsigned char mes, unsigned char ano){
+; 0009 0020 void SetDateRTC(unsigned char dia, unsigned char mes, unsigned char ano){
+;PCODE: $00000052 VOL: 0
+;PCODE: $00000053 VOL: 0
+; 0009 0021     rtc_set_date(dia, mes, ano);
+;	dia -> Y+2
+;	mes -> Y+1
+;	ano -> Y+0
+;PCODE: $00000054 VOL: 0
+;PCODE: $00000055 VOL: 0
+;PCODE: $00000056 VOL: 0
+;PCODE: $00000057 VOL: 0
+;PCODE: $00000058 VOL: 0
+;PCODE: $00000059 VOL: 0
+;PCODE: $0000005A VOL: 0
+; 0009 0022 }
+;PCODE: $0000005B VOL: 0
+;PCODE: $0000005C VOL: 0
+;PCODE: $0000005D VOL: 0
+;void SetTimeRTC(unsigned char hor, unsigned char min){
+; 0009 0023 void SetTimeRTC(unsigned char hor, unsigned char min){
+;PCODE: $0000005E VOL: 0
+;PCODE: $0000005F VOL: 0
+; 0009 0024     rtc_set_time(hor, min, 0);
+;	hor -> Y+1
+;	min -> Y+0
+;PCODE: $00000060 VOL: 0
+;PCODE: $00000061 VOL: 0
+;PCODE: $00000062 VOL: 0
+;PCODE: $00000063 VOL: 0
+;PCODE: $00000064 VOL: 0
+;PCODE: $00000065 VOL: 0
+;PCODE: $00000066 VOL: 0
+; 0009 0025 }
+;PCODE: $00000067 VOL: 0
+;PCODE: $00000068 VOL: 0
+;PCODE: $00000069 VOL: 0
 ;
