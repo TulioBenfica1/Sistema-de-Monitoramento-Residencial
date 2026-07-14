@@ -256,48 +256,40 @@
 ; 0001 0065         current_state = ST_ARMED;
 ;PCODE: $00000089 VOL: 0
 ;PCODE: $0000008A VOL: 0
-; 0001 0066         printf("timestamp,estado do sistema\r\n");
+; 0001 0066         read_sensors_flag = 1;
 ;PCODE: $0000008B VOL: 0
 ;PCODE: $0000008C VOL: 0
 ;PCODE: $0000008D VOL: 0
+; 0001 0067     }
+; 0001 0068 }
 ;PCODE: $0000008E VOL: 0
 ;PCODE: $0000008F VOL: 0
 ;PCODE: $00000090 VOL: 0
 ;PCODE: $00000091 VOL: 0
-; 0001 0067         read_sensors_flag = 1;
-;PCODE: $00000092 VOL: 0
-;PCODE: $00000093 VOL: 0
-;PCODE: $00000094 VOL: 0
-; 0001 0068     }
-; 0001 0069 }
-;PCODE: $00000095 VOL: 0
-;PCODE: $00000096 VOL: 0
-;PCODE: $00000097 VOL: 0
-;PCODE: $00000098 VOL: 0
 ;
 ;SystemState SystemGetState(void)
-; 0001 006C {
-;PCODE: $00000099 VOL: 0
-;PCODE: $0000009A VOL: 0
-; 0001 006D     return current_state;
-;PCODE: $0000009B VOL: 0
-;PCODE: $0000009C VOL: 0
-; 0001 006E }
-;PCODE: $0000009D VOL: 0
+; 0001 006B {
+;PCODE: $00000092 VOL: 0
+;PCODE: $00000093 VOL: 0
+; 0001 006C     return current_state;
+;PCODE: $00000094 VOL: 0
+;PCODE: $00000095 VOL: 0
+; 0001 006D }
+;PCODE: $00000096 VOL: 0
 ;
 ;void SystemCheckState(){
-; 0001 0070 void SystemCheckState(){
+; 0001 006F void SystemCheckState(){
+;PCODE: $00000097 VOL: 0
+;PCODE: $00000098 VOL: 0
+; 0001 0070     if (past_state != current_state){
+;PCODE: $00000099 VOL: 0
+;PCODE: $0000009A VOL: 0
+;PCODE: $0000009B VOL: 0
+;PCODE: $0000009C VOL: 0
+; 0001 0071         SerialUpdate();
+;PCODE: $0000009D VOL: 0
+; 0001 0072     }
+; 0001 0073 }
 ;PCODE: $0000009E VOL: 0
 ;PCODE: $0000009F VOL: 0
-; 0001 0071     if (past_state != current_state){
 ;PCODE: $000000A0 VOL: 0
-;PCODE: $000000A1 VOL: 0
-;PCODE: $000000A2 VOL: 0
-;PCODE: $000000A3 VOL: 0
-; 0001 0072         SerialUpdate();
-;PCODE: $000000A4 VOL: 0
-; 0001 0073     }
-; 0001 0074 }
-;PCODE: $000000A5 VOL: 0
-;PCODE: $000000A6 VOL: 0
-;PCODE: $000000A7 VOL: 0

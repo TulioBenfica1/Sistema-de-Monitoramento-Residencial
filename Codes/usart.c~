@@ -1,6 +1,6 @@
 #include <mega16.h>
 #include <stdio.h>
-#include <stdlib.h
+#include <stdlib.h>
 #include "usart.h"
 #include "config.h"
 #include "rtc.h"
@@ -19,6 +19,6 @@ void SerialUpdate(void){
     SystemState state;
     ptr = GetRTC(); 
     state = SystemGetState();
-    printf("%d/%d/%d %d:%d:%d,%d,\r\n", *(ptr+2), *(ptr+1), *(ptr), *(ptr+3), *(ptr+4), *(ptr+5), state);
+    printf("\r%d/%d/%d %d:%d:%d,%d,\n", *(ptr+2), *(ptr+1), *(ptr), *(ptr+3), *(ptr+4), *(ptr+5), state);
     free(ptr);
 }

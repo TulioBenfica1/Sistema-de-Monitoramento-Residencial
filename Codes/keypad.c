@@ -141,7 +141,7 @@ void KEYPADProcess(SystemState state)
          if(state == ST_SET_DATA)
          {
             data_result = DataSet();
-            delay_ms(1000);
+            //delay_ms(1000);
             if(data_result == DATA_SET)
             {
                 LCDUpdate(ST_ARMING_DELAY);
@@ -150,7 +150,7 @@ void KEYPADProcess(SystemState state)
             return;         
          } 
          password_result = PasswordConfirm();
-         delay_ms(1000);
+         //delay_ms(1000);
          if (password_result == PASSWORD_INCORRECT)
          {
             SystemSetState(state);

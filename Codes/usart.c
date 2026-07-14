@@ -19,6 +19,6 @@ void SerialUpdate(void){
     SystemState state;
     ptr = GetRTC(); 
     state = SystemGetState();
-    printf("%d/%d/%d %d:%d:%d,%d,\r\n", *(ptr+2), *(ptr+1), *(ptr), *(ptr+3), *(ptr+4), *(ptr+5), state);
+    printf("\r\n%d/%d/%d %d:%d:%d,%d,", *(ptr+2), *(ptr+1), *(ptr), *(ptr+3), *(ptr+4), *(ptr+5), state);
     free(ptr);
 }

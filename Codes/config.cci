@@ -1,4 +1,4 @@
-VERSION:3 SOURCE_TIMESTAMP:5CEE7D4B
+VERSION:3 SOURCE_TIMESTAMP:5CEE7D9B
 NODE:I LEVEL:0 LINE:1 "C:\cvavr2\inc\mega16.h"
 NODE:I LEVEL:0 LINE:2 "C:\cvavr2\inc\delay.h"
 NODE:I LEVEL:0 LINE:3 "C:\cvavr2\inc\alcd.h"
@@ -44,5 +44,5 @@ LEVEL:1 LINE:16 ICON:T "ST_ERROR=10"
 NODE:F LEVEL:0 LINE:25 "SystemInit(void)"
 NODE:F LEVEL:0 LINE:45 "SystemUpdate(void)"
 NODE:F LEVEL:0 LINE:70 "SystemSetState(enum SystemState state)"
-NODE:F LEVEL:0 LINE:107 "SystemGetState(void)"
-NODE:F LEVEL:0 LINE:112 "SystemCheckState(void)"
+NODE:F LEVEL:0 LINE:106 "SystemGetState(void)"
+NODE:F LEVEL:0 LINE:111 "SystemCheckState(void)"

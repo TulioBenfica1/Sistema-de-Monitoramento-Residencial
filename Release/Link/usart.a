@@ -69,7 +69,7 @@
 ; 000A 0015     state = SystemGetState();
 ;PCODE: $00000020 VOL: 0
 ;PCODE: $00000021 VOL: 0
-; 000A 0016     printf("%d/%d/%d %d:%d:%d,%d,\r\n", *(ptr+2), *(ptr+1), *(ptr), *(ptr+3), *(ptr+4), *(ptr+5), state);
+; 000A 0016     printf("\r\n%d/%d/%d %d:%d:%d,%d,", *(ptr+2), *(ptr+1), *(ptr), *(ptr+3), *(ptr+4), *(ptr+5), state);
 ;PCODE: $00000022 VOL: 0
 ;PCODE: $00000023 VOL: 0
 ;PCODE: $00000024 VOL: 0
