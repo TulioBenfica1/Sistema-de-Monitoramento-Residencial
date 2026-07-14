@@ -1069,7 +1069,7 @@ __START_OF_CODE:
 
 ;INTERRUPT VECTORS
 	JMP  __RESET
-	JMP  _int_ext_pulse
+	JMP  0x00
 	JMP  _int_ext1_motion
 	JMP  0x00
 	JMP  0x00
@@ -1101,7 +1101,7 @@ _tbl16_G100:
 
 ;REGISTER BIT VARIABLES INITIALIZATION
 __REG_BIT_VARS:
-	.DW  0x0011
+	.DW  0x0009
 
 _0x20000:
 	.DB  0x74,0x69,0x6D,0x65,0x73,0x74,0x61,0x6D
@@ -1467,138 +1467,126 @@ _0x8:
 ;static bit lcd_update_pending = 1;
 ;static bit keypad_entry = 0;
 ;static bit read_sensors_flag = 0;
-;static bit flag_pulse = 0;
+;static SystemState past_state;
 ;
 ;
-;interrupt [EXT_INT0] void int_ext_pulse (void)
+;void SystemInit(void)
 ; 0001 001A {
 
 	.CSEG
-_int_ext_pulse:
-	ST   -Y,R30
-	IN   R30,SREG
-; 0001 001B     flag_pulse = 1;
-	SET
-	BLD  R2,3
-; 0001 001C }
-	OUT  SREG,R30
-	LD   R30,Y+
-	RETI
-;
-;void SystemInit(void)
-; 0001 001F {
 _SystemInit:
-; 0001 0020     // Configuração de registradores
-; 0001 0021     LCDInit();
+; 0001 001B     // Configuração de registradores
+; 0001 001C     LCDInit();
 	RCALL _LCDInit
-; 0001 0022     RTCInit();
+; 0001 001D     RTCInit();
 	CALL _RTCInit
-; 0001 0023     USARTInit();
+; 0001 001E     USARTInit();
 	CALL _USARTInit
-; 0001 0024     KEYPADInit();
+; 0001 001F     KEYPADInit();
 	CALL _KEYPADInit
-; 0001 0025     TIMER1Init();
+; 0001 0020     TIMER1Init();
 	CALL _TIMER1Init
-; 0001 0026     SENSORSInit();
+; 0001 0021     SENSORSInit();
 	CALL _SENSORSInit
-; 0001 0027     PWMInit();
+; 0001 0022     PWMInit();
 	CALL _PWMInit
-; 0001 0028     #asm
-; 0001 0029         .equ __i2c_port=0x18
+; 0001 0023     #asm
+; 0001 0024         .equ __i2c_port=0x18
         .equ __i2c_port=0x18
-; 0001 002A         .equ __sda_bit=3
+; 0001 0025         .equ __sda_bit=3
         .equ __sda_bit=3
-; 0001 002B         .equ __scl_bit=4
+; 0001 0026         .equ __scl_bit=4
         .equ __scl_bit=4
-; 0001 002C     #endasm
-; 0001 002D     i2c_init();
+; 0001 0027     #endasm
+; 0001 0028     i2c_init();
 	CALL _i2c_init
-; 0001 002E     #asm("sei");
+; 0001 0029     #asm("sei");
 	sei
-; 0001 002F 
-; 0001 0030 }
+; 0001 002A 
+; 0001 002B }
 	RET
 ;
 ;void SystemUpdate(void)
-; 0001 0033 {
+; 0001 002E {
 _SystemUpdate:
-; 0001 0034     if (lcd_update_pending)
+; 0001 002F     if (lcd_update_pending)
 	SBRS R2,0
 	RJMP _0x20003
-; 0001 0035     {
-; 0001 0036         LCDUpdate(current_state);
+; 0001 0030     {
+; 0001 0031         LCDUpdate(current_state);
 	LDS  R30,_current_state_G001
 	ST   -Y,R30
 	RCALL _LCDUpdate
-; 0001 0037         if(current_state == ST_BOOT)
+; 0001 0032         if(current_state == ST_BOOT)
 	LDS  R30,_current_state_G001
 	CPI  R30,0
 	BRNE _0x20004
-; 0001 0038         {
-; 0001 0039             delay_ms(5000);
+; 0001 0033         {
+; 0001 0034             delay_ms(5000);
 	LDI  R30,LOW(5000)
 	LDI  R31,HIGH(5000)
 	CALL SUBOPT_0x0
-; 0001 003A             SystemSetState(ST_SET_DATA);
+; 0001 0035             SystemSetState(ST_SET_DATA);
 	LDI  R30,LOW(3)
 	ST   -Y,R30
 	RCALL _SystemSetState
-; 0001 003B             return;
+; 0001 0036             return;
 	RET
-; 0001 003C         }
-; 0001 003D 
-; 0001 003E         lcd_update_pending = 0;
+; 0001 0037         }
+; 0001 0038 
+; 0001 0039         lcd_update_pending = 0;
 _0x20004:
 	CLT
 	BLD  R2,0
-; 0001 003F     }
-; 0001 0040     if(keypad_entry)
+; 0001 003A     }
+; 0001 003B     if(keypad_entry)
 _0x20003:
 	SBRS R2,1
 	RJMP _0x20005
-; 0001 0041     {
-; 0001 0042         KEYPADProcess(current_state);
+; 0001 003C     {
+; 0001 003D         KEYPADProcess(current_state);
 	LDS  R30,_current_state_G001
 	ST   -Y,R30
 	CALL _KEYPADProcess
-; 0001 0043     }
-; 0001 0044     if (read_sensors_flag)
+; 0001 003E     }
+; 0001 003F     if (read_sensors_flag)
 _0x20005:
-; 0001 0045     {
-; 0001 0046         //SensorsUpdate();
-; 0001 0047     }
-; 0001 0048     //BuzzerUpdate(current_state);
-; 0001 0049     if(flag_pulse == 1 && read_sensors_flag==1){
-	SBRS R2,3
-	RJMP _0x20008
-	SBRC R2,2
-	RJMP _0x20009
-_0x20008:
-	RJMP _0x20007
-_0x20009:
-; 0001 004A         SerialUpdate();
-	CALL _SerialUpdate
-; 0001 004B         flag_pulse = 0;
-	CLT
-	BLD  R2,3
-; 0001 004C     }
-; 0001 004D }
-_0x20007:
+; 0001 0040     {
+; 0001 0041         //SensorsUpdate();
+; 0001 0042     }
+; 0001 0043     //BuzzerUpdate(current_state);
+; 0001 0044 }
 	RET
 ;
 ;void SystemSetState(SystemState state)
-; 0001 0050 {
+; 0001 0047 {
 _SystemSetState:
-; 0001 0051     current_state = state;
+; 0001 0048     past_state = current_state;
 ;	state -> Y+0
+	LDS  R30,_current_state_G001
+	STS  _past_state_G001,R30
+; 0001 0049     current_state = state;
 	LD   R30,Y
 	STS  _current_state_G001,R30
-; 0001 0052     lcd_update_pending = 1;
+; 0001 004A     if (current_state != ST_SET_DATA && current_state != ST_BOOT){
+	LDS  R26,_current_state_G001
+	CPI  R26,LOW(0x3)
+	BREQ _0x20008
+	CPI  R26,LOW(0x0)
+	BRNE _0x20009
+_0x20008:
+	RJMP _0x20007
+_0x20009:
+; 0001 004B           SystemCheckState();
+	RCALL _SystemCheckState
+; 0001 004C     }
+; 0001 004D     lcd_update_pending = 1;
+_0x20007:
 	SET
 	BLD  R2,0
-; 0001 0053     if (state == ST_SHOCK || state == ST_MOTION ||
-; 0001 0054         state == ST_FLAME || state == ST_OVERHEAT ||
-; 0001 0055         state == ST_DISARMED || state == ST_INVASION)
+; 0001 004E     if (state == ST_SHOCK || state == ST_MOTION ||
+; 0001 004F         state == ST_FLAME || state == ST_OVERHEAT ||
+; 0001 0050         state == ST_DISARMED || state == ST_INVASION)
 	LD   R26,Y
 	CPI  R26,LOW(0x5)
 	BREQ _0x2000B
@@ -1613,78 +1601,92 @@ _SystemSetState:
 	CPI  R26,LOW(0x8)
 	BRNE _0x2000A
 _0x2000B:
-; 0001 0056     {
-; 0001 0057         keypad_entry = 1;
+; 0001 0051     {
+; 0001 0052         keypad_entry = 1;
 	SET
 	BLD  R2,1
-; 0001 0058         PasswordStart();
+; 0001 0053         PasswordStart();
 	RCALL _PasswordStart
-; 0001 0059         DataStart();
+; 0001 0054         DataStart();
 	RCALL _DataStart
-; 0001 005A     }
-; 0001 005B     else if (state == ST_SET_DATA)
+; 0001 0055     }
+; 0001 0056     else if (state == ST_SET_DATA)
 	RJMP _0x2000D
 _0x2000A:
 	LD   R26,Y
 	CPI  R26,LOW(0x3)
 	BRNE _0x2000E
-; 0001 005C     {
-; 0001 005D         keypad_entry = 1;
+; 0001 0057     {
+; 0001 0058         keypad_entry = 1;
 	SET
 	BLD  R2,1
-; 0001 005E         DataStart();
+; 0001 0059         DataStart();
 	RCALL _DataStart
-; 0001 005F         PasswordStart();
+; 0001 005A         PasswordStart();
 	RCALL _PasswordStart
-; 0001 0060     }
-; 0001 0061     else
+; 0001 005B     }
+; 0001 005C     else
 	RJMP _0x2000F
 _0x2000E:
-; 0001 0062     {
-; 0001 0063         keypad_entry = 0;
+; 0001 005D     {
+; 0001 005E         keypad_entry = 0;
 	CLT
 	BLD  R2,1
-; 0001 0064     }
+; 0001 005F     }
 _0x2000F:
 _0x2000D:
-; 0001 0065 
-; 0001 0066     if(state == ST_ARMING_DELAY)
+; 0001 0060 
+; 0001 0061     if(state == ST_ARMING_DELAY)
 	LD   R26,Y
 	CPI  R26,LOW(0x2)
 	BRNE _0x20010
-; 0001 0067     {
-; 0001 0068         //delay_ms(60000);         // tempo para ajuste de sensores
-; 0001 0069         delay_ms(2000);
+; 0001 0062     {
+; 0001 0063         //delay_ms(60000);         // tempo para ajuste de sensores
+; 0001 0064         delay_ms(2000);
 	LDI  R30,LOW(2000)
 	LDI  R31,HIGH(2000)
 	CALL SUBOPT_0x0
-; 0001 006A         current_state = ST_ARMED;
+; 0001 0065         current_state = ST_ARMED;
 	LDI  R30,LOW(1)
 	STS  _current_state_G001,R30
-; 0001 006B         printf("timestamp,estado do sistema\r\n");
+; 0001 0066         printf("timestamp,estado do sistema\r\n");
 	__POINTW1FN _0x20000,0
 	ST   -Y,R31
 	ST   -Y,R30
 	LDI  R24,0
 	CALL _printf
 	ADIW R28,2
-; 0001 006C         read_sensors_flag = 1;
+; 0001 0067         read_sensors_flag = 1;
 	SET
 	BLD  R2,2
-; 0001 006D     }
-; 0001 006E }
+; 0001 0068     }
+; 0001 0069 }
 _0x20010:
 	ADIW R28,1
 	RET
 ;
 ;SystemState SystemGetState(void)
-; 0001 0071 {
+; 0001 006C {
 _SystemGetState:
-; 0001 0072     return current_state;
+; 0001 006D     return current_state;
 	LDS  R30,_current_state_G001
 	RET
-; 0001 0073 }
+; 0001 006E }
 ;
+;void SystemCheckState(){
+; 0001 0070 void SystemCheckState(){
+_SystemCheckState:
+; 0001 0071     if (past_state != current_state){
+	LDS  R30,_current_state_G001
+	LDS  R26,_past_state_G001
+	CP   R30,R26
+	BREQ _0x20011
+; 0001 0072         SerialUpdate();
+	CALL _SerialUpdate
+; 0001 0073     }
+; 0001 0074 }
+_0x20011:
+	RET
 ;#include <mega16.h>
 	#ifndef __SLEEP_DEFINED__
 	#define __SLEEP_DEFINED__
@@ -3155,13 +3157,13 @@ _SENSORSInit:
 	IN   R30,0x17
 	ORI  R30,LOW(0xC0)
 	OUT  0x17,R30
-; 0008 000C     GICR |= 0b11000000;
+; 0008 000C     GICR |= 0b01000000;
 	IN   R30,0x3B
-	ORI  R30,LOW(0xC0)
+	ORI  R30,0x40
 	OUT  0x3B,R30
-; 0008 000D     MCUCR |= 0b00001110;
+; 0008 000D     MCUCR |= 0b00001100;
 	IN   R30,0x35
-	ORI  R30,LOW(0xE)
+	ORI  R30,LOW(0xC)
 	OUT  0x35,R30
 ; 0008 000E }
 	RET
@@ -3174,7 +3176,7 @@ _int_ext1_motion:
 	IN   R30,SREG
 ; 0008 0013     flag_motion = 1;
 	SET
-	BLD  R2,6
+	BLD  R2,5
 ; 0008 0014 }
 	OUT  SREG,R30
 	LD   R30,Y+
@@ -4215,6 +4217,8 @@ bin2bcd1:
 
 	.DSEG
 _current_state_G001:
+	.BYTE 0x1
+_past_state_G001:
 	.BYTE 0x1
 _password_G003:
 	.BYTE 0x4

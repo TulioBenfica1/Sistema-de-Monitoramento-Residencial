@@ -19,13 +19,8 @@ static SystemState current_state;
 static bit lcd_update_pending = 1;
 static bit keypad_entry = 0;
 static bit read_sensors_flag = 0;
-static bit flag_pulse = 0;
+static SystemState past_state;
 
-
-interrupt [EXT_INT0] void int_ext_pulse (void)
-{
-    flag_pulse = 1;
-} 
 
 void SystemInit(void)
 {
@@ -70,15 +65,15 @@ void SystemUpdate(void)
         //SensorsUpdate();
     }    
     //BuzzerUpdate(current_state); 
-    if(flag_pulse == 1 && read_sensors_flag==1){
-        SerialUpdate(); 
-        flag_pulse = 0;
-    } 
 }
 
 void SystemSetState(SystemState state)
 {
+    past_state = current_state;
     current_state = state;
+    if (current_state != ST_SET_DATA && current_state != ST_BOOT){
+          SystemCheckState();
+    }
     lcd_update_pending = 1;
     if (state == ST_SHOCK || state == ST_MOTION || 
         state == ST_FLAME || state == ST_OVERHEAT || 
@@ -104,7 +99,6 @@ void SystemSetState(SystemState state)
         //delay_ms(60000);         // tempo para ajuste de sensores
         delay_ms(2000);
         current_state = ST_ARMED;
-        printf("timestamp,estado do sistema\r\n");
         read_sensors_flag = 1;
     }
 }
@@ -114,3 +108,8 @@ SystemState SystemGetState(void)
     return current_state;
 }
 
+void SystemCheckState(){
+    if (past_state != current_state){
+        SerialUpdate();    
+    }  
+}

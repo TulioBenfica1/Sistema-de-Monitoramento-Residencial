@@ -9,8 +9,8 @@ static unsigned char shock;
 
 void SENSORSInit(void) {
     DDRB |= 0xC0; // Configura PORTB como entrada
-    GICR |= 0b11000000;
-    MCUCR |= 0b00001110;   
+    GICR |= 0b01000000;
+    MCUCR |= 0b00001100;   
 }
 
 

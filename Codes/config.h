@@ -7,4 +7,5 @@ void SystemInit(void);
 void SystemUpdate(void);
 void SystemSetState(SystemState state);
 SystemState SystemGetState(void);
+void SystemCheckState();
 #endif

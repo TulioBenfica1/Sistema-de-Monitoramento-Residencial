@@ -14,7 +14,7 @@ void SENSORSInit(void) {
 }
 
 
-interrupt [EXT_INT1] void int_ext1_pulse (void)
+interrupt [EXT_INT1] void int_ext1_motion (void)
 {
     flag_motion = 1;
 }
