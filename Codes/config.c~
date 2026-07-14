@@ -62,7 +62,7 @@ void SystemUpdate(void)
     } 
     if (read_sensors_flag)
     {
-        //SensorsUpdate();
+        SensorsUpdate();
     }    
     //BuzzerUpdate(current_state); 
 }
@@ -99,7 +99,6 @@ void SystemSetState(SystemState state)
         //delay_ms(60000);         // tempo para ajuste de sensores
         delay_ms(2000);
         current_state = ST_ARMED;
-        printf("timestamp,estado do sistema\r\n");
         read_sensors_flag = 1;
     }
 }

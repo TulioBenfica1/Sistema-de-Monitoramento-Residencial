@@ -23,10 +23,10 @@ void SensorsUpdate(void) {
     flame = PINB.5; 
     shock = PINB.7;  
 
-    if (flame && flag_motion && shock){
+    if (flame==0 && flag_motion && shock){
         SystemSetState(ST_FLAME);
     }
-    else if (flame) {
+    else if (flame==0) {
         SystemSetState(ST_FLAME);
     }
     else if (flag_motion && shock){

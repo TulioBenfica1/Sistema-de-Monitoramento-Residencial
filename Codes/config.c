@@ -62,9 +62,9 @@ void SystemUpdate(void)
     } 
     if (read_sensors_flag)
     {
-        //SensorsUpdate();
+        SensorsUpdate();
     }    
-    //BuzzerUpdate(current_state); 
+    BuzzerUpdate(current_state); 
 }
 
 void SystemSetState(SystemState state)

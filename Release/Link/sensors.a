@@ -80,7 +80,7 @@
 ;PCODE: $00000028 VOL: 0
 ;PCODE: $00000029 VOL: 0
 ; 0008 0019 
-; 0008 001A     if (flame && flag_motion && shock){
+; 0008 001A     if (flame==0 && flag_motion && shock){
 ;PCODE: $0000002A VOL: 0
 ;PCODE: $0000002B VOL: 0
 ;PCODE: $0000002C VOL: 0
@@ -99,7 +99,7 @@
 ;PCODE: $00000038 VOL: 0
 ;PCODE: $00000039 VOL: 0
 ; 0008 001C     }
-; 0008 001D     else if (flame) {
+; 0008 001D     else if (flame==0) {
 ;PCODE: $0000003A VOL: 0
 ;PCODE: $0000003B VOL: 0
 ;PCODE: $0000003C VOL: 0

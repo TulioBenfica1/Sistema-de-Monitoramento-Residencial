@@ -18,10 +18,12 @@ row_data                                                          0x0305       2
 crt_key                                                           0x0307       2
 password_result                                                   0x0309       1
 data_result                                                       0x030A       1
-flame                                                             0x030B       1
-shock                                                             0x030C       1
-_base_y                                                           0x030D       4
-_seed                                                             0x0311       4
+f                                                                 0x030B       2
+f                                                                 0x030D       4
+flame                                                             0x0311       1
+shock                                                             0x0312       1
+_base_y                                                           0x0313       4
+_seed                                                             0x0317       4
 
 EEPROM Allocation
 Variable                                                          Address   Size
