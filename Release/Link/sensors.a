@@ -88,7 +88,7 @@
 ;PCODE: $0000002D VOL: 0
 ;PCODE: $0000002E VOL: 0
 ; 0008 001C 
-; 0008 001D     printf("valor lido: %d\r\n", motion);
+; 0008 001D     printf("valor lido: %d\r\n",motion);
 ;PCODE: $0000002F VOL: 0
 ;PCODE: $00000030 VOL: 0
 ;PCODE: $00000031 VOL: 0

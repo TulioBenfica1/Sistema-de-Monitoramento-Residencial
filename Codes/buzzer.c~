@@ -46,7 +46,8 @@ void FireAlarm(void)
         if (drive == 0) 
         {
             f[drive] += 5;
-            if (f[drive] >= 740) {
+            if (f[drive] >= 740) 
+            {
                 drive = 1;
                 f[0] = 700; 
             } 
@@ -54,11 +55,13 @@ void FireAlarm(void)
         else                    
         {
             f[drive] -= 5;
-            if (f[drive] <= 455) {
+            if (f[drive] <= 455) 
+            {
                 drive = 0;
                 f[1] = 555;
             }
         }
+        SetPWMFrequency(f);
     }
 }
 

@@ -177,109 +177,119 @@
 ; 0007 003F         }
 ;PCODE: $0000006C VOL: 0
 ;PCODE: $0000006D VOL: 0
-; 0007 0040     }
-; 0007 0041 }
+; 0007 0040         SetPWMFrequency(f[drive]);
 ;PCODE: $0000006E VOL: 0
 ;PCODE: $0000006F VOL: 0
 ;PCODE: $00000070 VOL: 0
-;
-;void StopSound(void)
-; 0007 0044 {
 ;PCODE: $00000071 VOL: 0
 ;PCODE: $00000072 VOL: 0
-; 0007 0045     SetPWMFrequency(0);
 ;PCODE: $00000073 VOL: 0
 ;PCODE: $00000074 VOL: 0
 ;PCODE: $00000075 VOL: 0
-; 0007 0046     UpdateTIMER1CompareValue(0);
 ;PCODE: $00000076 VOL: 0
+; 0007 0041     }
+; 0007 0042 }
 ;PCODE: $00000077 VOL: 0
 ;PCODE: $00000078 VOL: 0
-; 0007 0047 }
 ;PCODE: $00000079 VOL: 0
-;PCODE: $0000007A VOL: 0
 ;
-;void BeepSound(void)
-; 0007 004A {
+;void StopSound(void)
+; 0007 0045 {
+;PCODE: $0000007A VOL: 0
 ;PCODE: $0000007B VOL: 0
+; 0007 0046     SetPWMFrequency(0);
 ;PCODE: $0000007C VOL: 0
-; 0007 004B     UpdateTIMER1CompareValue(100);
 ;PCODE: $0000007D VOL: 0
 ;PCODE: $0000007E VOL: 0
+; 0007 0047     UpdateTIMER1CompareValue(0);
 ;PCODE: $0000007F VOL: 0
-; 0007 004C     if(GetTIMER1Flag()) {
 ;PCODE: $00000080 VOL: 0
 ;PCODE: $00000081 VOL: 0
+; 0007 0048 }
 ;PCODE: $00000082 VOL: 0
-; 0007 004D         SetTIMER1Flag(0);
 ;PCODE: $00000083 VOL: 0
+;
+;void BeepSound(void)
+; 0007 004B {
 ;PCODE: $00000084 VOL: 0
 ;PCODE: $00000085 VOL: 0
-; 0007 004E         SetPWMFrequency(450);
+; 0007 004C     UpdateTIMER1CompareValue(100);
 ;PCODE: $00000086 VOL: 0
 ;PCODE: $00000087 VOL: 0
 ;PCODE: $00000088 VOL: 0
-; 0007 004F     }
-; 0007 0050     else {
+; 0007 004D     if(GetTIMER1Flag()) {
 ;PCODE: $00000089 VOL: 0
 ;PCODE: $0000008A VOL: 0
-; 0007 0051         SetPWMFrequency(0);
 ;PCODE: $0000008B VOL: 0
+; 0007 004E         SetTIMER1Flag(0);
 ;PCODE: $0000008C VOL: 0
 ;PCODE: $0000008D VOL: 0
-; 0007 0052     }
 ;PCODE: $0000008E VOL: 0
-; 0007 0053 }
+; 0007 004F         SetPWMFrequency(450);
 ;PCODE: $0000008F VOL: 0
 ;PCODE: $00000090 VOL: 0
-;
-;void BuzzerUpdate(SystemState state)
-; 0007 0056 {
 ;PCODE: $00000091 VOL: 0
+; 0007 0050     }
+; 0007 0051     else {
 ;PCODE: $00000092 VOL: 0
-; 0007 0057     switch (state)
-;	state -> Y+0
 ;PCODE: $00000093 VOL: 0
+; 0007 0052         SetPWMFrequency(0);
 ;PCODE: $00000094 VOL: 0
-; 0007 0058     {
-; 0007 0059         case ST_MOTION:
 ;PCODE: $00000095 VOL: 0
 ;PCODE: $00000096 VOL: 0
-; 0007 005A         case ST_SHOCK:
+; 0007 0053     }
 ;PCODE: $00000097 VOL: 0
+; 0007 0054 }
 ;PCODE: $00000098 VOL: 0
 ;PCODE: $00000099 VOL: 0
+;
+;void BuzzerUpdate(SystemState state)
+; 0007 0057 {
 ;PCODE: $0000009A VOL: 0
 ;PCODE: $0000009B VOL: 0
-; 0007 005B             PoliceSiren();
+; 0007 0058     switch (state)
+;	state -> Y+0
 ;PCODE: $0000009C VOL: 0
-; 0007 005C             break;
 ;PCODE: $0000009D VOL: 0
-; 0007 005D 
-; 0007 005E         case ST_OVERHEAT:
+; 0007 0059     {
+; 0007 005A         case ST_MOTION:
 ;PCODE: $0000009E VOL: 0
 ;PCODE: $0000009F VOL: 0
+; 0007 005B         case ST_SHOCK:
 ;PCODE: $000000A0 VOL: 0
-; 0007 005F         case ST_FLAME:
 ;PCODE: $000000A1 VOL: 0
 ;PCODE: $000000A2 VOL: 0
 ;PCODE: $000000A3 VOL: 0
 ;PCODE: $000000A4 VOL: 0
+; 0007 005C             PoliceSiren();
 ;PCODE: $000000A5 VOL: 0
-; 0007 0060             FireAlarm();
+; 0007 005D             break;
 ;PCODE: $000000A6 VOL: 0
-; 0007 0061             break;
+; 0007 005E 
+; 0007 005F         case ST_OVERHEAT:
 ;PCODE: $000000A7 VOL: 0
-; 0007 0062 
-; 0007 0063         default:
 ;PCODE: $000000A8 VOL: 0
-; 0007 0064             StopSound();
 ;PCODE: $000000A9 VOL: 0
-; 0007 0065             break;
+; 0007 0060         case ST_FLAME:
 ;PCODE: $000000AA VOL: 0
-; 0007 0066     }
 ;PCODE: $000000AB VOL: 0
-; 0007 0067 }
 ;PCODE: $000000AC VOL: 0
 ;PCODE: $000000AD VOL: 0
 ;PCODE: $000000AE VOL: 0
+; 0007 0061             FireAlarm();
+;PCODE: $000000AF VOL: 0
+; 0007 0062             break;
+;PCODE: $000000B0 VOL: 0
+; 0007 0063 
+; 0007 0064         default:
+;PCODE: $000000B1 VOL: 0
+; 0007 0065             StopSound();
+;PCODE: $000000B2 VOL: 0
+; 0007 0066             break;
+;PCODE: $000000B3 VOL: 0
+; 0007 0067     }
+;PCODE: $000000B4 VOL: 0
+; 0007 0068 }
+;PCODE: $000000B5 VOL: 0
+;PCODE: $000000B6 VOL: 0
+;PCODE: $000000B7 VOL: 0

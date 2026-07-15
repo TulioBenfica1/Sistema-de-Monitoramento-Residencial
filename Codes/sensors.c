@@ -26,7 +26,7 @@ void SensorsUpdate(void) {
     shock = ~PINB.7;
     motion = PINB.5;
     
-    printf("valor lido: %d\r\n", motion); 
+    printf("valor lido: %d\r\n",motion); 
 
     if (flame && motion && shock){
         SystemSetState(ST_FLAME);

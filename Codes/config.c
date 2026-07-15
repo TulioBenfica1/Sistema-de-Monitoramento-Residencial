@@ -64,7 +64,7 @@ void SystemUpdate(void)
     {
         SensorsUpdate();
     }    
-    //BuzzerUpdate(current_state); 
+    BuzzerUpdate(current_state); 
 }
 
 void SystemSetState(SystemState state)
@@ -98,15 +98,7 @@ void SystemSetState(SystemState state)
     
     if(state == ST_ARMING_DELAY)
     {          
-        if(past_state == ST_BOOT)
-        {
-            delay_ms(60000);         // tempo para ajuste de sensores
-        }
-        else
-        {
-            delay_ms(2000);
-        }
-        
+        delay_ms(10000);         // tempo para ajuste de sensores       
         current_state = ST_ARMED;
         read_sensors_flag = 1;
     }

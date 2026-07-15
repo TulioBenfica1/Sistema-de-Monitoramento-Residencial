@@ -24,23 +24,23 @@ interrupt [EXT_INT1] void int_ext1_motion (void)
 void SensorsUpdate(void) {
     flame = PINB.6; 
     shock = ~PINB.7;
-    motion = PINB.5;
+    //motion = PINB.5;
     
-    printf("valor lido: %d\r\n", flame); 
+    printf("valor lido: %d\r\n",flag_motion); 
 
-    if (flame && motion && shock){
+    if (flame && flag_motion && shock){
         SystemSetState(ST_FLAME);
     }
     else if (flame) {
         SystemSetState(ST_FLAME);
     }
-    else if (motion && shock){
+    else if (flag_motion && shock){
         SystemSetState(ST_INVASION);
     }
     else if (shock) {
         SystemSetState(ST_SHOCK);
     }
-    else if (motion) {
+    else if (flag_motion) {
         SystemSetState(ST_MOTION);
     }
     flag_motion = 0;

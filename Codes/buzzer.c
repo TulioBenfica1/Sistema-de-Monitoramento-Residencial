@@ -61,6 +61,7 @@ void FireAlarm(void)
                 f[1] = 555;
             }
         }
+        SetPWMFrequency(f[drive]);
     }
 }
 
