@@ -11,11 +11,11 @@ void main(void)
     while (1)
     {                  
         SystemUpdate();
-        /*if(PIND.5 == 0)
+        if(PIND.5 == 0)
         {                                                                   
             SystemSetState(ST_MOTION);
         }
-        if(PIND.3 == 0)
+        /*if(PIND.3 == 0)
         {
             SystemSetState(ST_FLAME);                                                                                                             
         }*/

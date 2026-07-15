@@ -32,7 +32,7 @@
 ;PCODE: $0000000D VOL: 0
 ;PCODE: $0000000E VOL: 0
 ; 0006 0006     // Configuracoes do PWM no modo geracao de onda quadrada no timer 2
-; 0006 0007     // modo CTC (clear timer on compare match), prescaler = 1024, pino PD7 pro PWM2
+; 0006 0007     // modo CTC (clear timer on compare match), prescaler = 64, pino PD7 pro PWM2
 ; 0006 0008     TCCR2 |= 0b00011100;
 ;PCODE: $0000000F VOL: 0
 ;PCODE: $00000010 VOL: 0

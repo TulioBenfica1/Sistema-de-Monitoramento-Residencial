@@ -4,7 +4,7 @@
 void PWMInit(void)
 {
     // Configuracoes do PWM no modo geracao de onda quadrada no timer 2
-    // modo CTC (clear timer on compare match), prescaler = 1024, pino PD7 pro PWM2
+    // modo CTC (clear timer on compare match), prescaler = 64, pino PD7 pro PWM2
     TCCR2 |= 0b00011100;              
     DDRD |= 0x80;
 }

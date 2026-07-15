@@ -5,7 +5,6 @@
 
 void KEYPADInit(void);
 void KEYPADProcess(SystemState state);
-void KEYPADclear(void);
 unsigned InKey(void);
 unsigned char KeyToIndex (unsigned key);
 #endif

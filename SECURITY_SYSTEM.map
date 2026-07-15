@@ -11,19 +11,19 @@ data_input                                                        0x02F0      15
 password_entry_active                                             0x02FF       1
 data_entry_active                                                 0x0300       1
 flag_tim1                                                         0x0301       1
-key_pressed_counter                                               0x0302       1
-key_released_counter                                              0x0303       1
-column                                                            0x0304       1
-row_data                                                          0x0305       2
-crt_key                                                           0x0307       2
-password_result                                                   0x0309       1
-data_result                                                       0x030A       1
-f                                                                 0x030B       2
-f                                                                 0x030D       4
-flame                                                             0x0311       1
-shock                                                             0x0312       1
-_base_y                                                           0x0313       4
-_seed                                                             0x0317       4
+keys                                                              0x0302       2
+key_pressed_counter                                               0x0304       1
+key_released_counter                                              0x0305       1
+column                                                            0x0306       1
+row_data                                                          0x0307       2
+crt_key                                                           0x0309       2
+password_result                                                   0x030B       1
+data_result                                                       0x030C       1
+flame                                                             0x030D       1
+shock                                                             0x030E       1
+motion                                                            0x030F       1
+_base_y                                                           0x0310       4
+_seed                                                             0x0314       4
 
 EEPROM Allocation
 Variable                                                          Address   Size
@@ -35,10 +35,9 @@ Variable                                                          Register  Size
 lcd_update_pending                                                R2.0      1bit
 keypad_entry                                                      R2.1      1bit
 read_sensors_flag                                                 R2.2      1bit
-keys                                                              R4,R5        2
 drive                                                             R2.3      1bit
 drive                                                             R2.4      1bit
 flag_motion                                                       R2.5      1bit
-_lcd_x                                                            R7           1
-_lcd_y                                                            R6           1
-_lcd_maxx                                                         R9           1
+_lcd_x                                                            R5           1
+_lcd_y                                                            R4           1
+_lcd_maxx                                                         R7           1

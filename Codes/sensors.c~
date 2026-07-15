@@ -5,10 +5,12 @@
 bit flag_motion = 0;
 static unsigned char flame; 
 static unsigned char shock;  
+static unsigned char motion;
 
 
 void SENSORSInit(void) {
-    DDRB |= 0xC0; // Configura PORTB como entrada
+    DDRB |= 0x00; // Configura PORTB como entrada
+    PORTB |= 0x80;
     GICR |= 0b01000000;
     MCUCR |= 0b00001100;   
 }
@@ -20,22 +22,25 @@ interrupt [EXT_INT1] void int_ext1_motion (void)
 }
 
 void SensorsUpdate(void) {
-    flame = ~PINB.5; 
-    shock = PINB.7;  
+    flame = PINB.6; 
+    shock = ~PINB.7;
+    motion = PINB.5;
+    
+    printf("valor lido: %d\r\n", flame); 
 
-    if (flame && flag_motion && shock){
+    if (flame && motion && shock){
         SystemSetState(ST_FLAME);
     }
     else if (flame) {
         SystemSetState(ST_FLAME);
     }
-    else if (flag_motion && shock){
+    else if (motion && shock){
         SystemSetState(ST_INVASION);
     }
     else if (shock) {
         SystemSetState(ST_SHOCK);
     }
-    else if (flag_motion) {
+    else if (motion) {
         SystemSetState(ST_MOTION);
     }
     flag_motion = 0;

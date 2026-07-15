@@ -41,18 +41,25 @@
 ; 0000 000C     {
 ; 0000 000D         SystemUpdate();
 ;PCODE: $00000010 VOL: 0
-; 0000 000E         /*if(PIND.5 == 0)
+; 0000 000E         if(PIND.5 == 0)
+;PCODE: $00000011 VOL: 0
+;PCODE: $00000012 VOL: 0
+;PCODE: $00000013 VOL: 0
 ; 0000 000F         {
 ; 0000 0010             SystemSetState(ST_MOTION);
+;PCODE: $00000014 VOL: 0
+;PCODE: $00000015 VOL: 0
+;PCODE: $00000016 VOL: 0
 ; 0000 0011         }
-; 0000 0012         if(PIND.3 == 0)
+; 0000 0012         /*if(PIND.3 == 0)
 ; 0000 0013         {
 ; 0000 0014             SystemSetState(ST_FLAME);
 ; 0000 0015         }*/
 ; 0000 0016     }
-;PCODE: $00000011 VOL: 0
-;PCODE: $00000012 VOL: 0
+;PCODE: $00000017 VOL: 0
+;PCODE: $00000018 VOL: 0
+;PCODE: $00000019 VOL: 0
 ; 0000 0017 }
-;PCODE: $00000013 VOL: 0
-;PCODE: $00000014 VOL: 0
-;PCODE: $00000015 VOL: 0
+;PCODE: $0000001A VOL: 0
+;PCODE: $0000001B VOL: 0
+;PCODE: $0000001C VOL: 0

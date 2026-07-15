@@ -15,8 +15,6 @@ static unsigned char data_input[DATA_LENGTH] = {'0','0','0','0','0','0','0','0',
 static unsigned char password_entry_active;
 static unsigned char data_entry_active;
 
-
-
 void PasswordStart(void)
 {
     password_length = 0;

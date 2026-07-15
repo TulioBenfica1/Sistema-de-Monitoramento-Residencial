@@ -16,7 +16,7 @@
 #define COLUMN_LENGTH 3
 
 typedef unsigned char byte; 
-unsigned keys; // armazena cada estado da chave
+unsigned volatile keys; // armazena cada estado da chave
 
 static const char keymap[ROW_LENGTH * COLUMN_LENGTH] = {
    '1', '4', '7', '<',
@@ -112,6 +112,11 @@ unsigned char KeyToIndex (unsigned key)
          
          return i;
     }   
+}
+
+void KEYPADclear(void)
+{
+    keys = 0;
 }
 
 void KEYPADProcess(SystemState state)
