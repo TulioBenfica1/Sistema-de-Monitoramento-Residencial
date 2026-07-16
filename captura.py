@@ -2,19 +2,13 @@ import serial
 import serial.tools.list_ports
 import csv
 import time
+from datetime import datetime  # Importante: adicionar esta biblioteca
 
-BAUD_RATE = 9600 
-
-def encontrar_porta():
-    portas = serial.tools.list_ports.comports()
-    for p in portas:
-        if "USB" in p.description or "COM" in p.device:
-            return p.device
-    return None
+BAUD_RATE = 19200
 
 def capturar(nome_arquivo_csv=None):
 
-    porta = encontrar_porta()
+    porta = 'COM3'
     if porta is None:
         print("Nenhuma porta serial encontrada.")
         return
@@ -31,15 +25,19 @@ def capturar(nome_arquivo_csv=None):
 
     dados = []
     try:
-        print("Gerando log de alarmes. Pressione Ctrl+C para interromper e salvar o arquivo CSV.")
+        print("Gerando log de alarmes.")
         while True:
             linha = ser.readline().decode('utf-8', errors='ignore').strip()
             if not linha: continue
-            print(f"ATmega16 -> {linha}")
-            
-            # printf("%02d:%02d:%02d,Alarme_1,Ativado\n", hora, min, seg);
-            if "," in linha and "Hora" not in linha:
+            if "," in linha:
                 partes = linha.split(',')
+                
+                try:
+                    data_hora_obj = datetime.strptime(partes[0].strip(), "%d/%m/%y %H:%M:%S")
+                    partes[0] = data_hora_obj.strftime("%d/%m/%y %H:%M:%S")
+                except ValueError:
+                    pass
+
                 dados.append(partes)
                 
     except KeyboardInterrupt:
@@ -50,7 +48,7 @@ def capturar(nome_arquivo_csv=None):
     if dados:
         with open(f'{nome_arquivo_csv}', 'w', newline='', encoding='utf-8') as f:
             writer = csv.writer(f)
-            writer.writerow(["Hora", "Alarme", "Status"])
+            writer.writerow(["TIMESTAMP", "STATE"])
             
             for linha in dados:
                 writer.writerow(linha)
